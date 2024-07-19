@@ -67,6 +67,7 @@ erDiagram
   SURVEY }|--o| TEMPLATE : uses
 
   RESPONSE }|--o{ QUESTION : has
+  RESPONSE }|--o{ ANSWER : has
 
   QUESTION }|--o{ OPTION : has
   QUESTION }|--|| TYPE : has
@@ -97,8 +98,9 @@ erDiagram
   }
 
   RESPONSE }|--o{ QUESTION : has
+  RESPONSE }|--o{ ANSWER : has
   RESPONSE {
-
+    number answerId
   }
 
   QUESTION }|--o{ OPTION : has
