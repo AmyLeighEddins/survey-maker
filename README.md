@@ -92,62 +92,165 @@ erDiagram
   SurveyResponseItems ||--|| SurveyQuestions : "have many"
 ```
 
-## Old Domain Diagram
+## ERD
 ```mermaid
 erDiagram
-  USER }|--o{ TEMPLATE : has
-  USER }|--o{ SURVEY : has
-  USER }|--o{ RESPONSE : has
-
-  TEMPLATE }|--o{ QUESTION : has
-
-  SURVEY }|--o{ QUESTION : has
-  SURVEY }|--o| TEMPLATE : uses
-
-  RESPONSE }|--o{ QUESTION : has
-  RESPONSE }|--o{ ANSWER : has
-
-  QUESTION }|--o{ OPTION : has
-  QUESTION }|--|| TYPE : has
-
-  OPTION }|--|| TYPE : has
-```
-
-## OLD ERD
-```mermaid
-erDiagram
-  USER }|--o{ TEMPLATE : has
-  USER }|--o{ SURVEY : has
-  USER }|--o{ RESPONSE : has
-  USER {
-    string id
-    string name
-    string email
-    string password
+  SurveyTypes {
+      INT id PK
+      TEXT description
+  }
+  
+  SurveyTags {
+      INT id PK
+      TEXT description
+  }
+  
+  Surveys {
+      INT id PK
+      TEXT summary
+      DATE created_date
+      DATE expiry_date
+      INT survey_type_id FK
+  }
+  
+  SurveyAssociatedTags {
+      INT id PK
+      INT survey_tag_id FK
+      INT survey_id FK
+  }
+  
+  SurveyQuestionTypes {
+      INT id PK
+      TEXT description
+  }
+  
+  SurveyQuestions {
+      INT id PK
+      TEXT title
+      TEXT description
+      TEXT tooltip
+      INT sequence
+      INT survey_question_type_id FK
+      INT survey_id FK
+  }
+  
+  SurveyTemplates {
+      INT id PK
+      TEXT name
+      TEXT summary
+      DATE created_date
+      DATE updated_date
+      INT survey_type_id FK
   }
 
-  TEMPLATE }|--o{ QUESTION : has
-  TEMPLATE {
-    string[] tags
+  SurveyTemplateQuestions {
+      INT id PK
+      TEXT title
+      TEXT description
+      TEXT tooltip
+      INT sequence
+      INT survey_question_type_id FK
+      INT survey_tempalte_id FK
+  }
+  
+  SurveyTemplateAssociatedTags {
+      INT id PK
+      INT survey_template_id FK
+      INT survey_tag_id FK
+  }
+  
+  PerformanceReviewSurveys {
+      INT id PK
+      INT performance_review_id
+      INT survey_id FK
+  }
+  
+  SurveyStatuses {
+      INT id PK
+      TEXT name
+  }
+  
+  SurveyEmployeeRecipients {
+      UUID id PK
+      INT employee_id
+      INT survey_id FK
+      INT survey_status_id FK
+  }
+  
+  SurveyEmployeeResponses {
+      INT id PK
+      UUID survey_employee_recipient_id FK
+      INT survey_response_item_id
+  }
+  
+  SurveyExternalRecipients {
+      UUID id PK
+      TEXT email_address
+      INT survey_id FK
+      INT survey_status_id FK
+  }
+  
+  SurveyExternalResponses {
+      INT id PK
+      UUID survey_external_recipient_id FK
+      INT survey_response_item_id
+  }
+  
+  SurveyResponseItems {
+      INT id PK
+      TEXT value
+      INT survey_question_id FK
+  }
+  
+  SurveyMetadataTypes {
+      INT id PK
+      TEXT description
+  }
+  
+  SurveyTemplatesMetadata {
+      INT id PK
+      INT survey_template_id FK
+      INT user_form_metadata_type_id FK
+  }
+  
+  SurveyMetadata {
+      INT id PK
+      TEXT value
+      INT user_form_metadata_type_id FK
+      INT survey_id FK
   }
 
-  SURVEY }|--o{ QUESTION : has
-  SURVEY }|--o| TEMPLATE : uses
-  SURVEY {
+  Surveys ||--o{ SurveyAssociatedTags : "have many"
+  Surveys ||--o{ SurveyQuestions : "have many"
+  Surveys ||--o{ PerformanceReviewSurveys : "have many"
+  Surveys ||--o{ SurveyEmployeeRecipients : "have many"
+  Surveys ||--o{ SurveyExternalRecipients : "have many"
+  Surveys ||--o{ SurveyMetadata : "have many"
 
-  }
+  SurveyTemplates ||--o{ SurveyTemplateAssociatedTags : "have many"
+  SurveyTemplates ||--o{ SurveyTemplateQuestions : "have many"
+  SurveyTemplates ||--o{ SurveyTemplatesMetadata : "have many"
 
-  RESPONSE }|--o{ QUESTION : has
-  RESPONSE }|--o{ ANSWER : has
-  RESPONSE {
-    number answerId
-  }
+  SurveyTypes ||--o{ Surveys : "have many"
+  SurveyTypes ||--o{ SurveyTemplates : "have many"
 
-  QUESTION }|--o{ OPTION : has
-  QUESTION {
-    string type
-  }
-  OPTION {
-    string type
-  }
+  SurveyTags ||--o{ SurveyAssociatedTags : "have many"
+  SurveyTags ||--o{ SurveyTemplateAssociatedTags : "have many"
+
+  SurveyQuestionTypes ||--o{ SurveyQuestions : "have many"
+  SurveyQuestionTypes ||--o{ SurveyTemplateQuestions : "have many"
+
+  SurveyStatuses ||--o{ SurveyEmployeeRecipients : "have many"
+  SurveyStatuses ||--o{ SurveyExternalRecipients : "have many"
+
+  SurveyEmployeeRecipients ||--o{ SurveyEmployeeResponses : "have many"
+  SurveyExternalRecipients ||--o{ SurveyExternalResponses : "have many"
+
+  SurveyMetadataTypes ||--o{ SurveyTemplatesMetadata : "have many"
+  SurveyMetadataTypes ||--o{ SurveyMetadata : "have many"
+
+  SurveyEmployeeResponses ||--o{ SurveyResponseItems : "have many"
+  SurveyExternalResponses ||--o{ SurveyResponseItems : "have many"
+
+  SurveyResponseItems ||--|| SurveyQuestions : "have many"
 ```
