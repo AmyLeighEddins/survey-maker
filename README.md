@@ -57,6 +57,44 @@ Currently if a survey needs to be created it has to be created through SQL queri
 ## Domain Diagram
 ```mermaid
 erDiagram
+  Surveys ||--o{ SurveyAssociatedTags : "have many"
+  Surveys ||--o{ SurveyQuestions : "have many"
+  Surveys ||--o{ PerformanceReviewSurveys : "have many"
+  Surveys ||--o{ SurveyEmployeeRecipients : "have many"
+  Surveys ||--o{ SurveyExternalRecipients : "have many"
+  Surveys ||--o{ SurveyMetadata : "have many"
+
+  SurveyTemplates ||--o{ SurveyTemplateAssociatedTags : "have many"
+  SurveyTemplates ||--o{ SurveyTemplateQuestions : "have many"
+  SurveyTemplates ||--o{ SurveyTemplatesMetadata : "have many"
+
+  SurveyTypes ||--o{ Surveys : "have many"
+  SurveyTypes ||--o{ SurveyTemplates : "have many"
+
+  SurveyTags ||--o{ SurveyAssociatedTags : "have many"
+  SurveyTags ||--o{ SurveyTemplateAssociatedTags : "have many"
+
+  SurveyQuestionTypes ||--o{ SurveyQuestions : "have many"
+  SurveyQuestionTypes ||--o{ SurveyTemplateQuestions : "have many"
+
+  SurveyStatuses ||--o{ SurveyEmployeeRecipients : "have many"
+  SurveyStatuses ||--o{ SurveyExternalRecipients : "have many"
+
+  SurveyEmployeeRecipients ||--o{ SurveyEmployeeResponses : "have many"
+  SurveyExternalRecipients ||--o{ SurveyExternalResponses : "have many"
+
+  SurveyMetadataTypes ||--o{ SurveyTemplatesMetadata : "have many"
+  SurveyMetadataTypes ||--o{ SurveyMetadata : "have many"
+
+  SurveyEmployeeResponses ||--o{ SurveyResponseItems : "have many"
+  SurveyExternalResponses ||--o{ SurveyResponseItems : "have many"
+
+  SurveyResponseItems ||--|| SurveyQuestions : "have many"
+```
+
+## Old Domain Diagram
+```mermaid
+erDiagram
   USER }|--o{ TEMPLATE : has
   USER }|--o{ SURVEY : has
   USER }|--o{ RESPONSE : has
@@ -75,15 +113,17 @@ erDiagram
   OPTION }|--|| TYPE : has
 ```
 
-## ERD
+## OLD ERD
 ```mermaid
 erDiagram
   USER }|--o{ TEMPLATE : has
   USER }|--o{ SURVEY : has
   USER }|--o{ RESPONSE : has
   USER {
+    string id
     string name
     string email
+    string password
   }
 
   TEMPLATE }|--o{ QUESTION : has
