@@ -1,11 +1,45 @@
 
 import express from 'express';
 import { employeeResponses, exampleRouter, externalResponses, questionTypes, metadataTypes,responseItems, surveys, tags, templates, types, statuses } from './routers';
-const app = express()
+import { authMiddlewareExample } from './middleware/auth';
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+const swaggerUI = require('swagger-ui-express');
+const swaggerJsdoc = require('swagger-jsdoc');
+
+const app = express();
+
+const options = {
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'Survey Maker',
+      version: '1.0.0',
+    },
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: 'http',
+          in: 'header',
+          name: 'Authorization',
+          description: 'Bearer token to access api endpoints',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+        },
+      },
+    },
+    security: [
+      {
+        bearerAuth: [],
+      },
+    ],
+  },
+  apis: ['./routers/**.ts', `${__dirname}/routers/*.ts`],
+};
+
+const openapiSpecification = swaggerJsdoc(options);
+app.use('/docs', swaggerUI.serve, swaggerUI.setup(openapiSpecification));
+
+app.use(authMiddlewareExample);
 
 app.use('/example', exampleRouter);
 app.use('/surveys', surveys);

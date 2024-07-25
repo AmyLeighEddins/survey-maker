@@ -3,10 +3,61 @@ import * as surveyController from '../controllers/survey';
 
 const router = Router();
 
-// Get all surveys
+/**
+ * @swagger
+ * tags:
+ *   name: Surveys
+ *   description: Survey Routes
+ */
+
+/**
+ * @swagger
+ * /surveys:
+ *   get:
+ *     description: Get all surveys
+ *     tags: [Surveys]
+ *     responses:
+ *       200:
+ *         description: Returns all surveys
+ */
 router.route('/').get(surveyController.getAllSurveys);
 
-// Create a survey
+/**
+ * @swagger
+ * /surveys:
+ *   post:
+ *     description: Create a survey
+ *     tags: [Surveys]
+ *     requestBody:
+ *       content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            properties:
+ *              id:
+ *                type: number
+ *                required: true
+ *                descriptions: The survey name.
+ *              summary:
+ *                type: string
+ *                required: false
+ *                descriptions: Info about the survey.
+ *              created_date:
+ *                type: Date
+ *                required: false
+ *                descriptions: Created date.
+ *              expiry_date:
+ *                type: Date
+ *                required: false
+ *                descriptions: Expire date.
+ *              survey_type_id:
+ *                type: number
+ *                required: false
+ *                descriptions: The id of the survey type from the SurveyTypes table.
+ *     responses:
+ *       201:
+ *         description: Returns the new survey.
+ */
 router.route('/').post(surveyController.createASurvey);
 
 // Update all surveys
