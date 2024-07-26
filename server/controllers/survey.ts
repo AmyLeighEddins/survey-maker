@@ -68,6 +68,33 @@ const deleteASurveyQuestion = async (req: Request, res: Response) => {
   return res.status(204).send(surveyQuestion);
 };
 
+// Recipients
+
+const getAllRecipients = async (req: Request, res: Response) => {
+  const surveyRecipients = await surveyModel.getAllRecipients(Number(req.params.id));
+  return res.json(surveyRecipients);
+};
+
+const getAllRecipientsByStatus = async (req: Request, res: Response) => {
+  const surveyRecipients = await surveyModel.getAllRecipientsByStatus(Number(req.params.id), Number(req.params.status_id));
+  return res.json(surveyRecipients);
+};
+
+const createARecipient = async (req: Request, res: Response) => {
+  const surveyRecipient = await surveyModel.createARecipient(Number(req.params.id), req.body);
+  return res.json(surveyRecipient);
+};
+
+const updateARecipient = async (req: Request, res: Response) => {
+  const surveyRecipient = await surveyModel.updateARecipient(Number(req.params.id), Number(req.params.recipient_id), req.body);
+  return res.json(surveyRecipient);
+};
+
+const deleteARecipient = async (req: Request, res: Response) => {
+  const surveyRecipient = await surveyModel.deleteARecipient(Number(req.params.id), Number(req.params.recipient_id));
+  return res.status(204).send(surveyRecipient);
+};
+
 // Employee Recipients
 
 const getAllEmployeeRecipients = async (req: Request, res: Response) => {
@@ -136,6 +163,11 @@ export {
   createASurveyQuestion,
   updateASurveyQuestion,
   deleteASurveyQuestion,
+  getAllRecipients,
+  getAllRecipientsByStatus,
+  createARecipient,
+  updateARecipient,
+  deleteARecipient,
   getAllEmployeeRecipients,
   getAllEmployeeRecipientsByStatus,
   createAnEmployeeRecipient,

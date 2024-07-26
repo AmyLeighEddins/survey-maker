@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { surveyTemplatesModel } from '../models';
+import { surveyModel, surveyTemplatesModel } from '../models';
 
 const getAllSurveyTemplates = async (req: Request, res: Response) => {
   const surveyTemplates = await surveyTemplatesModel.getAllSurveyTemplates();
@@ -31,10 +31,10 @@ const getASurveyTemplateByType = async (req: Request, res: Response) => {
   return res.json(surveyTemplate);
 };
 
-// const getASurveyTemplateByUser = async (req: Request, res: Response) => {
-//   const survey = await surveyTemplatesModel.getASurveyTemplateByUser(Number(req.params.id));
-//   return res.json(survey);
-// };
+const getSurveyTemplateMetadata = async (req: Request, res: Response) => {
+  const surveyMetadata = await surveyModel.getSurveyMetadata(Number(req.params.id));
+  return res.json(surveyMetadata);
+};
 
 const updateASurveyTemplate = async (req: Request, res: Response) => {
   const surveyTemplate = await surveyTemplatesModel.updateASurveyTemplate(req.body);
@@ -78,7 +78,7 @@ export {
   deleteAllSurveyTemplates,
   getASurveyTemplateById,
   getASurveyTemplateByType,
-  // getASurveyTemplateByUser,
+  getSurveyTemplateMetadata,
   updateASurveyTemplate,
   deleteASurveyTemplate,
   getAllTemplateQuestions,

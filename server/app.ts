@@ -1,12 +1,14 @@
 
 import express from 'express';
-import { employeeResponses, exampleRouter, externalResponses, questionTypes, metadataTypes,responseItems, surveys, tags, templates, types, statuses } from './routers';
+import { exampleRouter, surveys, templates, types } from './routers';
 import { authMiddlewareExample } from './middleware/auth';
 
 const swaggerUI = require('swagger-ui-express');
 const swaggerJsdoc = require('swagger-jsdoc');
 
 const app = express();
+
+app.use(express.json());
 
 const options = {
   definition: {
@@ -33,7 +35,7 @@ const options = {
       },
     ],
   },
-  apis: ['./routers/**.ts', `${__dirname}/routers/*.ts`],
+  apis: ['./routers/*.ts', `${__dirname}/routers/*.ts`, './routers/*/*.ts', `${__dirname}/routers/*/*.ts`],
 };
 
 const openapiSpecification = swaggerJsdoc(options);
@@ -43,14 +45,7 @@ app.use(authMiddlewareExample);
 
 app.use('/example', exampleRouter);
 app.use('/surveys', surveys);
-app.use('/survey-templates', templates);
-app.use('/survey-tags', tags);
-app.use('/survey-types', types);
-app.use('/survey-statuses', statuses);
-app.use('/survey-question-types', questionTypes);
-app.use('/survey-metadata-types', metadataTypes);
-app.use('/survey-external-responses', externalResponses);
-app.use('/survey-employee-responses', employeeResponses);
-app.use('/survey-response-items', responseItems);
+app.use('/templates', templates);
+app.use('/types', types);
 
 export { app };

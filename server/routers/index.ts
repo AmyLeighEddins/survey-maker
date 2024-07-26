@@ -1,11 +1,4 @@
 export { default as exampleRouter } from './example';
-export { default as questionTypes } from './survey-question-types';
-export { default as metadataTypes } from './survey-metadata-types';
-export { default as externalResponses } from './survey-external-responses';
-export { default as employeeResponses } from './survey-employee-responses';
-export { default as responseItems } from './survey-response-items';
-export { default as surveys } from './surveys';
-export { default as statuses } from './survey-statuses';
-export { default as tags } from './survey-tags';
-export { default as templates } from './survey-templates';
-export { default as types } from './survey-types';
+export { surveys, metadata as surveyMetadata, questions as surveyQuestions, recipients, responses, tags } from './surveys';
+export { templates, metadata as templateMetadata, questions as templateQuestions } from './templates';
+export { default as types } from './types';

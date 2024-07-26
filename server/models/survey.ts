@@ -140,7 +140,7 @@ export const createAnEmployeeRecipient = async (survey_id: number, surveyEmploye
     id: 4,
     first_name: 'First Name 4',
     last_name: 'Last Name 4',
-    email: 'email 4',
+    employee_id: '4',
     status: 'status 4',
     survey_id: survey_id
   }
@@ -151,7 +151,7 @@ export const updateAnEmployeeRecipient = async (id: number, recipient_id: number
     id: recipient_id,
     first_name: 'First Name Update 1',
     last_name: 'Last Name Update 1',
-    email: 'email Update 1',
+    employee_id: '4',
     status: 'status Update 1',
     survey_id: id,
   };
@@ -196,5 +196,56 @@ export const updateAnExternalRecipient = async (id: number, recipient_id: number
 };
 
 export const deleteAnExternalRecipient = async (id: number, recipient_id: number) => {
+  return [];
+};
+
+// Recipients
+
+export const getAllRecipients = async (id: number) => {
+  const surveyEmployeeRecipients = await getAllEmployeeRecipients(id);
+  const surveyExternalRecipients = await getAllExternalRecipients(id);
+  return [...surveyEmployeeRecipients, ...surveyExternalRecipients];
+};
+
+export const getAllRecipientsByStatus = async (id: number, status: number) => {
+  const surveyRecipients = await getAllRecipients(id);
+  return surveyRecipients.filter(surveyRecipient => surveyRecipient.survey_status_id === status);
+};
+
+export const createARecipient = async (id: number, surveyRecipient: SurveyExternalRecipient | SurveyEmployeeRecipient) => {
+  if (surveyRecipient.hasOwnProperty('employee_id')) {
+    return {
+      id: 4,
+      employee_id: '4',
+      survey_status_id: 4,
+      survey_id: id,
+    }
+  }
+  return {
+    id: 4,
+    email_address: 'email 4',
+    survey_status_id: 4,
+    survey_id: id
+  }
+};
+
+export const updateARecipient = async (id: number, recipient_id: number, surveyRecipient: SurveyExternalRecipient | SurveyEmployeeRecipient) => {
+  if (surveyRecipient.hasOwnProperty('employee_id')) {
+    return {
+      id: 4,
+      employee_id: '4',
+      survey_status_id: 4,
+      survey_id: id,
+    }
+  }
+  return {
+    id: 4,
+    email_address: 'email 4',
+    survey_status_id: 4,
+    survey_id: id
+  }
+};
+
+export const deleteARecipient = async (id: number, recipient_id: number) => {
   return [];
 };
