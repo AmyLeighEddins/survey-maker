@@ -2,6 +2,8 @@ import { Router } from 'express';
 import * as surveyEmployeeResponsesController from '../../controllers/survey-employee-responses';
 import * as surveyExternalResponsesController from '../../controllers/survey-external-responses';
 import * as surveyResponseItemsController from '../../controllers/survey-response-items';
+import { validate } from '../../utils/validator';
+import { body } from 'express-validator';
 
 const router = Router();
 
@@ -56,7 +58,17 @@ router.route('/:question_id').get(surveyEmployeeResponsesController.getSurveyRes
  *       201:
  *         description: Returns the new survey response.
  */
-router.route('/').post(surveyEmployeeResponsesController.createASurveyResponse);
+router.route('/').post(
+  [
+    body('survey_response_item_id')
+      .isString()
+      .trim()
+      .isLength({ min: 3 })
+      .withMessage('The response item id must be a valid survey response item'),
+  ],
+  validate,
+  surveyEmployeeResponsesController.createASurveyResponse
+);
 
 /**
  * @swagger
@@ -90,7 +102,17 @@ router.route('/').post(surveyEmployeeResponsesController.createASurveyResponse);
  *       201:
  *         description: Returns the updated survey response.
  */
-router.route('/:id').put(surveyEmployeeResponsesController.updateASurveyResponse);
+router.route('/:id').put(
+  [
+    body('survey_response_item_id')
+      .isString()
+      .trim()
+      .isLength({ min: 3 })
+      .withMessage('The response item id must be a valid survey response item'),
+  ],
+  validate,
+  surveyEmployeeResponsesController.updateASurveyResponse
+);
 
 /**
  * @swagger

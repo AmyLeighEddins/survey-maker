@@ -72,7 +72,7 @@ router.route('/').post(
       .isString()
       .trim()
       .isLength({ min: 3 })
-      .withMessage('The name of the example must have minimum length of 3'),
+      .withMessage('The name of the template must have minimum length of 3'),
   ],
   validate,
   surveyTemplatesController.createASurveyTemplate
@@ -136,7 +136,7 @@ router.route('/:id').put(
       .isString()
       .trim()
       .isLength({ min: 3 })
-      .withMessage('The name of the example must have minimum length of 3'),
+      .withMessage('The name of the template must have minimum length of 3'),
   ],
   validate,surveyTemplatesController.updateASurveyTemplate
 );

@@ -1,5 +1,7 @@
 import { Router } from 'express';
 import * as surveyTemplatesController from '../../controllers/survey-templates';
+import { body } from 'express-validator';
+import { validate } from '../../utils/validator';
 
 const router = Router();
 
@@ -66,7 +68,17 @@ router.route('/:id/questions').get(surveyTemplatesController.getAllTemplateQuest
  *       201:
  *         description: Returns the new survey question.
  */
-router.route('/:id/questions').post(surveyTemplatesController.createATemplateQuestion);
+router.route('/:id/questions').post(
+  [
+    body('title')
+      .isString()
+      .trim()
+      .isLength({ min: 3 })
+      .withMessage('The title of the question must have minimum length of 3'),
+  ],
+  validate,
+  surveyTemplatesController.createATemplateQuestion
+);
 
 /**
  * @swagger
@@ -112,7 +124,17 @@ router.route('/:id/questions').post(surveyTemplatesController.createATemplateQue
  *       201:
  *         description: Returns the updated survey question.
  */
-router.route('/:id/questions/:question_id').put(surveyTemplatesController.updateATemplateQuestion);
+router.route('/:id/questions/:question_id').put(
+  [
+    body('title')
+      .isString()
+      .trim()
+      .isLength({ min: 3 })
+      .withMessage('The title of the question must have minimum length of 3'),
+  ],
+  validate,
+  surveyTemplatesController.updateATemplateQuestion
+);
 
 /**
  * @swagger

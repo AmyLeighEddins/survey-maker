@@ -68,7 +68,7 @@ router.route('/').post(
       .isString()
       .trim()
       .isLength({ min: 3 })
-      .withMessage('The name of the example must have minimum length of 3'),
+      .withMessage('The summary of the survey must have minimum length of 3'),
   ],
   validate,
   surveyController.createASurvey

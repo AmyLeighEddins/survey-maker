@@ -1,5 +1,7 @@
 import { Router } from 'express';
 import * as surveyController from '../../controllers/survey-tags';
+import { validate } from '../../utils/validator';
+import { body } from 'express-validator';
 
 const router = Router();
 
@@ -46,7 +48,17 @@ router.route('/:id/tags').get(surveyController.getAllSurveyTags);
  *       200:
  *         description: Returns new tag for a survey.
  */
-router.route('/:id/tags').post(surveyController.createASurveyTag);
+router.route('/:id/tags').post(
+  [
+    body('description')
+      .isString()
+      .trim()
+      .isLength({ min: 3 })
+      .withMessage('The description of the tag must have minimum length of 3'),
+  ],
+  validate,
+  surveyController.createASurveyTag
+);
 
 /**
  * @swagger
@@ -84,7 +96,17 @@ router.route('/:id/tags/:tag_id').get(surveyController.getSurveyTagById);
  *       200:
  *         description: Returns updated tag for a survey.
  */
-router.route('/:id/tags/:tag_id').put(surveyController.updateASurveyTag);
+router.route('/:id/tags/:tag_id').put(
+  [
+    body('description')
+      .isString()
+      .trim()
+      .isLength({ min: 3 })
+      .withMessage('The description of the tag must have minimum length of 3'),
+  ],
+  validate,
+  surveyController.updateASurveyTag
+);
 
 /**
  * @swagger
