@@ -38,4 +38,6 @@ router
     exampleController.getExamples
   );
 
+router.route('/users').get(exampleController.getAllUsers);
+
 export default router;
