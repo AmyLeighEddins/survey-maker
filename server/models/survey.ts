@@ -1,26 +1,14 @@
 import { Survey, SurveyMetadata, SurveyQuestion, SurveyExternalRecipient, SurveyEmployeeRecipient } from './types';
 import { getAllSurveyMetadata, getAllSurveyQuestions, getAllSurveyExternalRecipients, getAllSurveyEmployeeRecipients } from './mock';
+import { prisma } from '../utils/prisma';
 
 export const getAllSurveys = async () => {
-  return [{
-    id: 1,
-    summary: 'example 1',
-    created_date: '2015-01-01',
-    expiry_date: '2099-01-01',
-    survey_type_id: 1,
-  }, {
-    id: 2,
-    summary: 'example 2',
-    created_date: '2015-01-01',
-    expiry_date: '2099-01-01',
-    survey_type_id: 2,
-  }, {
-    id: 3,
-    summary: 'example 3',
-    created_date: '2015-01-01',
-    expiry_date: '2099-01-01',
-    survey_type_id: 3,
-  }]
+  const surveys = prisma.surveys.findMany({
+    orderBy: {
+      id: "asc",
+    },
+  });
+  return surveys;
 };
 
 export const createASurvey = async (newSurvey: Survey) => {
