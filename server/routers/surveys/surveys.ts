@@ -44,19 +44,21 @@ router.route('/').get(surveyController.getAllSurveys);
  *                descriptions: The survey id.
  *              summary:
  *                type: string
- *                required: false
+ *                required: true
  *                descriptions: Info about the survey.
  *              created_date:
- *                type: Date
- *                required: false
+ *                type: string
+ *                format: date-time
+ *                required: true
  *                descriptions: Created date.
  *              expiry_date:
- *                type: Date
- *                required: false
+ *                type: string
+ *                format: date-time
+ *                required: true
  *                descriptions: Expire date.
  *              survey_type_id:
  *                type: number
- *                required: false
+ *                required: true
  *                descriptions: The id of the survey type from the SurveyTypes table.
  *     responses:
  *       201:
@@ -78,6 +80,13 @@ router.route('/').post(
  * @swagger
  * /surveys/{id}:
  *   get:
+ *     parameters:
+ *      - in: path
+ *        name: id
+ *        required: true
+ *        schema:
+ *          type: integer
+ *        description: The survey ID
  *     description: Get a survey by ID
  *     tags: [Surveys]
  *     responses:
@@ -90,6 +99,13 @@ router.route('/:id').get(surveyController.getSurveyById);
  * @swagger
  * /surveys/{id}:
  *   put:
+ *     parameters:
+ *      - in: path
+ *        name: id
+ *        required: true
+ *        schema:
+ *          type: integer
+ *        description: The survey ID
  *     description: Update a survey by ID
  *     tags: [Surveys]
  *     requestBody:
@@ -104,19 +120,21 @@ router.route('/:id').get(surveyController.getSurveyById);
  *                descriptions: The survey name.
  *              summary:
  *                type: string
- *                required: false
+ *                required: true
  *                descriptions: Info about the survey.
  *              created_date:
- *                type: Date
- *                required: false
+ *                type: string
+ *                format: date-time
+ *                required: true
  *                descriptions: Created date.
  *              expiry_date:
- *                type: Date
- *                required: false
+ *                type: string
+ *                format: date-time
+ *                required: true
  *                descriptions: Expire date.
  *              survey_type_id:
  *                type: number
- *                required: false
+ *                required: true
  *                descriptions: The id of the survey type from the SurveyTypes table.
  *     responses:
  *       201:
@@ -138,6 +156,13 @@ router.route('/:id').put(
  * @swagger
  * /surveys/{id}:
  *   delete:
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: The survey ID
  *     description: Delete a survey by ID
  *     tags: [Surveys]
  *     responses:
