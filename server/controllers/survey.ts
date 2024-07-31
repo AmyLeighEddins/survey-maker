@@ -11,23 +11,13 @@ const createASurvey = async (req: Request, res: Response) => {
   return res.json(survey);
 };
 
-const updateAllSurveys = async (req: Request, res: Response) => {
-  const surveys = await surveyModel.updateAllSurveys(req.body);
-  return res.json(surveys);
-};
-
-const deleteAllSurveys = async (req: Request, res: Response) => {
-  const surveys = await surveyModel.deleteAllSurveys();
-  return res.status(204).send(surveys);
-};
-
 const getSurveyById = async (req: Request, res: Response) => {
   const survey = await surveyModel.getSurveyById(Number(req.params.id));
   return res.json(survey);
 };
 
 const updateASurvey = async (req: Request, res: Response) => {
-  const survey = await surveyModel.updateASurvey(req.body);
+  const survey = await surveyModel.updateASurvey(Number(req.params.id), req.body);
   return res.json(survey);
 };
 
@@ -152,8 +142,6 @@ const deleteAnExternalRecipient = async (req: Request, res: Response) => {
 export {
   getAllSurveys,
   createASurvey,
-  updateAllSurveys,
-  deleteAllSurveys,
   getSurveyById,
   updateASurvey,
   deleteASurvey,

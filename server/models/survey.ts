@@ -3,67 +3,42 @@ import { getAllSurveyMetadata, getAllSurveyQuestions, getAllSurveyExternalRecipi
 import { prisma } from '../utils/prisma';
 
 export const getAllSurveys = async () => {
-  const surveys = prisma.surveys.findMany({
+  return prisma.surveys.findMany({
     orderBy: {
       id: "asc",
     },
   });
-  return surveys;
 };
 
 export const createASurvey = async (newSurvey: Survey) => {
-  return {
-    id: 4,
-    summary: 'example 4',
-    created_date: '2015-01-01',
-    expiry_date: '2099-01-01',
-    survey_type_id: 4,
-  }
-};
-
-export const updateAllSurveys = async (survey: Survey) => {
-  return [{
-    id: 1,
-    summary: 'update 1',
-    created_date: '2015-01-01',
-    expiry_date: '2099-01-01',
-    survey_type_id: 1,
-  }, {
-    id: 2,
-    summary: 'update 2',
-    created_date: '2015-01-01',
-    expiry_date: '2099-01-01',
-    survey_type_id: 2,
-  }, {
-    id: 3,
-    summary: 'update 3',
-    created_date: '2015-01-01',
-    expiry_date: '2099-01-01',
-    survey_type_id: 3,
-  }]
-};
-
-export const deleteAllSurveys = async () => {
-  return [];
+  return prisma.surveys.create({
+    data: newSurvey,
+  });
 };
 
 export const getSurveyById = async (id: number) => {
-  const surveys = await getAllSurveys();
-  return surveys.find(survey => survey.id === id);
+  return prisma.surveys.findUnique({
+    where: {
+      id,
+    },
+  });
 };
 
-export const updateASurvey = async (survey: Survey) => {
-  return {
-    id: 1,
-    summary: 'update 1',
-    created_date: '2015-01-01',
-    expiry_date: '2099-01-01',
-    survey_type_id: 1,
-  }
+export const updateASurvey = async (id: number, survey: Survey) => {
+  return prisma.surveys.update({
+    where: {
+      id,
+    },
+    data: survey,
+  });
 };
 
 export const deleteASurvey = async (id: number) => {
-  return [];
+  return await prisma.surveys.delete({
+    where: {
+      id,
+    },
+  });
 };
 
 export const getSurveysByType = async (type_id: number) => {
