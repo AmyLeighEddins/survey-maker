@@ -1,9 +1,13 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { surveyModel } from '../models';
 
-const getAllSurveys = async (req: Request, res: Response) => {
-  const surveys = await surveyModel.getAllSurveys();
-  return res.json(surveys);
+const getAllSurveys = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const surveys = await surveyModel.getAllSurveys();
+    return res.json(surveys);
+  } catch (err) {
+    next(err);
+  }
 };
 
 const createASurvey = async (req: Request, res: Response) => {

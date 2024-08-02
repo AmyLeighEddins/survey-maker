@@ -1,6 +1,11 @@
-export { default as surveys } from './surveys';
-export { default as metadata } from './metadata';
-export { default as questions } from './questions';
-export { default as recipients } from './recipients';
-export { default as responses } from './responses';
-export { default as tags } from './tags';
+import { Router } from 'express';
+
+import { default as rootSurveysRouter } from './surveys';
+import { default as typesRouter } from './types';
+
+const router = Router();
+
+router.use('/types', typesRouter);
+router.use('/', rootSurveysRouter);
+
+export default router;

@@ -1,18 +1,28 @@
 import { NextFunction, Request, Response } from 'express';
+import { verifyAccessToken } from '../utils/auth';
 
-export async function authMiddlewareExample(
+export async function verifyTokenMiddleware(
   req: Request,
   res: Response,
   next: NextFunction
 ) {
-  const authToken = req.headers.authorization?.split(' ')[1];
-  if (!authToken || authToken !== 'some-random-string') {
-    return res.sendStatus(401);
+  if (process.env.NODE_ENV === 'test') {
+    res.locals.user_id = 1;
+    return next();
   }
 
-  // Verify/Parse the token and grab the userID
-  const userId = 1;
+  const authToken = req.headers.authorization?.split(' ')[1];
+  if (authToken) {
+    try {
+      const token = await verifyAccessToken(authToken);
+      if (token) {
+        res.locals.user_id = token.sub;
+        return next();
+      }
+    } catch {
+      return res.sendStatus(401);
+    }
+  }
 
-  res.locals.user_id = userId;
-  return next();
+  return res.sendStatus(401);
 }

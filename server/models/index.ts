@@ -9,3 +9,4 @@ export * as surveyMetadataTypesModel from './survey-metadata-types';
 export * as surveyExternalResponsesModel from './survey-external-responses';
 export * as surveyEmployeeResponsesModel from './survey-employee-responses';
 export * as surveyResponseItemsModel from './survey-response-items';
+export * as UsersModel from './users';

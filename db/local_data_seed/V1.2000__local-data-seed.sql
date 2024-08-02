@@ -1,3 +1,7 @@
+INSERT INTO Users (id, name, email, password) VALUES (1, 'user1', 'user1@example.com', 'password');
+INSERT INTO Users (id, name, email, password) VALUES (2, 'user2', 'user2@example.com', 'password');
+INSERT INTO Users (id, name, email, password) VALUES (3, 'user3', 'user3@example.com', 'password');
+
 INSERT INTO SurveyTypes (id, description) VALUES (1, 'engagement');
 INSERT INTO SurveyTypes (id, description) VALUES (2, 'vacation');
 INSERT INTO SurveyTypes (id, description) VALUES (3, 'external');

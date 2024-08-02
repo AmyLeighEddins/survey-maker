@@ -1,25 +1,23 @@
 import { Router } from 'express';
-import * as surveyTypesController from '../controllers/survey-types';
-import * as surveyMetadataTypesController from '../controllers/survey-metadata-types';
-import * as surveyQuestionTypesController from '../controllers/survey-question-types';
+import * as surveyTypesController from '../../controllers/survey-types';
 import { body } from 'express-validator';
-import { validate } from '../utils/validator';
+import { validate } from '../../utils/validator';
 
 const router = Router();
 
 /**
  * @swagger
  * tags:
- *   name: Types
- *   description: Types
+ *   name: Survey Types
+ *   description: Survey Types
  */
 
 /**
  * @swagger
- * /types?type={type}:
+ * /surveys/types:
  *   get:
- *     description: Get all types
- *     tags: [Types]
+ *     description: Get all types with optonal type filter
+ *     tags: [Survey Types]
  *     responses:
  *       200:
  *         description: Returns all types
@@ -28,10 +26,10 @@ router.route('/').get(surveyTypesController.getAllSurveyTypes);
 
 /**
  * @swagger
- * /types?type={type}:
+ * /surveys/types:
  *   post:
  *     description: Create a type
- *     tags: [Types]
+ *     tags: [Survey Types]
  *     requestBody:
  *       content:
  *        application/json:
@@ -64,22 +62,36 @@ router.route('/').post(
 
 /**
  * @swagger
- * /types?type={type}/{id}:
+ * /surveys/types/{id}:
  *   get:
+ *     parameters:
+ *      - in: path
+ *        name: id
+ *        required: true
+ *        schema:
+ *          type: integer
+ *        description: The type ID
  *     description: Get a type by ID
- *     tags: [Types]
+ *     tags: [Survey Types]
  *     responses:
- *       201:
+ *       200:
  *         description: Returns the type.
  */
 router.route('/:id').get(surveyTypesController.getSurveyTypeById);
 
 /**
  * @swagger
- * /types?type={type}/{id}:
+ * /surveys/types/{id}:
  *   put:
+ *     parameters:
+ *      - in: path
+ *        name: id
+ *        required: true
+ *        schema:
+ *          type: integer
+ *        description: The type ID
  *     description: Update a type by ID
- *     tags: [Types]
+ *     tags: [Survey Types]
  *     requestBody:
  *       content:
  *        application/json:
@@ -112,10 +124,17 @@ router.route('/:id').put(
 
 /**
  * @swagger
- * /types?type={type}/{id}:
+ * /surveys/types/{id}:
  *   delete:
+ *     parameters:
+ *      - in: path
+ *        name: id
+ *        required: true
+ *        schema:
+ *          type: integer
+ *        description: The type ID
  *     description: Delete a type by ID
- *     tags: [Types]
+ *     tags: [Survey Types]
  *     responses:
  *       204:
  *         description: No content

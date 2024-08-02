@@ -1,7 +1,8 @@
 
-import express from 'express';
-import { exampleRouter, surveys, templates, types } from './routers';
-import { authMiddlewareExample } from './middleware/auth';
+import express, { NextFunction, Request, Response } from 'express';
+import { exampleRouter, surveys, templates, auth } from './routers';
+import { verifyTokenMiddleware } from './middleware/auth';
+import { errorHandlerMiddleware } from './middleware/errors';
 
 const swaggerUI = require('swagger-ui-express');
 const swaggerJsdoc = require('swagger-jsdoc');
@@ -41,11 +42,16 @@ const options = {
 const openapiSpecification = swaggerJsdoc(options);
 app.use('/docs', swaggerUI.serve, swaggerUI.setup(openapiSpecification));
 
-app.use(authMiddlewareExample);
+// Public routes
+app.use('/auth', auth);
 
+app.use(verifyTokenMiddleware);
+
+// Private routes
 app.use('/example', exampleRouter);
 app.use('/surveys', surveys);
 app.use('/templates', templates);
-app.use('/types', types);
+
+app.use(errorHandlerMiddleware);
 
 export { app };

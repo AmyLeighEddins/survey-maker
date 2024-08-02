@@ -1,16 +1,12 @@
+import { prisma } from '../utils/prisma';
 import { SurveyType } from './types';
 
 export const getAllSurveyTypes = async () => {
-  return [{
-    id: 1,
-    description: 'engagement',
-  }, {
-    id: 2,
-    description: 'vacation',
-  }, {
-    id: 3,
-    description: 'external',
-  }]
+  return prisma.surveytypes.findMany({
+    orderBy: {
+      id: "asc",
+    },
+  });
 };
 
 export const createASurveyType = async (newSurveyType: SurveyType) => {
@@ -25,8 +21,11 @@ export const deleteAllSurveyTypes = async () => {
 };
 
 export const getSurveyTypeById = async (id: number) => {
-  const surveyTypes = await getAllSurveyTypes();
-  return surveyTypes.find(surveyType => surveyType.id === id);
+  return prisma.surveytypes.findUnique({
+    where: {
+      id,
+    },
+  });
 };
 
 export const updateASurveyType = async (surveyType: SurveyType) => {
