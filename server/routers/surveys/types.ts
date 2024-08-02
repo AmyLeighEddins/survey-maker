@@ -41,7 +41,7 @@ router.route('/').get(surveyTypesController.getAllSurveyTypes);
  *                required: true
  *                descriptions: The type id.
  *              description:
- *                type: sting
+ *                type: string
  *                required: true
  *                descriptions: The type description.
  *     responses:
@@ -103,7 +103,7 @@ router.route('/:id').get(surveyTypesController.getSurveyTypeById);
  *                required: true
  *                descriptions: The type id.
  *              description:
- *                type: sting
+ *                type: string
  *                required: true
  *                descriptions: The type description.
  *     responses:

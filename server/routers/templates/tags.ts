@@ -41,7 +41,7 @@ router.route('/:id/tags').get(surveyController.getAllSurveyTags);
  *                required: true
  *                descriptions: The tag id.
  *              description:
- *                type: sting
+ *                type: string
  *                required: true
  *                descriptions: The tag description.
  *     responses:
@@ -89,7 +89,7 @@ router.route('/:id/tags/:tag_id').get(surveyController.getSurveyTagById);
  *                required: true
  *                descriptions: The tag id.
  *              description:
- *                type: sting
+ *                type: string
  *                required: true
  *                descriptions: The tag description.
  *     responses:
