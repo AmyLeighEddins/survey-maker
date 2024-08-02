@@ -11,18 +11,13 @@ const createASurveyType = async (req: Request, res: Response) => {
   return res.json(surveyTypes);
 };
 
-const deleteAllSurveyTypes = async (req: Request, res: Response) => {
-  const surveyTypes = await SurveyTypesModel.deleteAllSurveyTypes();
-  return res.status(204).send(surveyTypes);
-};
-
 const getSurveyTypeById = async (req: Request, res: Response) => {
   const surveyTypes = await SurveyTypesModel.getSurveyTypeById(Number(req.params.id));
   return res.json(surveyTypes);
 };
 
 const updateASurveyType = async (req: Request, res: Response) => {
-  const surveyTypes = await SurveyTypesModel.updateASurveyType(req.body);
+  const surveyTypes = await SurveyTypesModel.updateASurveyType(Number(req.params.id), req.body);
   return res.json(surveyTypes);
 };
 
@@ -31,4 +26,4 @@ const deleteASurveyType = async (req: Request, res: Response) => {
   return res.status(204).send(surveyTypes);
 };
 
-export { getAllSurveyTypes, createASurveyType, deleteAllSurveyTypes, getSurveyTypeById, updateASurveyType, deleteASurveyType };
+export { getAllSurveyTypes, createASurveyType, getSurveyTypeById, updateASurveyType, deleteASurveyType };

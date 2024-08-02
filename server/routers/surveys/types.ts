@@ -50,11 +50,11 @@ router.route('/').get(surveyTypesController.getAllSurveyTypes);
  */
 router.route('/').post(
   [
-    body('summary')
+    body('description')
       .isString()
       .trim()
       .isLength({ min: 3 })
-      .withMessage('The summary of the survey must have minimum length of 3'),
+      .withMessage('The description of the survey type must have minimum length of 3'),
   ],
   validate,
   surveyTypesController.createASurveyType
@@ -112,11 +112,11 @@ router.route('/:id').get(surveyTypesController.getSurveyTypeById);
  */
 router.route('/:id').put(
   [
-    body('summary')
+    body('description')
       .isString()
       .trim()
       .isLength({ min: 3 })
-      .withMessage('The summary of the survey must have minimum length of 3'),
+      .withMessage('The description of the survey type must have minimum length of 3'),
   ],
   validate,
   surveyTypesController.updateASurveyType

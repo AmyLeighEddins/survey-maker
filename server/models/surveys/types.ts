@@ -10,14 +10,9 @@ export const getAllSurveyTypes = async () => {
 };
 
 export const createASurveyType = async (newSurveyType: SurveyType) => {
-  return {
-    id: 6,
-    description: 'new type 6',
-  };
-};
-
-export const deleteAllSurveyTypes = async () => {
-  return [];
+  return prisma.surveytypes.create({
+    data: newSurveyType,
+  });
 };
 
 export const getSurveyTypeById = async (id: number) => {
@@ -28,13 +23,19 @@ export const getSurveyTypeById = async (id: number) => {
   });
 };
 
-export const updateASurveyType = async (surveyType: SurveyType) => {
-  return {
-    id: 1,
-    description: 'update 1',
-  };
+export const updateASurveyType = async (id: number, surveyType: SurveyType) => {
+  return prisma.surveytypes.update({
+    where: {
+      id,
+    },
+    data: surveyType,
+  });
 };
 
 export const deleteASurveyType = async (id: number) => {
-  return [];
+  return prisma.surveytypes.delete({
+    where: {
+      id,
+    },
+  });
 };
