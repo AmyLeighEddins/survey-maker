@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import * as surveyEmployeeResponsesController from '../../controllers/survey-employee-responses';
-import * as surveyExternalResponsesController from '../../controllers/survey-external-responses';
-import * as surveyResponseItemsController from '../../controllers/survey-response-items';
+import * as surveyEmployeeResponsesController from '../../controllers/surveys/responses/employee-responses';
+import * as surveyExternalResponsesController from '../../controllers/surveys/responses/external-responses';
+import * as surveyResponseItemsController from '../../controllers/surveys/responses/response-items';
 import { validate } from '../../utils/validator';
 import { body } from 'express-validator';
 

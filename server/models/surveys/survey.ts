@@ -1,6 +1,6 @@
-import { Survey, SurveyMetadata, SurveyQuestion, SurveyExternalRecipient, SurveyEmployeeRecipient } from './types';
-import { getAllSurveyMetadata, getAllSurveyQuestions, getAllSurveyExternalRecipients, getAllSurveyEmployeeRecipients } from './mock';
-import { prisma } from '../utils/prisma';
+import { Survey, SurveyMetadata, SurveyQuestion, SurveyExternalRecipient, SurveyEmployeeRecipient } from '../types';
+import { getAllSurveyMetadata, getAllSurveyQuestions, getAllSurveyExternalRecipients, getAllSurveyEmployeeRecipients } from '../mock';
+import { prisma } from '../../utils/prisma';
 
 export const getAllSurveys = async () => {
   return prisma.surveys.findMany({

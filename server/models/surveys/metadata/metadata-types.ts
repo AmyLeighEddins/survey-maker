@@ -1,4 +1,4 @@
-import { SurveyMetadataType } from './types';
+import { SurveyMetadataType } from '../../types';
 
 export const getAllSurveyMetadataTypes = async () => {
   return [{

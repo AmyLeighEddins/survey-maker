@@ -1,5 +1,5 @@
-import { SurveyTemplate, SurveyTemplateQuestion } from './types';
-import { getAllSurveyTemplateQuestions } from './mock';
+import { SurveyTemplate, SurveyTemplateQuestion } from '../types';
+import { getAllSurveyTemplateQuestions } from '../mock';
 
 export const getAllSurveyTemplates = async () => {
   return [

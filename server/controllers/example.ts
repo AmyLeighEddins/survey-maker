@@ -1,13 +1,13 @@
 import { Request, Response } from 'express';
-import { exampleModel } from '../models';
+import { ExampleModel } from '../models';
 
 const getExamples = async (req: Request, res: Response) => {
-  const examples = await exampleModel.getAllExamples();
+  const examples = await ExampleModel.getAllExamples();
   return res.json(examples);
 };
 
 const getAllUsers = async (req: Request, res: Response) => {
-  const users = await exampleModel.getAllUsers();
+  const users = await ExampleModel.getAllUsers();
   return res.json(users);
 };
 

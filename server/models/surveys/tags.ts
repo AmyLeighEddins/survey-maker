@@ -1,4 +1,4 @@
-import { SurveyTag } from './types';
+import { SurveyTag } from '../types';
 
 export const getAllSurveyTags = async () => {
   return [{

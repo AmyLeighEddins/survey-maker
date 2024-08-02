@@ -1,33 +1,33 @@
 import { Request, Response } from 'express';
-import { surveyMetadataTypesModel } from '../models';
+import { SurveyMetadataTypesModel } from '../../../models';
 
 const getAllSurveyMetadataTypes = async (req: Request, res: Response) => {
-  const surveyMetadataTypes = await surveyMetadataTypesModel.getAllSurveyMetadataTypes();
+  const surveyMetadataTypes = await SurveyMetadataTypesModel.getAllSurveyMetadataTypes();
   return res.json(surveyMetadataTypes);
 };
 
 const createASurveyMetadataType = async (req: Request, res: Response) => {
-  const surveyMetadataTypes = await surveyMetadataTypesModel.createASurveyMetadataType(req.body);
+  const surveyMetadataTypes = await SurveyMetadataTypesModel.createASurveyMetadataType(req.body);
   return res.json(surveyMetadataTypes);
 };
 
 const deleteAllSurveyMetadataTypes = async (req: Request, res: Response) => {
-  const surveyMetadataTypes = await surveyMetadataTypesModel.deleteAllSurveyMetadataTypes();
+  const surveyMetadataTypes = await SurveyMetadataTypesModel.deleteAllSurveyMetadataTypes();
   return res.status(204).send(surveyMetadataTypes);
 };
 
 const getSurveyMetadataTypeById = async (req: Request, res: Response) => {
-  const surveyMetadataTypes = await surveyMetadataTypesModel.getSurveyMetadataTypeById(Number(req.params.id));
+  const surveyMetadataTypes = await SurveyMetadataTypesModel.getSurveyMetadataTypeById(Number(req.params.id));
   return res.json(surveyMetadataTypes);
 };
 
 const updateASurveyMetadataType = async (req: Request, res: Response) => {
-  const surveyMetadataTypes = await surveyMetadataTypesModel.updateASurveyMetadataType(req.body);
+  const surveyMetadataTypes = await SurveyMetadataTypesModel.updateASurveyMetadataType(req.body);
   return res.json(surveyMetadataTypes);
 };
 
 const deleteASurveyMetadataType = async (req: Request, res: Response) => {
-  const surveyMetadataTypes = await surveyMetadataTypesModel.deleteASurveyMetadataType(Number(req.params.id));
+  const surveyMetadataTypes = await SurveyMetadataTypesModel.deleteASurveyMetadataType(Number(req.params.id));
   return res.status(204).send(surveyMetadataTypes);
 };
 

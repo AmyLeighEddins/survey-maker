@@ -1,5 +1,5 @@
-import { SurveyExternalResponse } from './types';
-import { getAllSurveyExternalResponses } from './mock';
+import { SurveyExternalResponse } from '../../types';
+import { getAllSurveyExternalResponses } from '../../mock';
 
 export const createASurveyExternalResponse = async (newSurveyExternalRespons: SurveyExternalResponse) => {
   return {

@@ -1,4 +1,4 @@
-import { SurveyStatus } from './types';
+import { SurveyStatus } from '../types';
 
 export const getAllSurveyStatuses = async () => {
   return [{

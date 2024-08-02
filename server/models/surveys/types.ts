@@ -1,5 +1,5 @@
-import { prisma } from '../utils/prisma';
-import { SurveyType } from './types';
+import { prisma } from '../../utils/prisma';
+import { SurveyType } from '../types';
 
 export const getAllSurveyTypes = async () => {
   return prisma.surveytypes.findMany({

@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import * as surveyController from '../../controllers/survey-tags';
+import * as surveyController from '../../controllers/surveys/tags';
 import { validate } from '../../utils/validator';
 import { body } from 'express-validator';
 

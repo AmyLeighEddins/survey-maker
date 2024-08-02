@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
-import { surveyResponseItemsModel } from '../models';
+import { SurveyResponseItemsModel } from '../../../models';
 
 const getSurveyResponseItemsByQuestion = async (req: Request, res: Response) => {
-  const surveyResponseItems = await surveyResponseItemsModel.getSurveyResponseItemsByQuestion(Number(req.params.question_id));
+  const surveyResponseItems = await SurveyResponseItemsModel.getSurveyResponseItemsByQuestion(Number(req.params.question_id));
   return res.json(surveyResponseItems);
 };
 

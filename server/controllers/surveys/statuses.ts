@@ -1,33 +1,33 @@
 import { Request, Response } from 'express';
-import { surveyStatusesModel } from '../models';
+import { SurveyStatusesModel } from '../../models';
 
 const getAllSurveyStatuses = async (req: Request, res: Response) => {
-  const surveyStatuses = await surveyStatusesModel.getAllSurveyStatuses();
+  const surveyStatuses = await SurveyStatusesModel.getAllSurveyStatuses();
   return res.json(surveyStatuses);
 };
 
 const createASurveyStatus = async (req: Request, res: Response) => {
-  const surveyStatuses = await surveyStatusesModel.createASurveyStatus(req.body);
+  const surveyStatuses = await SurveyStatusesModel.createASurveyStatus(req.body);
   return res.json(surveyStatuses);
 };
 
 const deleteAllSurveyStatuses = async (req: Request, res: Response) => {
-  const surveyStatuses = await surveyStatusesModel.deleteAllSurveyStatuses();
+  const surveyStatuses = await SurveyStatusesModel.deleteAllSurveyStatuses();
   return res.status(204).send(surveyStatuses);
 };
 
 const getSurveyStatusById = async (req: Request, res: Response) => {
-  const surveyStatuses = await surveyStatusesModel.getSurveyStatusById(Number(req.params.id));
+  const surveyStatuses = await SurveyStatusesModel.getSurveyStatusById(Number(req.params.id));
   return res.json(surveyStatuses);
 };
 
 const updateASurveyStatus = async (req: Request, res: Response) => {
-  const surveyStatuses = await surveyStatusesModel.updateASurveyStatus(req.body);
+  const surveyStatuses = await SurveyStatusesModel.updateASurveyStatus(req.body);
   return res.json(surveyStatuses);
 };
 
 const deleteASurveyStatus = async (req: Request, res: Response) => {
-  const surveyStatuses = await surveyStatusesModel.deleteASurveyStatus(Number(req.params.id));
+  const surveyStatuses = await SurveyStatusesModel.deleteASurveyStatus(Number(req.params.id));
   return res.status(204).send(surveyStatuses);
 };
 

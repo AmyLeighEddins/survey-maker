@@ -1,5 +1,5 @@
-import { SurveyResponseItem } from './types';
-import { getAllSurveysResponseItems } from './mock';
+import { SurveyResponseItem } from '../../types';
+import { getAllSurveysResponseItems } from '../../mock';
 
 export const getSurveyResponseItemsByQuestion = async (questionId: number) => {
   const surveyResponseItems = await getAllSurveysResponseItems();

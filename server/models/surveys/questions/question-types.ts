@@ -1,4 +1,4 @@
-import { SurveyQuestionType } from './types';
+import { SurveyQuestionType } from '../../types';
 
 export const getAllSurveyQuestionTypes = async () => {
   return [{

@@ -1,5 +1,5 @@
-import { SurveyEmployeeResponse } from './types';
-import { getAllSurveyEmployeeResponses } from './mock';
+import { SurveyEmployeeResponse } from '../../types';
+import { getAllSurveyEmployeeResponses } from '../../mock';
 
 export const createASurveyEmployeeResponse = async (newSurveyEmployeeRespons: SurveyEmployeeResponse) => {
   return {
