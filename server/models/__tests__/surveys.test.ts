@@ -12,7 +12,7 @@ describe('Survey Model', () => {
       const surveys: Survey[] = [
         {
           id: 1,
-          summary: 'string',
+          summary: 'survey',
           created_date: new Date(),
           expiry_date: new Date(),
           survey_type_id: 1,
