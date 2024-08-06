@@ -11,4 +11,10 @@ const getAllUsers = async (req: Request, res: Response) => {
   return res.json(users);
 };
 
-export { getExamples, getAllUsers };
+const getUserById = async (req: Request, res: Response) => {
+  // const userId = req.params.id;
+  const user = await ExampleModel.getAllForUser(1);
+  return res.json(user);
+};
+
+export { getExamples, getAllUsers, getUserById };
