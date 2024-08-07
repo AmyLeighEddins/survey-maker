@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import * as surveyController from '../../controllers/surveys/survey';
+import { surveyMetadataController } from '../../controllers/';
 
 const router = Router();
 
@@ -20,6 +20,6 @@ const router = Router();
  *       200:
  *         description: Returns metadata for a survey
  */
-router.route('/:id/metadata').get(surveyController.getSurveyMetadata);
+router.route('/:id/metadata').get(surveyMetadataController.getSurveyMetadata);
 
 export default router;

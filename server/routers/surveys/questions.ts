@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import * as surveyController from '../../controllers/surveys/survey';
+import { surveyQuestionsController } from '../../controllers';
 import { body } from 'express-validator';
 import { validate } from '../../utils/validator';
 
@@ -22,7 +22,7 @@ const router = Router();
  *       200:
  *         description: Returns all questions for a survey.
  */
-router.route('/:id/questions').get(surveyController.getSurveyQuestions);
+router.route('/:id/questions').get(surveyQuestionsController.getSurveyQuestions);
 
 /**
  * @swagger
@@ -77,7 +77,7 @@ router.route('/:id/questions').post(
       .withMessage('The title of the question must have minimum length of 3'),
   ],
   validate,
-  surveyController.createASurveyQuestion
+  surveyQuestionsController.createASurveyQuestion
 );
 
 /**
@@ -133,7 +133,7 @@ router.route('/:id/questions/:question_id').put(
       .withMessage('The title of the question must have minimum length of 3'),
   ],
   validate,
-  surveyController.updateASurveyQuestion
+  surveyQuestionsController.updateASurveyQuestion
 );
 
 /**
@@ -146,6 +146,6 @@ router.route('/:id/questions/:question_id').put(
  *       204:
  *         description: No content
  */
-router.route('/:id/questions/:question_id').delete(surveyController.deleteASurveyQuestion);
+router.route('/:id/questions/:question_id').delete(surveyQuestionsController.deleteASurveyQuestion);
 
 export default router;

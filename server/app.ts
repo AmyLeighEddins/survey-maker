@@ -45,7 +45,7 @@ app.use('/docs', swaggerUI.serve, swaggerUI.setup(openapiSpecification));
 // Public routes
 app.use('/auth', auth);
 
-// app.use(verifyTokenMiddleware);
+app.use(verifyTokenMiddleware);
 
 // Private routes
 app.use('/example', exampleRouter);

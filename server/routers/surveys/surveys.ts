@@ -91,7 +91,7 @@ router.route('/').post(
  *     description: Get a survey by ID
  *     tags: [Surveys]
  *     responses:
- *       201:
+ *       200:
  *         description: Returns the survey.
  */
 router.route('/:id').get(surveyController.getSurveyById);

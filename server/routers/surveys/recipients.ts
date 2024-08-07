@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import * as surveyController from '../../controllers/surveys/survey';
+import { surveyRecipientsController } from '../../controllers';
 import { validate } from '../../utils/validator';
 import { body } from 'express-validator';
 
@@ -22,7 +22,7 @@ const router = Router();
  *       200:
  *         description: Returns all survey recipients
  */
-router.route('/:id/recipients').get(surveyController.getAllRecipients);
+router.route('/:id/recipients').get(surveyRecipientsController.getAllRecipients);
 
 /**
  * @swagger
@@ -69,7 +69,7 @@ router.route('/:id/recipients').post(
       .withMessage('The survey id of the survey must be a valid survey'),
   ],
   validate,
-  surveyController.createARecipient
+  surveyRecipientsController.createARecipient
 );
 
 /**
@@ -117,7 +117,7 @@ router.route('/:id/recipients/:recipient_id').put(
       .withMessage('The survey id of the survey must be a valid survey'),
   ],
   validate,
-  surveyController.updateARecipient
+  surveyRecipientsController.updateARecipient
 );
 
 /**
@@ -130,6 +130,6 @@ router.route('/:id/recipients/:recipient_id').put(
  *       204:
  *         description: No content
  */
-router.route('/:id/recipients/:recipient_id').delete(surveyController.deleteARecipient);
+router.route('/:id/recipients/:recipient_id').delete(surveyRecipientsController.deleteARecipient);
 
 export default router;
