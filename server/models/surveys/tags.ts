@@ -1,47 +1,46 @@
+import { prisma } from '../../utils/prisma';
 import { SurveyTag } from '../types';
 
 export const getAllSurveyTags = async () => {
-  return [{
-    id: 1,
-    description: 'engagement',
-  }, {
-    id: 2,
-    description: 'fun',
-  }, {
-    id: 3,
-    description: 'vacation',
-  }, {
-    id: 4,
-    description: 'external',
-  }, {
-    id: 5,
-    description: 'company',
-  }];
+  return prisma.surveytags.findMany({
+    orderBy: {
+      id: "asc",
+    },
+  });
 };
 
 export const createASurveyTag = async (newSurveyTag: SurveyTag) => {
-  return {
-    id: 6,
-    description: 'new tag 6',
-  };
+  return prisma.surveytags.create({
+    data: newSurveyTag,
+  });
 };
 
-export const deleteAllSurveyTags = async () => {
-  return [];
+export const getSurveyTagById = async (tag_id: number) => {
+  return prisma.surveytags.findUnique({
+    where: {
+      id: tag_id,
+    },
+  });
 };
 
-export const getSurveyTagById = async (id: number) => {
-  const surveyTags = await getAllSurveyTags();
-  return surveyTags.find(surveyTag => surveyTag.id === id);
+export const updateASurveyTag = async (tag_id: number, surveyTag: SurveyTag) => {
+  return prisma.surveytags.update({
+    where: {
+      id: tag_id,
+    },
+    data: surveyTag,
+  });
 };
 
-export const updateASurveyTag = async (surveyTag: SurveyTag) => {
-  return {
-    id: 1,
-    description: 'update 1',
-  };
+export const deleteASurveyTag = async (tag_id: number) => {
+  return await prisma.surveytags.delete({
+    where: {
+      id: tag_id,
+    },
+  });
 };
 
-export const deleteASurveyTag = async (id: number) => {
-  return [];
+export const getAllSurveyTagsBySurvey = async (surveyId: number) => {
+  // TODO: fix when we have survey associated tags
+  return getAllSurveyTags();
 };
