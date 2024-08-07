@@ -1,34 +1,58 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { SurveyTagsModel } from '../../models';
 
-const getAllSurveyTags = async (req: Request, res: Response) => {
-  const surveyTags = await SurveyTagsModel.getAllSurveyTags();
-  return res.json(surveyTags);
+const getAllSurveyTags = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const surveyTags = await SurveyTagsModel.getAllSurveyTags();
+    return res.json(surveyTags);
+  } catch (err) {
+    next(err);
+  }
 };
 
-const createASurveyTag = async (req: Request, res: Response) => {
-  const surveyTags = await SurveyTagsModel.createASurveyTag(req.body);
-  return res.json(surveyTags);
+const createASurveyTag = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const surveyTags = await SurveyTagsModel.createASurveyTag(req.body);
+    return res.json(surveyTags);
+  } catch (err) {
+    next(err);
+  }
 };
 
-const deleteAllSurveyTags = async (req: Request, res: Response) => {
-  const surveyTags = await SurveyTagsModel.deleteAllSurveyTags();
-  return res.status(204).send(surveyTags);
+const getSurveyTagById = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const surveyTags = await SurveyTagsModel.getSurveyTagById(Number(req.params.tag_id));
+    return res.json(surveyTags);
+  } catch (err) {
+    next(err);
+  }
 };
 
-const getSurveyTagById = async (req: Request, res: Response) => {
-  const surveyTags = await SurveyTagsModel.getSurveyTagById(Number(req.params.id));
-  return res.json(surveyTags);
+const updateASurveyTag = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const surveyTags = await SurveyTagsModel.updateASurveyTag(Number(req.params.tag_id), req.body);
+    return res.json(surveyTags);
+  } catch (err) {
+    next(err);
+  }
 };
 
-const updateASurveyTag = async (req: Request, res: Response) => {
-  const surveyTags = await SurveyTagsModel.updateASurveyTag(req.body);
-  return res.json(surveyTags);
+const deleteASurveyTag = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const surveyTags = await SurveyTagsModel.deleteASurveyTag(Number(req.params.tag_id));
+    return res.status(204).send(surveyTags);
+  } catch (err) {
+    next(err);
+  }
 };
 
-const deleteASurveyTag = async (req: Request, res: Response) => {
-  const surveyTags = await SurveyTagsModel.deleteASurveyTag(Number(req.params.id));
-  return res.status(204).send(surveyTags);
+const getAllSurveyTagsBySurvey = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const surveyTags = await SurveyTagsModel.getAllSurveyTagsBySurvey(Number(req.params.id));
+    return res.json(surveyTags);
+  } catch (err) {
+    next(err);
+  }
 };
 
-export { getAllSurveyTags, createASurveyTag, deleteAllSurveyTags, getSurveyTagById, updateASurveyTag, deleteASurveyTag };
+export { getAllSurveyTags, getAllSurveyTagsBySurvey, createASurveyTag, getSurveyTagById, updateASurveyTag, deleteASurveyTag };
