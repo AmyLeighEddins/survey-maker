@@ -11,3 +11,13 @@ CREATE TABLE IF NOT EXISTS Surveys (
   survey_type_id INTEGER NOT NULL,
   FOREIGN KEY (survey_type_id) REFERENCES SurveyTypes (id)
 );
+
+CREATE TABLE IF NOT EXISTS SurveyStatuses (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS SurveyTags (
+  id SERIAL PRIMARY KEY,
+  description VARCHAR(255) NOT NULL
+);

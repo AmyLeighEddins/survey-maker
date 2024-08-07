@@ -1,5 +1,5 @@
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
   binaryTargets = ["native", "linux-arm64-openssl-3.0.x"]
 }
 
@@ -24,10 +24,12 @@ model flyway_schema_history {
 }
 
 model users {
-  id       Int    @id @default(autoincrement())
-  name     String @db.VarChar(255)
-  email    String @db.VarChar(255)
-  password String @db.VarChar(255)
+  id         Int      @id @default(autoincrement())
+  name       String   @db.VarChar(255)
+  email      String   @unique @db.VarChar(255)
+  password   String   @db.VarChar(255)
+  created_at DateTime @default(now()) @db.Timestamp(6)
+  updated_at DateTime @default(now()) @db.Timestamp(6)
 }
 
 model surveytypes {
@@ -43,4 +45,14 @@ model surveys {
   expiry_date    DateTime    @default(now()) @db.Timestamp(6)
   survey_type_id Int
   surveytypes    surveytypes @relation(fields: [survey_type_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model surveystatuses {
+  id   Int    @id @default(autoincrement())
+  name String @db.VarChar(255)
+}
+
+model surveytags {
+  id          Int    @id @default(autoincrement())
+  description String @db.VarChar(255)
 }

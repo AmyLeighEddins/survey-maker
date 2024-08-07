@@ -17,11 +17,15 @@ describe('Examples controller', () => {
       name: 'example',
       email: 'example@example.com',
       password: 'example',
+      created_at: new Date(),
+      updated_at: new Date(),
     }, {
       id: 2,
       name: 'example',
       email: 'example@example.com',
       password: 'example',
+      created_at: new Date(),
+      updated_at: new Date(),
     }];
 
     when(ExampleModel.getAllForUser)

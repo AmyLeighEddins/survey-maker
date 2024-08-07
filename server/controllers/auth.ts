@@ -17,6 +17,8 @@ const postSignUp = async (req: Request, res: Response) => {
       name: req.body.name,
       email: req.body.email,
       password: hashPassword,
+      created_at: new Date(),
+      updated_at: new Date(),
     };
 
     const user = await UsersModel.createUser(userdata);

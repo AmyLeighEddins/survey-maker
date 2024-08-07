@@ -28,6 +28,6 @@ services:
     volumes:
       - ./server:/app
     environment:
-      DATABASE_URL: "postgres://postgres:password@db:5433/survey_maker_db?schema=public"
+      DATABASE_URL: "postgres://postgres:password@db:5432/survey_maker_db?schema=public"
 volumes:
   db:
