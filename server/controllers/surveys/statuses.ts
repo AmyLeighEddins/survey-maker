@@ -19,18 +19,9 @@ const createASurveyStatus = async (req: Request, res: Response, next: NextFuncti
   }
 };
 
-const deleteAllSurveyStatuses = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const surveyStatuses = await SurveyStatusesModel.deleteAllSurveyStatuses();
-    return res.status(204).send(surveyStatuses);
-  } catch (err) {
-    next(err);
-  }
-};
-
 const getSurveyStatusById = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const surveyStatuses = await SurveyStatusesModel.getSurveyStatusById(Number(req.params.id));
+    const surveyStatuses = await SurveyStatusesModel.getSurveyStatusById(Number(req.params.status_id));
     return res.json(surveyStatuses);
   } catch (err) {
     next(err);
@@ -39,7 +30,7 @@ const getSurveyStatusById = async (req: Request, res: Response, next: NextFuncti
 
 const updateASurveyStatus = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const surveyStatuses = await SurveyStatusesModel.updateASurveyStatus(req.body);
+    const surveyStatuses = await SurveyStatusesModel.updateASurveyStatus(Number(req.params.status_id), req.body);
     return res.json(surveyStatuses);
   } catch (err) {
     next(err);
@@ -48,11 +39,11 @@ const updateASurveyStatus = async (req: Request, res: Response, next: NextFuncti
 
 const deleteASurveyStatus = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const surveyStatuses = await SurveyStatusesModel.deleteASurveyStatus(Number(req.params.id));
+    const surveyStatuses = await SurveyStatusesModel.deleteASurveyStatus(Number(req.params.status_id));
     return res.status(204).send(surveyStatuses);
   } catch (err) {
     next(err);
   }
 };
 
-export { getAllSurveyStatuses, createASurveyStatus, deleteAllSurveyStatuses, getSurveyStatusById, updateASurveyStatus, deleteASurveyStatus };
+export { getAllSurveyStatuses, createASurveyStatus, getSurveyStatusById, updateASurveyStatus, deleteASurveyStatus };
