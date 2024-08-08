@@ -1,4 +1,4 @@
-import { mockNext, mockRequest, mockResponse } from "../../../testUtils/mockRequest";
+import { mockNext, mockRequest, mockResponse } from "../../../test-utils/mockRequest";
 import { when } from "jest-when";
 
 import * as surveyController from '../survey';

@@ -1,5 +1,5 @@
 import { SurveyModel } from "..";
-import { prismaForTests } from "../../testUtils/prisma";
+import { prismaForTests } from "../../test-utils/prisma";
 import { prisma } from "../../utils/prisma";
 import { Survey } from "../types";
 

@@ -13,7 +13,7 @@ const getAllSurveys = async (req: Request, res: Response, next: NextFunction) =>
 const createASurvey = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const survey = await SurveyModel.createASurvey(req.body);
-    return res.json(survey);
+    return res.status(201).json(survey);
   } catch (err) {
     next(err);
   }
@@ -31,7 +31,7 @@ const getSurveyById = async (req: Request, res: Response, next: NextFunction) =>
 const updateASurvey = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const survey = await SurveyModel.updateASurvey(Number(req.params.id), req.body);
-    return res.json(survey);
+    return res.status(201).json(survey);
   } catch (err) {
     next(err);
   }
