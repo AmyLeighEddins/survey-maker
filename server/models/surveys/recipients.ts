@@ -1,4 +1,4 @@
-import { SurveyExternalRecipient, SurveyEmployeeRecipient } from '../types';
+import { SurveyExternalRecipient, SurveyEmployeeRecipient } from '../models';
 import { getAllSurveyExternalRecipients, getAllSurveyEmployeeRecipients } from '../mock';
 import { prisma } from '../../utils/prisma';
 

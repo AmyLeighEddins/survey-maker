@@ -1,6 +1,6 @@
 
 import express, { NextFunction, Request, Response } from 'express';
-import { exampleRouter, surveys, templates, auth } from './routers';
+import { surveysRouter, templatesRouter, authRouter, typesRouter, tagsRouter, metadataTypesRouter, questionTypesRouter } from './routers';
 import { verifyTokenMiddleware } from './middleware/auth';
 import { errorHandlerMiddleware } from './middleware/errors';
 
@@ -43,14 +43,17 @@ const openapiSpecification = swaggerJsdoc(options);
 app.use('/docs', swaggerUI.serve, swaggerUI.setup(openapiSpecification));
 
 // Public routes
-app.use('/auth', auth);
+app.use('/auth', authRouter);
 
-app.use(verifyTokenMiddleware);
+// app.use(verifyTokenMiddleware);
 
 // Private routes
-app.use('/example', exampleRouter);
-app.use('/surveys', surveys);
-app.use('/templates', templates);
+app.use('/surveys', surveysRouter);
+app.use('/templates', templatesRouter);
+app.use('/types', typesRouter);
+app.use('/tags', tagsRouter);
+app.use('/metadata-types', metadataTypesRouter);
+app.use('/question-types', questionTypesRouter);
 
 app.use(errorHandlerMiddleware);
 

@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { body } from 'express-validator';
 
-import { surveyController } from '../../controllers';
+import { surveyController, surveyMetadataController } from '../../controllers';
 import { validate } from '../../utils/validator';
 
 const router = Router();
@@ -171,5 +171,24 @@ router.route('/:id').put(
  *         description: No content
  */
 router.route('/:id').delete(surveyController.deleteASurvey);
+
+/**
+ * @swagger
+ * /surveys/{id}/metadata:
+ *   get:
+ *     parameters:
+ *      - in: path
+ *        name: id
+ *        required: true
+ *        schema:
+ *          type: integer
+ *        description: The survey ID
+ *     description: Get all Metadata for a survey
+ *     tags: [Surveys]
+ *     responses:
+ *       200:
+ *         description: Returns metadata for a survey
+ */
+router.route('/:id/metadata').get(surveyMetadataController.getSurveyMetadata);
 
 export default router;

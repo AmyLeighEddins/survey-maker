@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import * as surveyController from '../../controllers/surveys/tags';
+import * as surveyController from '../../controllers/tags';
 import { body } from 'express-validator';
 import { validate } from '../../utils/validator';
 
@@ -8,8 +8,8 @@ const router = Router();
 /**
  * @swagger
  * tags:
- *   name: Survey Template Tags
- *   description: Survey Template Tags
+ *   name: Survey Template Associated Tags
+ *   description: Survey Template Associated Tags
  */
 
 /**
@@ -17,7 +17,7 @@ const router = Router();
  * /templates/{id}/tags:
  *   get:
  *     description: Get Tags for a survey template
- *     tags: [Survey Template Tags]
+ *     tags: [Survey Template Associated Tags]
  *     responses:
  *       200:
  *         description: Returns tags for a survey template.
@@ -29,7 +29,7 @@ router.route('/:id/tags').get(surveyController.getAllSurveyTags);
  * /templates/{id}/tags:
  *   post:
  *     description: Create a tag for a survey template
- *     tags: [Survey Template Tags]
+ *     tags: [Survey Template Associated Tags]
  *     requestBody:
  *       content:
  *        application/json:
@@ -65,7 +65,7 @@ router.route('/:id/tags').post(
  * /templates/{id}/tags/{tag_id}:
  *   get:
  *     description: Get a tag by ID
- *     tags: [Survey Template Tags]
+ *     tags: [Survey Template Associated Tags]
  *     responses:
  *       201:
  *         description: Returns the survey template tag.
@@ -77,7 +77,7 @@ router.route('/:id/tags/:tag_id').get(surveyController.getSurveyTagById);
  * /templates/{id}/tags/{tag_id}:
  *   post:
  *     description: Update a tag for a survey template
- *     tags: [Survey Template Tags]
+ *     tags: [Survey Template Associated Tags]
  *     requestBody:
  *       content:
  *        application/json:
@@ -113,7 +113,7 @@ router.route('/:id/tags/:tag_id').put(
  * /templates/{id}/tags/{tag_id}:
  *   delete:
  *     description: Delete a template tag by ID
- *     tags: [Survey Template Tags]
+ *     tags: [Survey Template Associated Tags]
  *     responses:
  *       204:
  *         description: No content

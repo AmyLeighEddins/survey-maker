@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { SurveyQuestionsModel } from '../../../models';
+import { SurveyQuestionsModel } from '../../models';
 
 const getSurveyQuestions = async (req: Request, res: Response, next: NextFunction) => {
   try {

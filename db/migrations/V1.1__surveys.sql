@@ -21,3 +21,22 @@ CREATE TABLE IF NOT EXISTS SurveyTags (
   id SERIAL PRIMARY KEY,
   description VARCHAR(255) NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS SurveyMetadataTypes (
+  id SERIAL PRIMARY KEY,
+  description VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS SurveyMetadata (
+  id SERIAL PRIMARY KEY,
+  value VARCHAR(255) NOT NULL,
+  user_form_metadata_type_id INTEGER NOT NULL,
+  survey_id INTEGER NOT NULL,
+  FOREIGN KEY (user_form_metadata_type_id) REFERENCES SurveyMetadataTypes (id),
+  FOREIGN KEY (survey_id) REFERENCES Surveys (id)
+);
+
+CREATE TABLE IF NOT EXISTS SurveyQuestionTypes (
+  id SERIAL PRIMARY KEY,
+  description VARCHAR(255) NOT NULL
+);

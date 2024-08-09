@@ -1,8 +1,8 @@
 import { prisma } from '../../utils/prisma';
-import { SurveyStatus } from '../types';
+import { SurveyStatus } from '../models';
 
 export const getAllSurveyStatuses = async () => {
-  return prisma.surveystatuses.findMany({
+  return await prisma.surveystatuses.findMany({
     orderBy: {
       id: "asc",
     },
@@ -10,14 +10,14 @@ export const getAllSurveyStatuses = async () => {
 };
 
 export const createASurveyStatus = async (newSurveyStatus: SurveyStatus) => {
-  return prisma.surveystatuses.create({
+  return await prisma.surveystatuses.create({
     data: newSurveyStatus,
   });
 };
 
 export const getSurveyStatusById = async (status_id: number) => {
   console.log('status_id', status_id);
-  return prisma.surveystatuses.findUnique({
+  return await prisma.surveystatuses.findUnique({
     where: {
       id: status_id,
     },
@@ -25,7 +25,7 @@ export const getSurveyStatusById = async (status_id: number) => {
 };
 
 export const updateASurveyStatus = async (status_id: number, surveyStatus: SurveyStatus) => {
-  return prisma.surveystatuses.update({
+  return await prisma.surveystatuses.update({
     where: {
       id: status_id,
     },
@@ -34,7 +34,7 @@ export const updateASurveyStatus = async (status_id: number, surveyStatus: Surve
 };
 
 export const deleteASurveyStatus = async (status_id: number) => {
-  return prisma.surveystatuses.delete({
+  return await prisma.surveystatuses.delete({
     where: {
       id: status_id,
     },

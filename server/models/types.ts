@@ -1,102 +1,41 @@
-export type SurveyTemplate = {
-  id: number;
-  name: string;
-  summary: string;
-  created_date: Date;
-  updated_date: Date;
-  survey_type_id: number;
+import { prisma } from '../utils/prisma';
+import { SurveyType } from './models';
+
+export const getAllSurveyTypes = async () => {
+  return await prisma.surveytypes.findMany({
+    orderBy: {
+      id: "asc",
+    },
+  });
 };
 
-export type SurveyTemplateQuestion = {
-  id: number;
-  title: string;
-  description: string;
-  tooltop: string;
-  sequence: number;
-  survey_question_type_id: number;
-  survey_template_id: number;
+export const createASurveyType = async (newSurveyType: SurveyType) => {
+  return await prisma.surveytypes.create({
+    data: newSurveyType,
+  });
 };
 
-export type SurveyStatus = {
-  id: number,
-  name: string,
+export const getSurveyTypeById = async (id: number) => {
+  return await prisma.surveytypes.findUnique({
+    where: {
+      id,
+    },
+  });
 };
 
-export type SurveyType = {
-  id: number,
-  description: string,
+export const updateASurveyType = async (id: number, surveyType: SurveyType) => {
+  return await prisma.surveytypes.update({
+    where: {
+      id,
+    },
+    data: surveyType,
+  });
 };
 
-export type SurveyTag = {
-  id: number,
-  description: string,
+export const deleteASurveyType = async (id: number) => {
+  return await prisma.surveytypes.delete({
+    where: {
+      id,
+    },
+  });
 };
-
-export type SurveyMetadataType = {
-  id: number,
-  description: string,
-};
-
-export type SurveyEmployeeResponse = {
-  id: number,
-  survey_employee_recipient_id: number,
-  survey_response_item_id: number,
-};
-
-export type SurveyExternalResponse = {
-  id: number,
-  survey_external_recipient_id: number,
-  survey_response_item_id: number,
-};
-
-export type Survey = {
-  id: number;
-  summary: string;
-  created_date: Date;
-  expiry_date: Date;
-  survey_type_id: number;
-};
-
-export type SurveyResponseItem = {
-  id: number;
-  value: string;
-  survey_question_id: number;
-}
-
-export type SurveyQuestionType = {
-  id: number,
-  description: string,
-};
-
-export type SurveyMetadata = {
-  id: number;
-  value: string;
-  use_form_metadata_type_id: number;
-  survey_id: number;
-};
-
-export type SurveyQuestion = {
-  id: number;
-  title: string;
-  description: string;
-  tooltop: string;
-  sequence: number;
-  survey_question_type_id: number;
-  survey_id: number;
-};
-
-export type SurveyExternalRecipient = {
-  id: number;
-  email_address: string;
-  survey_status_id: number;
-  survey_id: number;
-};
-
-export type SurveyEmployeeRecipient = {
-  id: number;
-  employee_id: number;
-  survey_status_id: number;
-  survey_id: number;
-};
-
-

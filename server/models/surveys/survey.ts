@@ -1,8 +1,8 @@
-import { Survey } from '../types';
+import { Survey } from '../models';
 import { prisma } from '../../utils/prisma';
 
 export const getAllSurveys = async () => {
-  return prisma.surveys.findMany({
+  return await prisma.surveys.findMany({
     orderBy: {
       id: "asc",
     },
@@ -10,13 +10,13 @@ export const getAllSurveys = async () => {
 };
 
 export const createASurvey = async (newSurvey: Survey) => {
-  return prisma.surveys.create({
+  return await prisma.surveys.create({
     data: newSurvey,
   });
 };
 
 export const getSurveyById = async (id: number) => {
-  return prisma.surveys.findUnique({
+  return await prisma.surveys.findUnique({
     where: {
       id,
     },
@@ -24,7 +24,7 @@ export const getSurveyById = async (id: number) => {
 };
 
 export const updateASurvey = async (id: number, survey: Survey) => {
-  return prisma.surveys.update({
+  return await prisma.surveys.update({
     where: {
       id,
     },
@@ -33,15 +33,18 @@ export const updateASurvey = async (id: number, survey: Survey) => {
 };
 
 export const deleteASurvey = async (id: number) => {
-  return await prisma.surveys.delete({
+  return await prisma.surveys.update({
     where: {
       id,
     },
+    data: {
+      expiry_date: new Date(),
+    }
   });
 };
 
 export const getSurveysByType = async (type_id: number) => {
-  return prisma.surveys.findMany({
+  return await prisma.surveys.findMany({
     where: {
       survey_type_id: type_id,
     },

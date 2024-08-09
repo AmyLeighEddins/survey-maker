@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { SurveyTagsModel } from '../../models';
+import { SurveyTagsModel } from '../models';
 
 const getAllSurveyTags = async (req: Request, res: Response, next: NextFunction) => {
   try {

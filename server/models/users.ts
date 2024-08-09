@@ -4,7 +4,7 @@ import { prisma } from '../utils/prisma';
 type CreateUserPayload = Pick<User, "email" | "password" | "name">;
 
 export const getAllUsers = async () => {
-  return prisma.users.findMany({
+  return await prisma.users.findMany({
     select: {
       id: true,
       email: true,

@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import { surveyTypesController } from '../../controllers';
+import { surveyTypesController } from '../controllers';
 import { body } from 'express-validator';
-import { validate } from '../../utils/validator';
+import { validate } from '../utils/validator';
 
 const router = Router();
 
@@ -14,7 +14,7 @@ const router = Router();
 
 /**
  * @swagger
- * /surveys/types:
+ * /types:
  *   get:
  *     description: Get all types with optonal type filter
  *     tags: [Survey Types]
@@ -26,7 +26,7 @@ router.route('/').get(surveyTypesController.getAllSurveyTypes);
 
 /**
  * @swagger
- * /surveys/types:
+ * /types:
  *   post:
  *     description: Create a type
  *     tags: [Survey Types]
@@ -62,7 +62,7 @@ router.route('/').post(
 
 /**
  * @swagger
- * /surveys/types/{id}:
+ * /types/{id}:
  *   get:
  *     parameters:
  *      - in: path
@@ -81,7 +81,7 @@ router.route('/:id').get(surveyTypesController.getSurveyTypeById);
 
 /**
  * @swagger
- * /surveys/types/{id}:
+ * /types/{id}:
  *   put:
  *     parameters:
  *      - in: path
@@ -124,7 +124,7 @@ router.route('/:id').put(
 
 /**
  * @swagger
- * /surveys/types/{id}:
+ * /types/{id}:
  *   delete:
  *     parameters:
  *      - in: path

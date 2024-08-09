@@ -1,6 +1,6 @@
-import { SurveyQuestion } from '../../types';
-import { getAllSurveyQuestions } from '../../mock';
-import { prisma } from '../../../utils/prisma';
+import { SurveyQuestion } from '../models';
+import { getAllSurveyQuestions } from '../mock';
+import { prisma } from '../../utils/prisma';
 
 // TODO: add prisma
 

@@ -1,4 +1,4 @@
-import { SurveyResponseItem } from '../../types';
+import { SurveyResponseItem } from '../../models';
 import { getAllSurveysResponseItems } from '../../mock';
 
 export const getSurveyResponseItemsByQuestion = async (questionId: number) => {

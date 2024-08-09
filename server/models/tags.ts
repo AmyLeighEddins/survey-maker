@@ -1,8 +1,8 @@
-import { prisma } from '../../utils/prisma';
-import { SurveyTag } from '../types';
+import { prisma } from '../utils/prisma';
+import { SurveyTag } from './models';
 
 export const getAllSurveyTags = async () => {
-  return prisma.surveytags.findMany({
+  return await prisma.surveytags.findMany({
     orderBy: {
       id: "asc",
     },
@@ -10,13 +10,13 @@ export const getAllSurveyTags = async () => {
 };
 
 export const createASurveyTag = async (newSurveyTag: SurveyTag) => {
-  return prisma.surveytags.create({
+  return await prisma.surveytags.create({
     data: newSurveyTag,
   });
 };
 
 export const getSurveyTagById = async (tag_id: number) => {
-  return prisma.surveytags.findUnique({
+  return await prisma.surveytags.findUnique({
     where: {
       id: tag_id,
     },
@@ -24,7 +24,7 @@ export const getSurveyTagById = async (tag_id: number) => {
 };
 
 export const updateASurveyTag = async (tag_id: number, surveyTag: SurveyTag) => {
-  return prisma.surveytags.update({
+  return await prisma.surveytags.update({
     where: {
       id: tag_id,
     },

@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { SurveyMetadataTypesModel } from '../../../models';
+import { SurveyMetadataTypesModel } from '../models';
 
 const getAllSurveyMetadataTypes = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -17,21 +17,11 @@ const createASurveyMetadataType = async (req: Request, res: Response, next: Next
   } catch (err) {
     next(err);
   }
-
-};
-
-const deleteAllSurveyMetadataTypes = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const surveyMetadataTypes = await SurveyMetadataTypesModel.deleteAllSurveyMetadataTypes();
-    return res.status(204).send(surveyMetadataTypes);
-  } catch (err) {
-    next(err);
-  }
 };
 
 const getSurveyMetadataTypeById = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const surveyMetadataTypes = await SurveyMetadataTypesModel.getSurveyMetadataTypeById(Number(req.params.id));
+    const surveyMetadataTypes = await SurveyMetadataTypesModel.getSurveyMetadataTypeById(Number(req.params.type_id));
     return res.json(surveyMetadataTypes);
   } catch (err) {
     next(err);
@@ -40,7 +30,7 @@ const getSurveyMetadataTypeById = async (req: Request, res: Response, next: Next
 
 const updateASurveyMetadataType = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const surveyMetadataTypes = await SurveyMetadataTypesModel.updateASurveyMetadataType(req.body);
+    const surveyMetadataTypes = await SurveyMetadataTypesModel.updateASurveyMetadataType(Number(req.params.type_id), req.body);
     return res.json(surveyMetadataTypes);
   } catch (err) {
     next(err);
@@ -49,11 +39,11 @@ const updateASurveyMetadataType = async (req: Request, res: Response, next: Next
 
 const deleteASurveyMetadataType = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const surveyMetadataTypes = await SurveyMetadataTypesModel.deleteASurveyMetadataType(Number(req.params.id));
+    const surveyMetadataTypes = await SurveyMetadataTypesModel.deleteASurveyMetadataType(Number(req.params.type_id));
     return res.status(204).send(surveyMetadataTypes);
   } catch (err) {
     next(err);
   }
 };
 
-export { getAllSurveyMetadataTypes, createASurveyMetadataType, deleteAllSurveyMetadataTypes, getSurveyMetadataTypeById, updateASurveyMetadataType, deleteASurveyMetadataType };
+export { getAllSurveyMetadataTypes, createASurveyMetadataType, getSurveyMetadataTypeById, updateASurveyMetadataType, deleteASurveyMetadataType };

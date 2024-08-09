@@ -1,7 +1,7 @@
 import { SurveyModel } from "..";
 import { prismaForTests } from "../../test-utils/prisma";
 import { prisma } from "../../utils/prisma";
-import { Survey } from "../types";
+import { Survey } from "../models";
 
 jest.mock("@prisma/client");
 
