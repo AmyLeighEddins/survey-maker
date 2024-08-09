@@ -38,10 +38,6 @@ router.route('/:question_id').get(surveyEmployeeResponsesController.getSurveyRes
  *          schema:
  *            type: object
  *            properties:
- *              id:
- *                type: number
- *                required: true
- *                descriptions: The survey question id.
  *              survey_employee_recipient_id:
  *                type: number
  *                required: false
@@ -82,10 +78,6 @@ router.route('/').post(
  *          schema:
  *            type: object
  *            properties:
- *              id:
- *                type: number
- *                required: true
- *                descriptions: The survey question id.
  *              survey_employee_recipient_id:
  *                type: number
  *                required: false

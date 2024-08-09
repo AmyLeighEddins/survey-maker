@@ -21,7 +21,7 @@ const createASurveyQuestion = async (req: Request, res: Response, next: NextFunc
 
 const updateASurveyQuestion = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const surveyQuestion = await SurveyQuestionsModel.updateASurveyQuestion(Number(req.params.id), req.body);
+    const surveyQuestion = await SurveyQuestionsModel.updateASurveyQuestion(Number(req.params.id), req.body, Number(req.params.question_id));
     return res.json(surveyQuestion);
   } catch (err) {
     next(err);
@@ -30,7 +30,7 @@ const updateASurveyQuestion = async (req: Request, res: Response, next: NextFunc
 
 const deleteASurveyQuestion = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const surveyQuestion = await SurveyQuestionsModel.deleteASurveyQuestion(Number(req.params.id));
+    const surveyQuestion = await SurveyQuestionsModel.deleteASurveyQuestion(Number(req.params.id), Number(req.params.question_id));
     return res.status(204).send(surveyQuestion);
   } catch (err) {
     next(err);

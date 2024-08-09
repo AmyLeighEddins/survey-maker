@@ -36,10 +36,6 @@ router.route('/:id/recipients').get(surveyRecipientsController.getAllRecipients)
  *          schema:
  *            type: object
  *            properties:
- *              id:
- *                type: number
- *                required: true
- *                descriptions: The recipient id.
  *              employee_id:
  *                type: number
  *                required: false
@@ -84,10 +80,6 @@ router.route('/:id/recipients').post(
  *          schema:
  *            type: object
  *            properties:
- *              id:
- *                type: number
- *                required: true
- *                descriptions: The recipient id.
  *              employee_id:
  *                type: number
  *                required: false

@@ -36,10 +36,6 @@ router.route('/').get(surveyTagsController.getAllSurveyTags);
  *          schema:
  *            type: object
  *            properties:
- *              id:
- *                type: number
- *                required: true
- *                descriptions: The tag id.
  *              description:
  *                type: string
  *                required: true
@@ -98,10 +94,6 @@ router.route('/:tag_id').get(surveyTagsController.getSurveyTagById);
  *          schema:
  *            type: object
  *            properties:
- *              id:
- *                type: number
- *                required: true
- *                descriptions: The tag id.
  *              description:
  *                type: string
  *                required: true

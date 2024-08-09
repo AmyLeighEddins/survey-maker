@@ -32,3 +32,6 @@ INSERT INTO SurveyQuestionTypes (description) VALUES ('checkbox');
 INSERT INTO SurveyQuestionTypes (description) VALUES ('radio');
 INSERT INTO SurveyQuestionTypes (description) VALUES ('dropdown');
 INSERT INTO SurveyQuestionTypes (description) VALUES ('number');
+
+INSERT INTO SurveyQuestions (title, description, tooltip, sequence, survey_id, survey_question_type_id) VALUES ('What is your name?', 'Please enter your name', 'Enter your full name', 1, 1, 1);
+INSERT INTO SurveyQuestions (title, description, tooltip, sequence, survey_id, survey_question_type_id) VALUES ('What is your age?', 'Please enter your age', 'Enter your age', 2, 1, 5);

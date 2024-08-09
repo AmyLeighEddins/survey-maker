@@ -11,7 +11,7 @@ export type SurveyTemplateQuestion = {
   id: number;
   title: string;
   description: string;
-  tooltop: string;
+  tooltip: string;
   sequence: number;
   survey_question_type_id: number;
   survey_template_id: number;
@@ -79,7 +79,7 @@ export type SurveyQuestion = {
   id: number;
   title: string;
   description: string;
-  tooltop: string;
+  tooltip: string;
   sequence: number;
   survey_question_type_id: number;
   survey_id: number;

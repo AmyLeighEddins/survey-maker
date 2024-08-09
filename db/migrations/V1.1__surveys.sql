@@ -40,3 +40,15 @@ CREATE TABLE IF NOT EXISTS SurveyQuestionTypes (
   id SERIAL PRIMARY KEY,
   description VARCHAR(255) NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS SurveyQuestions (
+  id SERIAL PRIMARY KEY,
+  title VARCHAR(255) NOT NULL,
+  description VARCHAR(255) NOT NULL,
+  tooltip VARCHAR(255) NOT NULL,
+  sequence INTEGER NOT NULL,
+  survey_id INTEGER NOT NULL,
+  survey_question_type_id INTEGER NOT NULL,
+  FOREIGN KEY (survey_id) REFERENCES Surveys (id),
+  FOREIGN KEY (survey_question_type_id) REFERENCES SurveyQuestionTypes (id)
+);

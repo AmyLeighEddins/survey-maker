@@ -36,10 +36,6 @@ router.route('/:id/questions').get(surveyTemplatesController.getAllTemplateQuest
  *          schema:
  *            type: object
  *            properties:
- *              id:
- *                type: number
- *                required: true
- *                descriptions: The survey question id.
  *              title:
  *                type: string
  *                required: false
@@ -92,10 +88,6 @@ router.route('/:id/questions').post(
  *          schema:
  *            type: object
  *            properties:
- *              id:
- *                type: number
- *                required: true
- *                descriptions: The survey question id.
  *              title:
  *                type: string
  *                required: false

@@ -16,6 +16,13 @@ const router = Router();
  * @swagger
  * /surveys/{id}/questions:
  *   get:
+ *     parameters:
+ *      - in: path
+ *        name: id
+ *        required: true
+ *        schema:
+ *          type: integer
+ *        description: The survey ID
  *     description: Get all questions for a survey
  *     tags: [Survey Questions]
  *     responses:
@@ -28,6 +35,13 @@ router.route('/:id/questions').get(surveyQuestionsController.getSurveyQuestions)
  * @swagger
  * /surveys/{id}/questions:
  *   post:
+ *     parameters:
+ *      - in: path
+ *        name: id
+ *        required: true
+ *        schema:
+ *          type: integer
+ *        description: The survey ID
  *     description: Create a question for a survey
  *     tags: [Survey Questions]
  *     requestBody:
@@ -36,10 +50,6 @@ router.route('/:id/questions').get(surveyQuestionsController.getSurveyQuestions)
  *          schema:
  *            type: object
  *            properties:
- *              id:
- *                type: number
- *                required: true
- *                descriptions: The survey question id.
  *              title:
  *                type: string
  *                required: false
@@ -84,6 +94,19 @@ router.route('/:id/questions').post(
  * @swagger
  * /surveys/{id}/questions/{question_id}:
  *   put:
+ *     parameters:
+ *      - in: path
+ *        name: id
+ *        required: true
+ *        schema:
+ *          type: integer
+ *        description: The survey ID
+ *      - in: path
+ *        name: question_id
+ *        required: true
+ *        schema:
+ *          type: integer
+ *        description: The question ID
  *     description: Update a question for a survey
  *     tags: [Survey Questions]
  *     requestBody:
@@ -92,10 +115,6 @@ router.route('/:id/questions').post(
  *          schema:
  *            type: object
  *            properties:
- *              id:
- *                type: number
- *                required: true
- *                descriptions: The survey question id.
  *              title:
  *                type: string
  *                required: false
@@ -140,6 +159,19 @@ router.route('/:id/questions/:question_id').put(
  * @swagger
  * /surveys/{id}/questions/{question_id}:
  *   delete:
+ *     parameters:
+ *      - in: path
+ *        name: id
+ *        required: true
+ *        schema:
+ *          type: integer
+ *        description: The survey ID
+ *      - in: path
+ *        name: question_id
+ *        required: true
+ *        schema:
+ *          type: integer
+ *        description: The question ID
  *     description: Delete a question for a survey by ID
  *     tags: [Survey Questions]
  *     responses:

@@ -36,10 +36,6 @@ router.route('/').get(surveyMetadataTypesController.getAllSurveyMetadataTypes);
  *          schema:
  *            type: object
  *            properties:
- *              id:
- *                type: number
- *                required: true
- *                descriptions: The metadata id.
  *              description:
  *                type: string
  *                required: true
@@ -98,10 +94,6 @@ router.route('/:type_id').get(surveyMetadataTypesController.getSurveyMetadataTyp
  *          schema:
  *            type: object
  *            properties:
- *              id:
- *                type: number
- *                required: true
- *                descriptions: The metadata type id.
  *              description:
  *                type: string
  *                required: true

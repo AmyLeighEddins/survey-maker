@@ -36,10 +36,6 @@ router.route('/').get(surveyTypesController.getAllSurveyTypes);
  *          schema:
  *            type: object
  *            properties:
- *              id:
- *                type: number
- *                required: true
- *                descriptions: The type id.
  *              description:
  *                type: string
  *                required: true
@@ -98,10 +94,6 @@ router.route('/:id').get(surveyTypesController.getSurveyTypeById);
  *          schema:
  *            type: object
  *            properties:
- *              id:
- *                type: number
- *                required: true
- *                descriptions: The type id.
  *              description:
  *                type: string
  *                required: true

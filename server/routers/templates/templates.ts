@@ -38,10 +38,6 @@ router.route('/').get(surveyTemplatesController.getAllSurveyTemplates);
  *          schema:
  *            type: object
  *            properties:
- *              id:
- *                type: number
- *                required: true
- *                descriptions: The survey id.
  *              name:
  *                type: number
  *                required: true
@@ -102,10 +98,6 @@ router.route('/:id').get(surveyTemplatesController.getASurveyTemplateById);
  *          schema:
  *            type: object
  *            properties:
- *              id:
- *                type: number
- *                required: true
- *                descriptions: The survey id.
  *              name:
  *                type: number
  *                required: true

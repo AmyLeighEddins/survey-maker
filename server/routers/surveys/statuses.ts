@@ -36,10 +36,6 @@ router.route('/').get(surveyStatusesController.getAllSurveyStatuses);
  *          schema:
  *            type: object
  *            properties:
- *              id:
- *                type: number
- *                required: true
- *                descriptions: The status id.
  *              name:
  *                type: string
  *                required: true
@@ -98,10 +94,6 @@ router.route('/:status_id').get(surveyStatusesController.getSurveyStatusById);
  *          schema:
  *            type: object
  *            properties:
- *              id:
- *                type: number
- *                required: true
- *                descriptions: The status id.
  *              name:
  *                type: string
  *                required: true

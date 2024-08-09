@@ -1,58 +1,3 @@
-export const getAllSurveyMetadata = async () => {
-  return [
-    {
-      id: 1,
-      value: 'example 1',
-      use_form_metadata_type_id: 1,
-      survey_id: 1
-    },
-    {
-      id: 2,
-      value: 'example 2',
-      use_form_metadata_type_id: 2,
-      survey_id: 2
-    },
-    {
-      id: 3,
-      value: 'example 3',
-      use_form_metadata_type_id: 3,
-      survey_id: 3
-    },
-  ]
-};
-
-export const getAllSurveyQuestions = async () => {
-  return [
-    {
-      id: 1,
-      title: 'Question 1',
-      description: 'Description 1',
-      tooltop: 'Tooltip 1',
-      sequence: 1,
-      survey_question_type_id: 1,
-      survey_id: 1
-    },
-    {
-      id: 2,
-      title: 'Question 2',
-      description: 'Description 2',
-      tooltop: 'Tooltip 2',
-      sequence: 2,
-      survey_question_type_id: 2,
-      survey_id: 2
-    },
-    {
-      id: 3,
-      title: 'Question 3',
-      description: 'Description 3',
-      tooltop: 'Tooltip 3',
-      sequence: 3,
-      survey_question_type_id: 3,
-      survey_id: 3
-    },
-  ]
-};
-
 export const getAllSurveyExternalRecipients = async () => {
   return [
     {
@@ -105,7 +50,7 @@ export const getAllSurveyTemplateQuestions = async () => {
       id: 1,
       title: 'Question 1',
       description: 'Description 1',
-      tooltop: 'Tooltip 1',
+      tooltip: 'Tooltip 1',
       sequence: 1,
       survey_question_type_id: 1,
       survey_template_id: 1
@@ -114,7 +59,7 @@ export const getAllSurveyTemplateQuestions = async () => {
       id: 2,
       title: 'Question 2',
       description: 'Description 2',
-      tooltop: 'Tooltip 2',
+      tooltip: 'Tooltip 2',
       sequence: 2,
       survey_question_type_id: 2,
       survey_template_id: 2
@@ -123,7 +68,7 @@ export const getAllSurveyTemplateQuestions = async () => {
       id: 3,
       title: 'Question 3',
       description: 'Description 3',
-      tooltop: 'Tooltip 3',
+      tooltip: 'Tooltip 3',
       sequence: 3,
       survey_question_type_id: 3,
       survey_template_id: 3
