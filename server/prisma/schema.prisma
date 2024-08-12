@@ -33,9 +33,10 @@ model users {
 }
 
 model surveytypes {
-  id          Int       @id @default(autoincrement())
-  description String    @db.VarChar(255)
-  surveys     surveys[]
+  id              Int               @id @default(autoincrement())
+  description     String            @db.VarChar(255)
+  surveys         surveys[]
+  surveytemplates surveytemplates[]
 }
 
 model surveys {
@@ -56,9 +57,10 @@ model surveystatuses {
 }
 
 model surveytags {
-  id                   Int                    @id @default(autoincrement())
-  description          String                 @db.VarChar(255)
-  surveyassociatedtags surveyassociatedtags[]
+  id                           Int                            @id @default(autoincrement())
+  description                  String                         @db.VarChar(255)
+  surveyassociatedtags         surveyassociatedtags[]
+  surveytemplateassociatedtags surveytemplateassociatedtags[]
 }
 
 model surveymetadata {
@@ -71,15 +73,17 @@ model surveymetadata {
 }
 
 model surveymetadatatypes {
-  id             Int              @id @default(autoincrement())
-  description    String           @db.VarChar(255)
-  surveymetadata surveymetadata[]
+  id                     Int                      @id @default(autoincrement())
+  description            String                   @db.VarChar(255)
+  surveymetadata         surveymetadata[]
+  surveytemplatemetadata surveytemplatemetadata[]
 }
 
 model surveyquestiontypes {
-  id              Int               @id @default(autoincrement())
-  description     String            @db.VarChar(255)
-  surveyquestions surveyquestions[]
+  id                      Int                       @id @default(autoincrement())
+  description             String                    @db.VarChar(255)
+  surveyquestions         surveyquestions[]
+  surveytemplatequestions surveytemplatequestions[]
 }
 
 model surveyquestions {
@@ -100,4 +104,46 @@ model surveyassociatedtags {
   survey_id     Int
   surveys       surveys    @relation(fields: [survey_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   surveytags    surveytags @relation(fields: [survey_tag_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model surveytemplateassociatedtags {
+  id                 Int             @id @default(autoincrement())
+  survey_tag_id      Int
+  survey_template_id Int
+  surveytags         surveytags      @relation(fields: [survey_tag_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  surveytemplates    surveytemplates @relation(fields: [survey_template_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model surveytemplatemetadata {
+  id                         Int                 @id @default(autoincrement())
+  value                      String              @db.VarChar(255)
+  user_form_metadata_type_id Int
+  survey_template_id         Int
+  surveytemplates            surveytemplates     @relation(fields: [survey_template_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  surveymetadatatypes        surveymetadatatypes @relation(fields: [user_form_metadata_type_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model surveytemplatequestions {
+  id                      Int                 @id @default(autoincrement())
+  title                   String              @db.VarChar(255)
+  description             String              @db.VarChar(255)
+  tooltip                 String              @db.VarChar(255)
+  sequence                Int
+  survey_template_id      Int
+  survey_question_type_id Int
+  surveyquestiontypes     surveyquestiontypes @relation(fields: [survey_question_type_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  surveytemplates         surveytemplates     @relation(fields: [survey_template_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model surveytemplates {
+  id                           Int                            @id @default(autoincrement())
+  name                         String                         @db.VarChar(255)
+  summary                      String                         @db.VarChar(255)
+  created_date                 DateTime                       @default(now()) @db.Timestamp(6)
+  updated_date                 DateTime                       @default(now()) @db.Timestamp(6)
+  survey_type_id               Int
+  surveytemplateassociatedtags surveytemplateassociatedtags[]
+  surveytemplatemetadata       surveytemplatemetadata[]
+  surveytemplatequestions      surveytemplatequestions[]
+  surveytypes                  surveytypes                    @relation(fields: [survey_type_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }

@@ -17,6 +17,13 @@ export type SurveyTemplateQuestion = {
   survey_template_id: number;
 };
 
+export type SurveyTemplatesMetadata = {
+  id: number;
+  value: string;
+  user_form_metadata_type_id: number;
+  survey_template_id: number;
+};
+
 export type SurveyStatus = {
   id: number,
   name: string,

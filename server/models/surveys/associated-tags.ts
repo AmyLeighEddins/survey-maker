@@ -22,7 +22,6 @@ export const createASurveyAssociatedTag = async (survey_id: number, surveyTag: S
 };
 
 export const updateASurveyAssociatedTag = async (survey_id: number, surveyTag: SurveyAssociatedTag, associated_tag_id: number) => {
-  console.log('test', associated_tag_id, survey_id);
   return await prisma.surveyassociatedtags.update({
     where: {
       id: associated_tag_id,

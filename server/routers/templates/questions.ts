@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import * as surveyTemplatesController from '../../controllers/templates/templates';
+import { templateQuestionsController } from '../../controllers';
 import { body } from 'express-validator';
 import { validate } from '../../utils/validator';
 
@@ -8,7 +8,7 @@ const router = Router();
 /**
  * @swagger
  * tags:
- *   name: Survey Template Questions
+ *   name: Template Questions
  *   description: Survey Template Questions
  */
 
@@ -16,20 +16,34 @@ const router = Router();
  * @swagger
  * /templates/{id}/questions:
  *   get:
- *     description: Get all questions for a survey template
- *     tags: [Survey Template Questions]
+ *     parameters:
+ *      - in: path
+ *        name: id
+ *        required: true
+ *        schema:
+ *          type: integer
+ *        description: The template ID
+ *     description: Get all questions for a template
+ *     tags: [Template Questions]
  *     responses:
  *       200:
- *         description: Returns all questions for a survey template.
+ *         description: Returns all questions for a template.
  */
-router.route('/:id/questions').get(surveyTemplatesController.getAllTemplateQuestions);
+router.route('/:id/questions').get(templateQuestionsController.getTemplateQuestions);
 
 /**
  * @swagger
  * /templates/{id}/questions:
  *   post:
- *     description: Create a question for a survey template
- *     tags: [Survey Template Questions]
+ *     parameters:
+ *      - in: path
+ *        name: id
+ *        required: true
+ *        schema:
+ *          type: integer
+ *        description: The template ID
+ *     description: Create a question for a template
+ *     tags: [Template Questions]
  *     requestBody:
  *       content:
  *        application/json:
@@ -39,30 +53,26 @@ router.route('/:id/questions').get(surveyTemplatesController.getAllTemplateQuest
  *              title:
  *                type: string
  *                required: false
- *                description: Title of the survey question.
+ *                description: Title of the template question.
  *              description:
  *                type: string
  *                required: false
- *                description: Info about the survey question.
+ *                description: Info about the template question.
  *              tooltip:
  *                type: string
  *                required: false
- *                description: Info about the survey question.
+ *                description: Info about the template question.
  *              sequence:
  *                type: number
  *                required: false
- *                description: Sequence of the question in the survey.
+ *                description: Sequence of the question in the template.
  *              survey_question_type_id:
  *                type: number
  *                required: false
  *                description: The id of the survey question type from the SurveyQuestionTypes table.
- *              survey_template_id:
- *                type: number
- *                required: false
- *                description: The id of the survey template from the SurveyTemplates table.
  *     responses:
  *       201:
- *         description: Returns the new survey question.
+ *         description: Returns the new template question.
  */
 router.route('/:id/questions').post(
   [
@@ -73,15 +83,28 @@ router.route('/:id/questions').post(
       .withMessage('The title of the question must have minimum length of 3'),
   ],
   validate,
-  surveyTemplatesController.createATemplateQuestion
+  templateQuestionsController.createATemplateQuestion
 );
 
 /**
  * @swagger
  * /templates/{id}/questions/{question_id}:
  *   put:
- *     description: Update a question for a survey template
- *     tags: [Survey Template Questions]
+ *     parameters:
+ *      - in: path
+ *        name: id
+ *        required: true
+ *        schema:
+ *          type: integer
+ *        description: The template ID
+ *      - in: path
+ *        name: question_id
+ *        required: true
+ *        schema:
+ *          type: integer
+ *        description: The question ID
+ *     description: Update a question for a template
+ *     tags: [Template Questions]
  *     requestBody:
  *       content:
  *        application/json:
@@ -91,30 +114,26 @@ router.route('/:id/questions').post(
  *              title:
  *                type: string
  *                required: false
- *                description: Title of the survey question.
+ *                description: Title of the template question.
  *              description:
  *                type: string
  *                required: false
- *                description: Info about the survey question.
+ *                description: Info about the template question.
  *              tooltip:
  *                type: string
  *                required: false
- *                description: Info about the survey question.
+ *                description: Info about the template question.
  *              sequence:
  *                type: number
  *                required: false
- *                description: Sequence of the question in the survey.
+ *                description: Sequence of the question in the template.
  *              survey_question_type_id:
  *                type: number
  *                required: false
  *                description: The id of the survey question type from the SurveyQuestionTypes table.
- *              survey_template_id:
- *                type: number
- *                required: false
- *                description: The id of the survey template from the SurveyTemplates table.
  *     responses:
  *       201:
- *         description: Returns the updated survey question.
+ *         description: Returns the updated template question.
  */
 router.route('/:id/questions/:question_id').put(
   [
@@ -125,19 +144,32 @@ router.route('/:id/questions/:question_id').put(
       .withMessage('The title of the question must have minimum length of 3'),
   ],
   validate,
-  surveyTemplatesController.updateATemplateQuestion
+  templateQuestionsController.updateATemplateQuestion
 );
 
 /**
  * @swagger
  * /templates/{id}/questions/{question_id}:
  *   delete:
- *     description: Delete a question for a survey template by ID
- *     tags: [Survey Template Questions]
+ *     parameters:
+ *      - in: path
+ *        name: id
+ *        required: true
+ *        schema:
+ *          type: integer
+ *        description: The template ID
+ *      - in: path
+ *        name: question_id
+ *        required: true
+ *        schema:
+ *          type: integer
+ *        description: The question ID
+ *     description: Delete a question for a template by ID
+ *     tags: [Template Questions]
  *     responses:
  *       204:
  *         description: No content
  */
-router.route('/:id/questions/:question_id').delete(surveyTemplatesController.deleteATemplateQuestion);
+router.route('/:id/questions/:question_id').delete(templateQuestionsController.deleteATemplateQuestion);
 
 export default router;

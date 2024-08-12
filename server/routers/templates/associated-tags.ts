@@ -1,14 +1,14 @@
 import { Router } from 'express';
-import * as surveyController from '../../controllers/tags';
-import { body } from 'express-validator';
+import { templateAssociatedTagsController } from '../../controllers';
 import { validate } from '../../utils/validator';
+import { body } from 'express-validator';
 
 const router = Router();
 
 /**
  * @swagger
  * tags:
- *   name: Survey Template Associated Tags
+ *   name: Template Associated Tags
  *   description: Survey Template Associated Tags
  */
 
@@ -16,100 +16,124 @@ const router = Router();
  * @swagger
  * /templates/{id}/tags:
  *   get:
- *     description: Get Tags for a survey template
- *     tags: [Survey Template Associated Tags]
+ *     parameters:
+ *      - in: path
+ *        name: id
+ *        required: true
+ *        schema:
+ *          type: integer
+ *        description: The template ID
+ *     description: Get Associated Tags for a template
+ *     tags: [Template Associated Tags]
  *     responses:
  *       200:
- *         description: Returns tags for a survey template.
+ *         description: Returns tags for a template.
  */
-router.route('/:id/tags').get(surveyController.getAllSurveyTags);
+router.route('/:id/tags').get(templateAssociatedTagsController.getTemplateAssociatedTags);
 
 /**
  * @swagger
  * /templates/{id}/tags:
  *   post:
- *     description: Create a tag for a survey template
- *     tags: [Survey Template Associated Tags]
+ *     parameters:
+ *      - in: path
+ *        name: id
+ *        required: true
+ *        schema:
+ *          type: integer
+ *        description: The template ID
+ *     description: Create an associated tag for a template
+ *     tags: [Template Associated Tags]
  *     requestBody:
  *       content:
  *        application/json:
  *          schema:
  *            type: object
  *            properties:
- *              description:
- *                type: string
+ *              survey_tag_id:
+ *                type: number
  *                required: true
- *                description: The tag description.
+ *                description: The survey tag id.
  *     responses:
- *       200:
- *         description: Returns new tag for a survey template.
+ *       201:
+ *         description: Returns new tag for a template.
  */
 router.route('/:id/tags').post(
   [
-    body('description')
-      .isString()
-      .trim()
-      .isLength({ min: 3 })
-      .withMessage('The description must have minimum length of 3'),
+    body('survey_tag_id')
+      .isNumeric()
+      .withMessage('The survey tag id does not exist'), // TODO: change the validation to check if the survey_tag_id exists
   ],
   validate,
-  surveyController.createASurveyTag
+  templateAssociatedTagsController.createATemplateAssociatedTag
 );
 
 /**
  * @swagger
- * /templates/{id}/tags/{tag_id}:
- *   get:
- *     description: Get a tag by ID
- *     tags: [Survey Template Associated Tags]
- *     responses:
- *       201:
- *         description: Returns the survey template tag.
- */
-router.route('/:id/tags/:tag_id').get(surveyController.getSurveyTagById);
-
-/**
- * @swagger
- * /templates/{id}/tags/{tag_id}:
- *   post:
- *     description: Update a tag for a survey template
- *     tags: [Survey Template Associated Tags]
+ * /templates/{id}/tags/{associated_tag_id}:
+ *   put:
+ *     parameters:
+ *      - in: path
+ *        name: id
+ *        required: true
+ *        schema:
+ *          type: integer
+ *        description: The template ID
+ *      - in: path
+ *        name: associated_tag_id
+ *        required: true
+ *        schema:
+ *          type: integer
+ *        description: The associated tag ID
+ *     description: Update an associated tag for a template
+ *     tags: [Template Associated Tags]
  *     requestBody:
  *       content:
  *        application/json:
  *          schema:
  *            type: object
  *            properties:
- *              description:
- *                type: string
+ *              survey_tag_id:
+ *                type: number
  *                required: true
- *                description: The tag description.
+ *                description: The survey tag id.
  *     responses:
- *       200:
- *         description: Returns updated tag for a survey template.
+ *       201:
+ *         description: Returns updated tag for a template.
  */
-router.route('/:id/tags/:tag_id').put(
+router.route('/:id/tags/:associated_tag_id').put(
   [
-    body('description')
-      .isString()
-      .trim()
-      .isLength({ min: 3 })
-      .withMessage('The description must have minimum length of 3'),
+    body('survey_tag_id')
+      .isNumeric()
+      .withMessage('The survey tag id does not exist'), // TODO: change the validation to check if the survey_tag_id exists
   ],
   validate,
-  surveyController.updateASurveyTag
+  templateAssociatedTagsController.updateATemplateAssociatedTag
 );
 
 /**
  * @swagger
- * /templates/{id}/tags/{tag_id}:
+ * /templates/{id}/tags/{associated_tag_id}:
  *   delete:
- *     description: Delete a template tag by ID
- *     tags: [Survey Template Associated Tags]
+ *     parameters:
+ *      - in: path
+ *        name: id
+ *        required: true
+ *        schema:
+ *          type: integer
+ *        description: The template ID
+ *      - in: path
+ *        name: associated_tag_id
+ *        required: true
+ *        schema:
+ *          type: integer
+ *        description: The associated tag ID
+ *     description: Delete an associated tag of a template
+ *     tags: [Template Associated Tags]
  *     responses:
  *       204:
  *         description: No content
  */
-router.route('/:id/tags/:tag_id').delete(surveyController.deleteASurveyTag);
+router.route('/:id/tags/:associated_tag_id').delete(templateAssociatedTagsController.deleteATemplateAssociatedTag);
 
 export default router;

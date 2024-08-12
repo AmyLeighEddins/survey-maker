@@ -18,11 +18,11 @@ const router = Router();
  * @swagger
  * /templates:
  *   get:
- *     description: Get all survey templates
+ *     description: Get all templates
  *     tags: [Templates]
  *     responses:
  *       200:
- *         description: Returns all survey templates
+ *         description: Returns all templates
  */
 router.route('/').get(surveyTemplatesController.getAllSurveyTemplates);
 
@@ -30,7 +30,7 @@ router.route('/').get(surveyTemplatesController.getAllSurveyTemplates);
  * @swagger
  * /templates:
  *   post:
- *     description: Create a survey template
+ *     description: Create a template
  *     tags: [Templates]
  *     requestBody:
  *       content:
@@ -41,17 +41,19 @@ router.route('/').get(surveyTemplatesController.getAllSurveyTemplates);
  *              name:
  *                type: number
  *                required: true
- *                description: The survey name.
+ *                description: The template name.
  *              summary:
  *                type: string
  *                required: false
- *                description: Info about the survey.
+ *                description: Info about the template.
  *              created_date:
- *                type: Date
+ *                type: string
+ *                format: date-time
  *                required: false
  *                description: Created date.
  *              updated_date:
- *                type: Date
+ *                type: string
+ *                format: date-time
  *                required: false
  *                description: Updated date.
  *              survey_type_id:
@@ -60,7 +62,7 @@ router.route('/').get(surveyTemplatesController.getAllSurveyTemplates);
  *                description: The id of the survey type from the SurveyTypes table.
  *     responses:
  *       201:
- *         description: Returns the new survey template.
+ *         description: Returns the new template.
  */
 router.route('/').post(
   [
@@ -78,11 +80,18 @@ router.route('/').post(
  * @swagger
  * /templates/{id}:
  *   get:
- *     description: Get a survey template by ID
+ *     parameters:
+ *      - in: path
+ *        name: id
+ *        required: true
+ *        schema:
+ *          type: integer
+ *        description: The template ID
+ *     description: Get a template by ID
  *     tags: [Templates]
  *     responses:
  *       201:
- *         description: Returns the survey template.
+ *         description: Returns the template.
  */
 router.route('/:id').get(surveyTemplatesController.getASurveyTemplateById);
 
@@ -90,7 +99,14 @@ router.route('/:id').get(surveyTemplatesController.getASurveyTemplateById);
  * @swagger
  * /templates/{id}:
  *   put:
- *     description: Update a survey template by ID
+ *     parameters:
+ *      - in: path
+ *        name: id
+ *        required: true
+ *        schema:
+ *          type: integer
+ *        description: The template ID
+ *     description: Update a template by ID
  *     tags: [Templates]
  *     requestBody:
  *       content:
@@ -101,17 +117,19 @@ router.route('/:id').get(surveyTemplatesController.getASurveyTemplateById);
  *              name:
  *                type: number
  *                required: true
- *                description: The survey name.
+ *                description: The template name.
  *              summary:
  *                type: string
  *                required: false
- *                description: Info about the survey.
+ *                description: Info about the template.
  *              created_date:
- *                type: Date
+ *                type: string
+ *                format: date-time
  *                required: false
  *                description: Created date.
  *              updated_date:
- *                type: Date
+ *                type: string
+ *                format: date-time
  *                required: false
  *                description: Updated date.
  *              survey_type_id:
@@ -120,7 +138,7 @@ router.route('/:id').get(surveyTemplatesController.getASurveyTemplateById);
  *                description: The id of the survey type from the SurveyTypes table.
  *     responses:
  *       201:
- *         description: Returns the udpated survey template.
+ *         description: Returns the updated template.
  */
 router.route('/:id').put(
   [
@@ -137,7 +155,14 @@ router.route('/:id').put(
  * @swagger
  * /templates/{id}:
  *   delete:
- *     description: Delete a survey template by ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: The template ID
+ *     description: Delete a template by ID
  *     tags: [Templates]
  *     responses:
  *       204:

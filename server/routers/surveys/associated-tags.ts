@@ -23,7 +23,7 @@ const router = Router();
  *        schema:
  *          type: integer
  *        description: The survey ID
- *     description: Get Tags for a survey
+ *     description: Get Associated Tags for a survey
  *     tags: [Survey Associated Tags]
  *     responses:
  *       200:
@@ -42,7 +42,7 @@ router.route('/:id/tags').get(surveyAssociatedTagsController.getSurveyAssociated
  *        schema:
  *          type: integer
  *        description: The survey ID
- *     description: Create a tag for a survey
+ *     description: Create an associated tag for a survey
  *     tags: [Survey Associated Tags]
  *     requestBody:
  *       content:
@@ -85,7 +85,7 @@ router.route('/:id/tags').post(
  *        schema:
  *          type: integer
  *        description: The associated tag ID
- *     description: Update a tag for a survey
+ *     description: Update an associated tag for a survey
  *     tags: [Survey Associated Tags]
  *     requestBody:
  *       content:
@@ -128,7 +128,7 @@ router.route('/:id/tags/:associated_tag_id').put(
  *        schema:
  *          type: integer
  *        description: The associated tag ID
- *     description: Delete a tag by ID
+ *     description: Delete an associated tag by ID
  *     tags: [Survey Associated Tags]
  *     responses:
  *       204:

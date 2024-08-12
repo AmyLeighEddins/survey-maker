@@ -40,3 +40,19 @@ INSERT INTO SurveyAssociatedTags (survey_tag_id, survey_id) VALUES (1, 1);
 INSERT INTO SurveyAssociatedTags (survey_tag_id, survey_id) VALUES (2, 1);
 INSERT INTO SurveyAssociatedTags (survey_tag_id, survey_id) VALUES (2, 2);
 INSERT INTO SurveyAssociatedTags (survey_tag_id, survey_id) VALUES (3, 2);
+
+INSERT INTO SurveyTemplates (name, summary, created_date, updated_date, survey_type_id) VALUES ('example 1', 'example 1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 1);
+INSERT INTO SurveyTemplates (name, summary, created_date, updated_date, survey_type_id) VALUES ('example 2', 'example 2', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 2);
+INSERT INTO SurveyTemplates (name, summary, created_date, updated_date, survey_type_id) VALUES ('example 3', 'example 3', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 3);
+
+INSERT INTO SurveyTemplateAssociatedTags (survey_tag_id, survey_template_id) VALUES (1, 1);
+INSERT INTO SurveyTemplateAssociatedTags (survey_tag_id, survey_template_id) VALUES (2, 1);
+INSERT INTO SurveyTemplateAssociatedTags (survey_tag_id, survey_template_id) VALUES (2, 2);
+INSERT INTO SurveyTemplateAssociatedTags (survey_tag_id, survey_template_id) VALUES (3, 2);
+
+INSERT INTO SurveyTemplateQuestions (title, description, tooltip, sequence, survey_template_id, survey_question_type_id) VALUES ('What is your name?', 'Please enter your name', 'Enter your full name', 1, 1, 1);
+INSERT INTO SurveyTemplateQuestions (title, description, tooltip, sequence, survey_template_id, survey_question_type_id) VALUES ('What is your age?', 'Please enter your age', 'Enter your age', 2, 1, 5);
+
+INSERT INTO SurveyTemplateMetadata (value, user_form_metadata_type_id, survey_template_id) VALUES ('test 1', 1, 1);
+INSERT INTO SurveyTemplateMetadata (value, user_form_metadata_type_id, survey_template_id) VALUES ('test 2', 2, 1);
+INSERT INTO SurveyTemplateMetadata (value, user_form_metadata_type_id, survey_template_id) VALUES ('test 3', 3, 1);
