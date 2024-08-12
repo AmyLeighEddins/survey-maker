@@ -32,6 +32,12 @@ export type SurveyTag = {
   description: string,
 };
 
+export type SurveyAssociatedTag = {
+  id: number,
+  survey_tag_id: number,
+  survey_id: number,
+};
+
 export type SurveyMetadataType = {
   id: number,
   description: string,

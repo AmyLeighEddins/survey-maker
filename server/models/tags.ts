@@ -39,8 +39,3 @@ export const deleteASurveyTag = async (tag_id: number) => {
     },
   });
 };
-
-export const getAllSurveyTagsBySurvey = async (surveyId: number) => {
-  // TODO: fix when we have survey associated tags
-  return getAllSurveyTags();
-};

@@ -39,14 +39,15 @@ model surveytypes {
 }
 
 model surveys {
-  id              Int               @id @default(autoincrement())
-  summary         String            @db.VarChar(255)
-  created_date    DateTime          @default(now()) @db.Timestamp(6)
-  expiry_date     DateTime          @default(now()) @db.Timestamp(6)
-  survey_type_id  Int
-  surveymetadata  surveymetadata[]
-  surveyquestions surveyquestions[]
-  surveytypes     surveytypes       @relation(fields: [survey_type_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  id                   Int                    @id @default(autoincrement())
+  summary              String                 @db.VarChar(255)
+  created_date         DateTime               @default(now()) @db.Timestamp(6)
+  expiry_date          DateTime               @default(now()) @db.Timestamp(6)
+  survey_type_id       Int
+  surveyassociatedtags surveyassociatedtags[]
+  surveymetadata       surveymetadata[]
+  surveyquestions      surveyquestions[]
+  surveytypes          surveytypes            @relation(fields: [survey_type_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model surveystatuses {
@@ -55,8 +56,9 @@ model surveystatuses {
 }
 
 model surveytags {
-  id          Int    @id @default(autoincrement())
-  description String @db.VarChar(255)
+  id                   Int                    @id @default(autoincrement())
+  description          String                 @db.VarChar(255)
+  surveyassociatedtags surveyassociatedtags[]
 }
 
 model surveymetadata {
@@ -90,4 +92,12 @@ model surveyquestions {
   survey_question_type_id Int
   surveys                 surveys             @relation(fields: [survey_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   surveyquestiontypes     surveyquestiontypes @relation(fields: [survey_question_type_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model surveyassociatedtags {
+  id            Int        @id @default(autoincrement())
+  survey_tag_id Int
+  survey_id     Int
+  surveys       surveys    @relation(fields: [survey_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  surveytags    surveytags @relation(fields: [survey_tag_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }

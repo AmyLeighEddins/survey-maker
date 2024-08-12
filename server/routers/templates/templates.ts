@@ -41,23 +41,23 @@ router.route('/').get(surveyTemplatesController.getAllSurveyTemplates);
  *              name:
  *                type: number
  *                required: true
- *                descriptions: The survey name.
+ *                description: The survey name.
  *              summary:
  *                type: string
  *                required: false
- *                descriptions: Info about the survey.
+ *                description: Info about the survey.
  *              created_date:
  *                type: Date
  *                required: false
- *                descriptions: Created date.
+ *                description: Created date.
  *              updated_date:
  *                type: Date
  *                required: false
- *                descriptions: Updated date.
+ *                description: Updated date.
  *              survey_type_id:
  *                type: number
  *                required: false
- *                descriptions: The id of the survey type from the SurveyTypes table.
+ *                description: The id of the survey type from the SurveyTypes table.
  *     responses:
  *       201:
  *         description: Returns the new survey template.
@@ -101,23 +101,23 @@ router.route('/:id').get(surveyTemplatesController.getASurveyTemplateById);
  *              name:
  *                type: number
  *                required: true
- *                descriptions: The survey name.
+ *                description: The survey name.
  *              summary:
  *                type: string
  *                required: false
- *                descriptions: Info about the survey.
+ *                description: Info about the survey.
  *              created_date:
  *                type: Date
  *                required: false
- *                descriptions: Created date.
+ *                description: Created date.
  *              updated_date:
  *                type: Date
  *                required: false
- *                descriptions: Updated date.
+ *                description: Updated date.
  *              survey_type_id:
  *                type: number
  *                required: false
- *                descriptions: The id of the survey type from the SurveyTypes table.
+ *                description: The id of the survey type from the SurveyTypes table.
  *     responses:
  *       201:
  *         description: Returns the udpated survey template.

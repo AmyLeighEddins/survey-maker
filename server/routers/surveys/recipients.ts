@@ -39,19 +39,19 @@ router.route('/:id/recipients').get(surveyRecipientsController.getAllRecipients)
  *              employee_id:
  *                type: number
  *                required: false
- *                descriptions: The recipient employee id if the recipient is an employee.
+ *                description: The recipient employee id if the recipient is an employee.
  *              email_address:
  *                type: string
  *                required: false
- *                descriptions: The recipient email id if the recipient is external.
+ *                description: The recipient email id if the recipient is external.
  *              survey_id:
  *                type: number
  *                required: true
- *                descriptions: Survey id from the Surveys table.
+ *                description: Survey id from the Surveys table.
  *              survey_status_id:
  *                type: number
  *                required: true
- *                descriptions: Survey status id from the SurveyStatuses table.
+ *                description: Survey status id from the SurveyStatuses table.
  *     responses:
  *       201:
  *         description: Returns the new survey recipient.
@@ -83,19 +83,19 @@ router.route('/:id/recipients').post(
  *              employee_id:
  *                type: number
  *                required: false
- *                descriptions: The recipient employee id if the recipient is an employee.
+ *                description: The recipient employee id if the recipient is an employee.
  *              email_address:
  *                type: string
  *                required: false
- *                descriptions: The recipient email id if the recipient is external.
+ *                description: The recipient email id if the recipient is external.
  *              survey_id:
  *                type: number
  *                required: true
- *                descriptions: Survey id from the Surveys table.
+ *                description: Survey id from the Surveys table.
  *              survey_status_id:
  *                type: number
  *                required: true
- *                descriptions: Survey status id from the SurveyStatuses table.
+ *                description: Survey status id from the SurveyStatuses table.
  *     responses:
  *       201:
  *         description: Returns the updated survey recipient.

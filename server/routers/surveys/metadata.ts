@@ -53,11 +53,11 @@ router.route('/:id/metadata').get(surveyMetadataController.getSurveyMetadata);
  *              value:
  *                type: string
  *                required: true
- *                descriptions: The metadata value.
+ *                description: The metadata value.
  *              user_form_metadata_type_id:
  *                type: number
  *                required: true
- *                descriptions: The metadata type id.
+ *                description: The metadata type id.
  *     responses:
  *       201:
  *         description: Returns the new survey metadata.
@@ -102,11 +102,11 @@ router.route('/:id/metadata').post(
  *              value:
  *                type: string
  *                required: true
- *                descriptions: The metadata value.
+ *                description: The metadata value.
  *              user_form_metadata_type_id:
  *                type: number
  *                required: true
- *                descriptions: The metadata type id.
+ *                description: The metadata type id.
  *     responses:
  *       201:
  *         description: Returns updated metadata.

@@ -39,7 +39,7 @@ router.route('/:id/tags').get(surveyController.getAllSurveyTags);
  *              description:
  *                type: string
  *                required: true
- *                descriptions: The tag description.
+ *                description: The tag description.
  *     responses:
  *       200:
  *         description: Returns new tag for a survey template.
@@ -83,7 +83,7 @@ router.route('/:id/tags/:tag_id').get(surveyController.getSurveyTagById);
  *              description:
  *                type: string
  *                required: true
- *                descriptions: The tag description.
+ *                description: The tag description.
  *     responses:
  *       200:
  *         description: Returns updated tag for a survey template.

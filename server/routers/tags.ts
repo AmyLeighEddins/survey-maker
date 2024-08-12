@@ -39,7 +39,7 @@ router.route('/').get(surveyTagsController.getAllSurveyTags);
  *              description:
  *                type: string
  *                required: true
- *                descriptions: The tag description.
+ *                description: The tag description.
  *     responses:
  *       201:
  *         description: Returns new survey tag.
@@ -97,7 +97,7 @@ router.route('/:tag_id').get(surveyTagsController.getSurveyTagById);
  *              description:
  *                type: string
  *                required: true
- *                descriptions: The tag description.
+ *                description: The tag description.
  *     responses:
  *       201:
  *         description: Returns updated tag.

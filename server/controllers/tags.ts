@@ -46,13 +46,4 @@ const deleteASurveyTag = async (req: Request, res: Response, next: NextFunction)
   }
 };
 
-const getAllSurveyTagsBySurvey = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const surveyTags = await SurveyTagsModel.getAllSurveyTagsBySurvey(Number(req.params.id));
-    return res.json(surveyTags);
-  } catch (err) {
-    next(err);
-  }
-};
-
-export { getAllSurveyTags, getAllSurveyTagsBySurvey, createASurveyTag, getSurveyTagById, updateASurveyTag, deleteASurveyTag };
+export { getAllSurveyTags, createASurveyTag, getSurveyTagById, updateASurveyTag, deleteASurveyTag };

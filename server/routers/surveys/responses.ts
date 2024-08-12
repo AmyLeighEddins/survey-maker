@@ -41,15 +41,15 @@ router.route('/:question_id').get(surveyEmployeeResponsesController.getSurveyRes
  *              survey_employee_recipient_id:
  *                type: number
  *                required: false
- *                descriptions: Survey employee recipient id.
+ *                description: Survey employee recipient id.
  *              survey_external_recipient_id:
  *                type: number
  *                required: false
- *                descriptions: Survey external recipient id.
+ *                description: Survey external recipient id.
  *              survey_response_item_id:
  *                type: number
  *                required: true
- *                descriptions: Survey response item id.
+ *                description: Survey response item id.
  *     responses:
  *       201:
  *         description: Returns the new survey response.
@@ -81,15 +81,15 @@ router.route('/').post(
  *              survey_employee_recipient_id:
  *                type: number
  *                required: false
- *                descriptions: Survey employee recipient id.
+ *                description: Survey employee recipient id.
  *              survey_external_recipient_id:
  *                type: number
  *                required: false
- *                descriptions: Survey external recipient id.
+ *                description: Survey external recipient id.
  *              survey_response_item_id:
  *                type: number
  *                required: true
- *                descriptions: Survey response item id.
+ *                description: Survey response item id.
  *     responses:
  *       201:
  *         description: Returns the updated survey response.

@@ -39,7 +39,7 @@ router.route('/').get(surveyTypesController.getAllSurveyTypes);
  *              description:
  *                type: string
  *                required: true
- *                descriptions: The type description.
+ *                description: The type description.
  *     responses:
  *       200:
  *         description: Returns new type for a survey.
@@ -97,7 +97,7 @@ router.route('/:id').get(surveyTypesController.getSurveyTypeById);
  *              description:
  *                type: string
  *                required: true
- *                descriptions: The type description.
+ *                description: The type description.
  *     responses:
  *       200:
  *         description: Returns updated type for a survey.

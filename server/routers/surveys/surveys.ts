@@ -42,21 +42,21 @@ router.route('/').get(surveyController.getAllSurveys);
  *              summary:
  *                type: string
  *                required: true
- *                descriptions: Info about the survey.
+ *                description: Info about the survey.
  *              created_date:
  *                type: string
  *                format: date-time
  *                required: true
- *                descriptions: Created date.
+ *                description: Created date.
  *              expiry_date:
  *                type: string
  *                format: date-time
  *                required: true
- *                descriptions: Expire date.
+ *                description: Expire date.
  *              survey_type_id:
  *                type: number
  *                required: true
- *                descriptions: The id of the survey type from the SurveyTypes table.
+ *                description: The id of the survey type from the SurveyTypes table.
  *     responses:
  *       201:
  *         description: Returns the new survey.
@@ -114,21 +114,21 @@ router.route('/:id').get(surveyController.getSurveyById);
  *              summary:
  *                type: string
  *                required: true
- *                descriptions: Info about the survey.
+ *                description: Info about the survey.
  *              created_date:
  *                type: string
  *                format: date-time
  *                required: true
- *                descriptions: Created date.
+ *                description: Created date.
  *              expiry_date:
  *                type: string
  *                format: date-time
  *                required: true
- *                descriptions: Expire date.
+ *                description: Expire date.
  *              survey_type_id:
  *                type: number
  *                required: true
- *                descriptions: The id of the survey type from the SurveyTypes table.
+ *                description: The id of the survey type from the SurveyTypes table.
  *     responses:
  *       201:
  *         description: Returns the udpated survey.

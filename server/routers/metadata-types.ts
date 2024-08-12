@@ -39,7 +39,7 @@ router.route('/').get(surveyMetadataTypesController.getAllSurveyMetadataTypes);
  *              description:
  *                type: string
  *                required: true
- *                descriptions: The metadata description.
+ *                description: The metadata description.
  *     responses:
  *       201:
  *         description: Returns new survey metadata types.
@@ -97,7 +97,7 @@ router.route('/:type_id').get(surveyMetadataTypesController.getSurveyMetadataTyp
  *              description:
  *                type: string
  *                required: true
- *                descriptions: The metadata type description.
+ *                description: The metadata type description.
  *     responses:
  *       201:
  *         description: Returns updated metadata type.

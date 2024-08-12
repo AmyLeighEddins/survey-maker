@@ -39,27 +39,27 @@ router.route('/:id/questions').get(surveyTemplatesController.getAllTemplateQuest
  *              title:
  *                type: string
  *                required: false
- *                descriptions: Title of the survey question.
+ *                description: Title of the survey question.
  *              description:
  *                type: string
  *                required: false
- *                descriptions: Info about the survey question.
+ *                description: Info about the survey question.
  *              tooltip:
  *                type: string
  *                required: false
- *                descriptions: Info about the survey question.
+ *                description: Info about the survey question.
  *              sequence:
  *                type: number
  *                required: false
- *                descriptions: Sequence of the question in the survey.
+ *                description: Sequence of the question in the survey.
  *              survey_question_type_id:
  *                type: number
  *                required: false
- *                descriptions: The id of the survey question type from the SurveyQuestionTypes table.
+ *                description: The id of the survey question type from the SurveyQuestionTypes table.
  *              survey_template_id:
  *                type: number
  *                required: false
- *                descriptions: The id of the survey template from the SurveyTemplates table.
+ *                description: The id of the survey template from the SurveyTemplates table.
  *     responses:
  *       201:
  *         description: Returns the new survey question.
@@ -91,27 +91,27 @@ router.route('/:id/questions').post(
  *              title:
  *                type: string
  *                required: false
- *                descriptions: Title of the survey question.
+ *                description: Title of the survey question.
  *              description:
  *                type: string
  *                required: false
- *                descriptions: Info about the survey question.
+ *                description: Info about the survey question.
  *              tooltip:
  *                type: string
  *                required: false
- *                descriptions: Info about the survey question.
+ *                description: Info about the survey question.
  *              sequence:
  *                type: number
  *                required: false
- *                descriptions: Sequence of the question in the survey.
+ *                description: Sequence of the question in the survey.
  *              survey_question_type_id:
  *                type: number
  *                required: false
- *                descriptions: The id of the survey question type from the SurveyQuestionTypes table.
+ *                description: The id of the survey question type from the SurveyQuestionTypes table.
  *              survey_template_id:
  *                type: number
  *                required: false
- *                descriptions: The id of the survey template from the SurveyTemplates table.
+ *                description: The id of the survey template from the SurveyTemplates table.
  *     responses:
  *       201:
  *         description: Returns the updated survey question.

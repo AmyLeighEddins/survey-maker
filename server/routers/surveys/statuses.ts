@@ -39,7 +39,7 @@ router.route('/').get(surveyStatusesController.getAllSurveyStatuses);
  *              name:
  *                type: string
  *                required: true
- *                descriptions: The status name.
+ *                description: The status name.
  *     responses:
  *       201:
  *         description: Returns new survey status.
@@ -97,7 +97,7 @@ router.route('/:status_id').get(surveyStatusesController.getSurveyStatusById);
  *              name:
  *                type: string
  *                required: true
- *                descriptions: The status name.
+ *                description: The status name.
  *     responses:
  *       201:
  *         description: Returns updated status.

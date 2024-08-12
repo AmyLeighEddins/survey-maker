@@ -35,3 +35,8 @@ INSERT INTO SurveyQuestionTypes (description) VALUES ('number');
 
 INSERT INTO SurveyQuestions (title, description, tooltip, sequence, survey_id, survey_question_type_id) VALUES ('What is your name?', 'Please enter your name', 'Enter your full name', 1, 1, 1);
 INSERT INTO SurveyQuestions (title, description, tooltip, sequence, survey_id, survey_question_type_id) VALUES ('What is your age?', 'Please enter your age', 'Enter your age', 2, 1, 5);
+
+INSERT INTO SurveyAssociatedTags (survey_tag_id, survey_id) VALUES (1, 1);
+INSERT INTO SurveyAssociatedTags (survey_tag_id, survey_id) VALUES (2, 1);
+INSERT INTO SurveyAssociatedTags (survey_tag_id, survey_id) VALUES (2, 2);
+INSERT INTO SurveyAssociatedTags (survey_tag_id, survey_id) VALUES (3, 2);

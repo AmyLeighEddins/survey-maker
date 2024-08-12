@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { SurveyMetadataModel, SurveyModel } from '../../models';
+import { SurveyMetadataModel } from '../../models';
 
 const getSurveyMetadata = async (req: Request, res: Response, next: NextFunction) => {
   try {

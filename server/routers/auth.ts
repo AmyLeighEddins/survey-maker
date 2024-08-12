@@ -23,15 +23,15 @@ const router = Router();
  *              name:
  *                type: string
  *                required: true
- *                descriptions: Name of the user.
+ *                description: Name of the user.
  *              email:
  *                type: string
  *                required: true
- *                descriptions: Email address.
+ *                description: Email address.
  *              password:
  *                type: string
  *                required: true
- *                descriptions: Password.
+ *                description: Password.
  *     description: Sign up a new user.
  *     tags: [Users]
  *     responses:
@@ -53,11 +53,11 @@ router.route('/signup').post(authController.postSignUp);
  *              email:
  *                type: string
  *                required: true
- *                descriptions: Email address.
+ *                description: Email address.
  *              password:
  *                type: string
  *                required: true
- *                descriptions: Password.
+ *                description: Password.
  *     description: Sign up a new user.
  *     tags: [Users]
  *     responses:

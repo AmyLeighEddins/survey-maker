@@ -1,7 +1,7 @@
 import { Router } from 'express';
 
 import { default as rootSurveysRouter } from './surveys';
-import { default as tagsRouter } from './tags';
+import { default as tagsRouter } from './associated-tags';
 import { default as statusesRouter } from './statuses';
 import { default as questionsRouter } from './questions';
 import { default as metadataRouter } from './metadata';

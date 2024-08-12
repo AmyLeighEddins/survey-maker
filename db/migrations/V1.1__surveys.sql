@@ -52,3 +52,11 @@ CREATE TABLE IF NOT EXISTS SurveyQuestions (
   FOREIGN KEY (survey_id) REFERENCES Surveys (id),
   FOREIGN KEY (survey_question_type_id) REFERENCES SurveyQuestionTypes (id)
 );
+
+CREATE TABLE IF NOT EXISTS SurveyAssociatedTags (
+  id SERIAL PRIMARY KEY,
+  survey_tag_id INTEGER NOT NULL,
+  survey_id INTEGER NOT NULL,
+  FOREIGN KEY (survey_tag_id) REFERENCES SurveyTags (id),
+  FOREIGN KEY (survey_id) REFERENCES Surveys (id)
+);

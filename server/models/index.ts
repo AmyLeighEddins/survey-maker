@@ -2,6 +2,7 @@ export * as SurveyModel from './surveys/survey';
 export * as SurveyTemplatesModel from './templates/templates';
 export * as SurveyTagsModel from './tags';
 export * as SurveyTypesModel from './types';
+export * as SurveyAssociatedTagsModel from './surveys/associated-tags';
 export * as SurveyStatusesModel from './surveys/statuses';
 export * as SurveyMetadataModel from './surveys/metadata';
 export * as SurveyQuestionsModel from './surveys/questions';
