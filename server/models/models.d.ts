@@ -71,7 +71,7 @@ export type SurveyQuestionType = {
 export type SurveyMetadata = {
   id: number;
   value: string;
-  use_form_metadata_type_id: number;
+  user_form_metadata_type_id: number;
   survey_id: number;
 };
 

@@ -10,6 +10,36 @@ const getSurveyMetadata = async (req: Request, res: Response, next: NextFunction
   }
 };
 
+const createASurveyMetadata = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const surveyMetadata = await SurveyMetadataModel.createASurveyMetadata(Number(req.params.id), req.body);
+    return res.status(201).json(surveyMetadata);
+  } catch (err) {
+    next(err);
+  }
+};
+
+const updateASurveyMetadata = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const surveyMetadata = await SurveyMetadataModel.updateASurveyMetadata(Number(req.params.id), req.body, Number(req.params.metadata_id));
+    return res.status(201).json(surveyMetadata);
+  } catch (err) {
+    next(err);
+  }
+};
+
+const deleteASurveyMetadata = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const surveyMetadata = await SurveyMetadataModel.deleteASurveyMetadata(Number(req.params.id), Number(req.params.metadata_id));
+    return res.status(204).send(surveyMetadata);
+  } catch (err) {
+    next(err);
+  }
+};
+
 export {
   getSurveyMetadata,
+  createASurveyMetadata,
+  updateASurveyMetadata,
+  deleteASurveyMetadata,
 };

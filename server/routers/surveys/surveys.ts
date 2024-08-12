@@ -164,23 +164,4 @@ router.route('/:id').put(
  */
 router.route('/:id').delete(surveyController.deleteASurvey);
 
-/**
- * @swagger
- * /surveys/{id}/metadata:
- *   get:
- *     parameters:
- *      - in: path
- *        name: id
- *        required: true
- *        schema:
- *          type: integer
- *        description: The survey ID
- *     description: Get all Metadata for a survey
- *     tags: [Surveys]
- *     responses:
- *       200:
- *         description: Returns metadata for a survey
- */
-router.route('/:id/metadata').get(surveyMetadataController.getSurveyMetadata);
-
 export default router;

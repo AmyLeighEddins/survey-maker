@@ -70,10 +70,6 @@ router.route('/:id/questions').get(surveyQuestionsController.getSurveyQuestions)
  *                type: number
  *                required: false
  *                descriptions: The id of the survey question type from the SurveyQuestionTypes table.
- *              survey_id:
- *                type: number
- *                required: false
- *                descriptions: The id of the survey from the Surveys table.
  *     responses:
  *       201:
  *         description: Returns the new survey question.
@@ -135,10 +131,6 @@ router.route('/:id/questions').post(
  *                type: number
  *                required: false
  *                descriptions: The id of the survey question type from the SurveyQuestionTypes table.
- *              survey_id:
- *                type: number
- *                required: false
- *                descriptions: The id of the survey from the Surveys table.
  *     responses:
  *       201:
  *         description: Returns the updated survey question.
