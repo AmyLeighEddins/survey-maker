@@ -1,7 +1,5 @@
 import { Router } from 'express';
-import * as surveyEmployeeResponsesController from '../../controllers/surveys/responses/employee-responses';
-import * as surveyExternalResponsesController from '../../controllers/surveys/responses/external-responses';
-import * as surveyResponseItemsController from '../../controllers/surveys/responses/response-items';
+import { surveyResponsesController } from '../../controllers';
 import { validate } from '../../utils/validator';
 import { body } from 'express-validator';
 
@@ -10,28 +8,61 @@ const router = Router();
 /**
  * @swagger
  * tags:
- *   name: Responses
+ *   name: Survey Responses
  *   description: Survey Responses
  */
 
 /**
  * @swagger
- * /responses?question={question_id}&recipient={recipient_id}&recipient_type={recipient_type}:
+ * /surveys/{id}/responses:
  *   get:
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: The survey ID
+ *       - in: query
+ *         name: question_id
+ *         schema:
+ *           type: string
+ *         required: false
+ *         description: The question id.
+ *       - in: query
+ *         name: recipient_type
+ *         schema:
+ *           type: string
+ *           enum: [employee, external]
+ *         required: true
+ *         description: The recipient type.
+ *       - in: query
+ *         name: recipient_id
+ *         schema:
+ *           type: number
+ *         required: false
+ *         description: The recipient id.
  *     description: Get all survey responses
- *     tags: [Responses]
+ *     tags: [Survey Responses]
  *     responses:
  *       200:
  *         description: Returns all responses to the question.
  */
-router.route('/:question_id').get(surveyEmployeeResponsesController.getSurveyResponses);
+router.route('/:id/responses').get(surveyResponsesController.getSurveyResponses);
 
 /**
  * @swagger
- * /responses:
+ * /surveys/responses:
  *   post:
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: The survey ID
  *     description: Create a survey response
- *     tags: [Responses]
+ *     tags: [Survey Responses]
  *     requestBody:
  *       content:
  *        application/json:
@@ -50,28 +81,47 @@ router.route('/:question_id').get(surveyEmployeeResponsesController.getSurveyRes
  *                type: number
  *                required: true
  *                description: Survey response item id.
+ *              survey_question_id:
+ *                type: number
+ *                required: true
+ *                description: Survey question id.
+ *              survey_response:
+ *                type: string
+ *                required: true
+ *                description: Survey response.
  *     responses:
  *       201:
  *         description: Returns the new survey response.
  */
-router.route('/').post(
+router.route('/:id/responses').post(
   [
     body('survey_response_item_id')
-      .isString()
-      .trim()
-      .isLength({ min: 3 })
+      .isNumeric()
       .withMessage('The response item id must be a valid survey response item'),
   ],
   validate,
-  surveyEmployeeResponsesController.createASurveyResponse
+  surveyResponsesController.createASurveyResponse
 );
 
 /**
  * @swagger
- * /responses/{id}:
+ * /surveys/responses/{id}:
  *   put:
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: The survey ID
+ *       - in: path
+ *         name: response_id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: The response ID
  *     description: Update a survey response
- *     tags: [Responses]
+ *     tags: [Survey Responses]
  *     requestBody:
  *       content:
  *        application/json:
@@ -90,32 +140,51 @@ router.route('/').post(
  *                type: number
  *                required: true
  *                description: Survey response item id.
+ *              survey_question_id:
+ *                type: number
+ *                required: true
+ *                description: Survey question id.
+ *              survey_response:
+ *                type: string
+ *                required: true
+ *                description: Survey response.
  *     responses:
  *       201:
  *         description: Returns the updated survey response.
  */
-router.route('/:id').put(
+router.route('/:id/responses/:response_id').put(
   [
     body('survey_response_item_id')
-      .isString()
-      .trim()
-      .isLength({ min: 3 })
+      .isNumeric()
       .withMessage('The response item id must be a valid survey response item'),
   ],
   validate,
-  surveyEmployeeResponsesController.updateASurveyResponse
+  surveyResponsesController.updateASurveyResponse
 );
 
 /**
  * @swagger
- * /reponses/{id}:
+ * /surveys/reponses/{id}:
  *   delete:
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: The survey ID
+ *       - in: path
+ *         name: response_id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: The response ID
  *     description: Delete a survey response by ID
- *     tags: [Responses]
+ *     tags: [Survey Responses]
  *     responses:
  *       204:
  *         description: No content
  */
-router.route('/:id').delete(surveyEmployeeResponsesController.deleteASurveyResponse);
+router.route('/:id/responses/:response_id').delete(surveyResponsesController.deleteASurveyResponse);
 
 export default router;

@@ -40,20 +40,24 @@ model surveytypes {
 }
 
 model surveys {
-  id                   Int                    @id @default(autoincrement())
-  summary              String                 @db.VarChar(255)
-  created_date         DateTime               @default(now()) @db.Timestamp(6)
-  expiry_date          DateTime               @default(now()) @db.Timestamp(6)
-  survey_type_id       Int
-  surveyassociatedtags surveyassociatedtags[]
-  surveymetadata       surveymetadata[]
-  surveyquestions      surveyquestions[]
-  surveytypes          surveytypes            @relation(fields: [survey_type_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  id                       Int                        @id @default(autoincrement())
+  summary                  String                     @db.VarChar(255)
+  created_date             DateTime                   @default(now()) @db.Timestamp(6)
+  expiry_date              DateTime                   @default(now()) @db.Timestamp(6)
+  survey_type_id           Int
+  surveyassociatedtags     surveyassociatedtags[]
+  surveyemployeerecipients surveyemployeerecipients[]
+  surveyexternalrecipients surveyexternalrecipients[]
+  surveymetadata           surveymetadata[]
+  surveyquestions          surveyquestions[]
+  surveytypes              surveytypes                @relation(fields: [survey_type_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model surveystatuses {
-  id   Int    @id @default(autoincrement())
-  name String @db.VarChar(255)
+  id                       Int                        @id @default(autoincrement())
+  name                     String                     @db.VarChar(255)
+  surveyemployeerecipients surveyemployeerecipients[]
+  surveyexternalrecipients surveyexternalrecipients[]
 }
 
 model surveytags {
@@ -87,15 +91,16 @@ model surveyquestiontypes {
 }
 
 model surveyquestions {
-  id                      Int                 @id @default(autoincrement())
-  title                   String              @db.VarChar(255)
-  description             String              @db.VarChar(255)
-  tooltip                 String              @db.VarChar(255)
+  id                      Int                   @id @default(autoincrement())
+  title                   String                @db.VarChar(255)
+  description             String                @db.VarChar(255)
+  tooltip                 String                @db.VarChar(255)
   sequence                Int
   survey_id               Int
   survey_question_type_id Int
-  surveys                 surveys             @relation(fields: [survey_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  surveyquestiontypes     surveyquestiontypes @relation(fields: [survey_question_type_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  surveys                 surveys               @relation(fields: [survey_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  surveyquestiontypes     surveyquestiontypes   @relation(fields: [survey_question_type_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  surveyresponseitems     surveyresponseitems[]
 }
 
 model surveyassociatedtags {
@@ -146,4 +151,49 @@ model surveytemplates {
   surveytemplatemetadata       surveytemplatemetadata[]
   surveytemplatequestions      surveytemplatequestions[]
   surveytypes                  surveytypes                    @relation(fields: [survey_type_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model surveyemployeerecipients {
+  id                      Int                       @id @default(autoincrement())
+  employee_id             Int
+  survey_id               Int
+  survey_status_id        Int
+  surveys                 surveys                   @relation(fields: [survey_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  surveystatuses          surveystatuses            @relation(fields: [survey_status_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  surveyemployeeresponses surveyemployeeresponses[]
+}
+
+model surveyemployeeresponses {
+  id                           Int                      @id @default(autoincrement())
+  survey_employee_recipient_id Int
+  survey_response_item_id      Int
+  surveyemployeerecipients     surveyemployeerecipients @relation(fields: [survey_employee_recipient_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  surveyresponseitems          surveyresponseitems      @relation(fields: [survey_response_item_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model surveyexternalrecipients {
+  id                      Int                       @id @default(autoincrement())
+  email_address           String                    @db.VarChar(255)
+  survey_id               Int
+  survey_status_id        Int
+  surveys                 surveys                   @relation(fields: [survey_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  surveystatuses          surveystatuses            @relation(fields: [survey_status_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  surveyexternalresponses surveyexternalresponses[]
+}
+
+model surveyexternalresponses {
+  id                           Int                      @id @default(autoincrement())
+  survey_external_recipient_id Int
+  survey_response_item_id      Int
+  surveyexternalrecipients     surveyexternalrecipients @relation(fields: [survey_external_recipient_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  surveyresponseitems          surveyresponseitems      @relation(fields: [survey_response_item_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model surveyresponseitems {
+  id                      Int                       @id @default(autoincrement())
+  value                   String                    @db.VarChar(255)
+  survey_question_id      Int
+  surveyemployeeresponses surveyemployeeresponses[]
+  surveyexternalresponses surveyexternalresponses[]
+  surveyquestions         surveyquestions           @relation(fields: [survey_question_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }

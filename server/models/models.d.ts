@@ -1,3 +1,8 @@
+export enum RecipientTypes {
+  EMPLOYEE = 'employee',
+  EXTERNAL = 'external',
+};
+
 export type SurveyTemplate = {
   id: number;
   name: string;

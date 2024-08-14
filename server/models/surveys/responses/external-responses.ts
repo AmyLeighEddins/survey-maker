@@ -1,27 +1,33 @@
 import { SurveyExternalResponse } from '../../models';
-import { getAllSurveyExternalResponses } from '../../mock';
+import { prisma } from '../../../utils/prisma';
 
 export const createASurveyExternalResponse = async (newSurveyExternalRespons: SurveyExternalResponse) => {
-  return {
-    id: 6,
-    survey_external_recipient_id: 1,
-    survey_response_item_id: 1,
-  };
+  return await prisma.surveyexternalresponses.create({
+    data: newSurveyExternalRespons,
+  });
 };
 
-export const getSurveyExternalResponseById = async (id: number) => {
-  const surveyExternalResponses = await getAllSurveyExternalResponses();
-  return surveyExternalResponses.find(surveyExternalRespons => surveyExternalRespons.survey_external_recipient_id === id);
+export const getSurveyExternalResponseByRecipientId = async (recipientId: number) => {
+  return await prisma.surveyexternalresponses.findMany({
+    where: {
+      survey_external_recipient_id: recipientId,
+    },
+  });
 };
 
-export const updateASurveyExternalResponse = async (surveyExternalRespons: SurveyExternalResponse) => {
-  return {
-    id: 1,
-    survey_external_recipient_id: 1,
-    survey_response_item_id: 1,
-  };
+export const updateASurveyExternalResponse = async (id: number, surveyExternalResponse: SurveyExternalResponse) => {
+  return await prisma.surveyexternalresponses.update({
+    where: {
+      id,
+    },
+    data: surveyExternalResponse,
+  });
 };
 
 export const deleteASurveyExternalResponse = async (id: number) => {
-  return [];
+  return await prisma.surveyexternalresponses.delete({
+    where: {
+      id,
+    },
+  });
 };

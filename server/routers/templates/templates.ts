@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import * as surveyTemplatesController from '../../controllers/templates/templates';
+import { templatesController } from '../../controllers';
 import { validate } from '../../utils/validator';
 import { body } from 'express-validator';
 
@@ -24,7 +24,7 @@ const router = Router();
  *       200:
  *         description: Returns all templates
  */
-router.route('/').get(surveyTemplatesController.getAllSurveyTemplates);
+router.route('/').get(templatesController.getAllSurveyTemplates);
 
 /**
  * @swagger
@@ -73,7 +73,7 @@ router.route('/').post(
       .withMessage('The name of the template must have minimum length of 3'),
   ],
   validate,
-  surveyTemplatesController.createASurveyTemplate
+  templatesController.createASurveyTemplate
 );
 
 /**
@@ -93,7 +93,7 @@ router.route('/').post(
  *       201:
  *         description: Returns the template.
  */
-router.route('/:id').get(surveyTemplatesController.getASurveyTemplateById);
+router.route('/:id').get(templatesController.getASurveyTemplateById);
 
 /**
  * @swagger
@@ -148,7 +148,7 @@ router.route('/:id').put(
       .isLength({ min: 3 })
       .withMessage('The name of the template must have minimum length of 3'),
   ],
-  validate,surveyTemplatesController.updateASurveyTemplate
+  validate,templatesController.updateASurveyTemplate
 );
 
 /**
@@ -168,6 +168,6 @@ router.route('/:id').put(
  *       204:
  *         description: No content
  */
-router.route('/:id').delete(surveyTemplatesController.deleteASurveyTemplate);
+router.route('/:id').delete(templatesController.deleteASurveyTemplate);
 
 export default router;
