@@ -28,12 +28,29 @@ const getSurveyResponses = async (req: Request, res: Response, next: NextFunctio
 const createASurveyResponse = async (req: Request, res: Response, next: NextFunction) => {
   try {
     let surveyResponse;
-    if (req.query.survey_external_recipient_id) {
-      surveyResponse = await SurveyExternalResponsesModel.createASurveyExternalResponse(req.body);
-    } else {
-      surveyResponse = await SurveyEmployeeResponsesModel.createASurveyEmployeeResponse(req.body);
+
+    const surveyResponseItemData = {
+      survey_question_id: req.body.survey_question_id,
+      value: req.body.survey_response,
     }
-    const surveyResponseItem = await SurveyResponseItemsModel.createASurveyResponseItem(req.body);
+    const surveyResponseItem = await SurveyResponseItemsModel.createASurveyResponseItem(surveyResponseItemData);
+
+    if (req.query.survey_external_recipient_id) {
+      const surveyResponseData = {
+        survey_external_recipient_id: req.body.survey_external_recipient_id,
+        survey_response_item_id: surveyResponseItem.id,
+        survey_status_id: req.body.survey_status_id,
+      };
+      surveyResponse = await SurveyExternalResponsesModel.createASurveyExternalResponse(surveyResponseData);
+    } else {
+      const surveyResponseData = {
+        survey_employee_recipient_id: req.body.survey_employee_recipient_id,
+        survey_response_item_id: surveyResponseItem.id,
+        survey_status_id: req.body.survey_status_id,
+      };
+      surveyResponse = await SurveyEmployeeResponsesModel.createASurveyEmployeeResponse(surveyResponseData);
+    }
+
     return res.json({ surveyResponse, surveyResponseItem });
   } catch (error) {
     next(error);

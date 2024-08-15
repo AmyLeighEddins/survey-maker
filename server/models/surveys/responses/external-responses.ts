@@ -1,9 +1,9 @@
 import { SurveyExternalResponse } from '../../models';
 import { prisma } from '../../../utils/prisma';
 
-export const createASurveyExternalResponse = async (newSurveyExternalRespons: SurveyExternalResponse) => {
+export const createASurveyExternalResponse = async (newSurveyExternalResponse: SurveyExternalResponse) => {
   return await prisma.surveyexternalresponses.create({
-    data: newSurveyExternalRespons,
+    data: newSurveyExternalResponse,
   });
 };
 

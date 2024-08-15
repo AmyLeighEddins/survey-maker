@@ -88,6 +88,12 @@ router.route('/:id/recipients').get(surveyRecipientsController.getAllRecipients)
  */
 router.route('/:id/recipients').post(
   [
+    body('employee_id').if((req) => req.query.type === 'employee').exists().withMessage('The employee id must exist for employee recipients'),
+    body('email_address').if((req) => req.query.type === 'external').exists().withMessage('The email address must exist for external recipients'),
+    body('employee_id').if((req) => req.query.type === 'employee').exists().isNumeric().withMessage('The employee id must be a valid employee id'),
+    body('employee_id').if((req) => req.query.type === 'external').not().exists().withMessage('There should not be an employee id with external recipients'),
+    body('email_address').if((req) => req.query.type === 'external').exists().isEmail().withMessage('The email address must be a valid email address'),
+    body('email_address').if((req) => req.query.type === 'employee').not().exists().withMessage('There should not be an email address with employee recipients'),
     body('survey_status_id')
       .isNumeric()
       .withMessage('The survey id of the survey must be a valid survey status'),

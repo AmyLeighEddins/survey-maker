@@ -56,13 +56,13 @@ export type SurveyMetadataType = {
 };
 
 export type SurveyEmployeeResponse = {
-  id: number,
+  id?: number,
   survey_employee_recipient_id: number,
   survey_response_item_id: number,
 };
 
 export type SurveyExternalResponse = {
-  id: number,
+  id?: number,
   survey_external_recipient_id: number,
   survey_response_item_id: number,
 };
@@ -76,7 +76,7 @@ export type Survey = {
 };
 
 export type SurveyResponseItem = {
-  id: number;
+  id?: number;
   value: string;
   survey_question_id: number;
 }

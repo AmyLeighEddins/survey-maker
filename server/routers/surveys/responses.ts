@@ -52,7 +52,7 @@ router.route('/:id/responses').get(surveyResponsesController.getSurveyResponses)
 
 /**
  * @swagger
- * /surveys/responses:
+ * /surveys/{id}/responses:
  *   post:
  *     parameters:
  *       - in: path
@@ -61,6 +61,13 @@ router.route('/:id/responses').get(surveyResponsesController.getSurveyResponses)
  *         schema:
  *           type: integer
  *         description: The survey ID
+ *       - in: query
+ *         name: type
+ *         required: true
+ *         schema:
+ *           type: string
+ *           enum: [employee, external]
+ *         description: The recipient type.
  *     description: Create a survey response
  *     tags: [Survey Responses]
  *     requestBody:
@@ -77,10 +84,6 @@ router.route('/:id/responses').get(surveyResponsesController.getSurveyResponses)
  *                type: number
  *                required: false
  *                description: Survey external recipient id.
- *              survey_response_item_id:
- *                type: number
- *                required: true
- *                description: Survey response item id.
  *              survey_question_id:
  *                type: number
  *                required: true
@@ -95,7 +98,7 @@ router.route('/:id/responses').get(surveyResponsesController.getSurveyResponses)
  */
 router.route('/:id/responses').post(
   [
-    body('survey_response_item_id')
+    body('survey_question_id')
       .isNumeric()
       .withMessage('The response item id must be a valid survey response item'),
   ],
@@ -105,7 +108,7 @@ router.route('/:id/responses').post(
 
 /**
  * @swagger
- * /surveys/responses/{id}:
+ * /surveys/{id}/responses/{response_id}:
  *   put:
  *     parameters:
  *       - in: path
@@ -164,7 +167,7 @@ router.route('/:id/responses/:response_id').put(
 
 /**
  * @swagger
- * /surveys/reponses/{id}:
+ * /surveys/{id}/reponses/{response_id}:
  *   delete:
  *     parameters:
  *       - in: path
