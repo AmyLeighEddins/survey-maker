@@ -1,7 +1,7 @@
 {
   "containers": {
     "app": {
-      "image": "survey-maker.survey-maker-api.2",
+      "image": "",
       "environment": {
         "APP_ENV": "release",
         "NODE_ENV": "production"
