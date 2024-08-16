@@ -1,71 +1,98 @@
 import { NextFunction, Request, Response } from 'express';
 import { SurveyRecipientsModel } from '../../models';
 
-const getAllRecipients = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    let surveyRecipients;
-    const status = req.query.status ? Number(req.query.status) : undefined;
-    const id = Number(req.params.id);
+// Employee Recipients
 
-    if (req.query.type === 'employee') {
-      surveyRecipients = await SurveyRecipientsModel.getAllEmployeeRecipients(id, status);
-    } else if (req.query.type === 'external') {
-      surveyRecipients = await SurveyRecipientsModel.getAllExternalRecipients(id, status);
-    } else {
-      surveyRecipients = await SurveyRecipientsModel.getAllRecipients(id, status);
-    }
+const getAllEmployeeRecipients = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const survey_id = Number(req.params.id);
+    const status = req.query.status ? Number(req.query.status) : undefined;
+    const surveyRecipients = await SurveyRecipientsModel.getAllEmployeeRecipients(survey_id, status);
+
     return res.json(surveyRecipients);
   } catch (err) {
     next(err);
   }
 };
 
-const createARecipient = async (req: Request, res: Response, next: NextFunction) => {
+const createAnEmployeeRecipient = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    let surveyRecipient;
-    const id = Number(req.params.id);
+    const survey_id = Number(req.params.id);
+    const surveyRecipient = await SurveyRecipientsModel.createAnEmployeeRecipient(survey_id, req.body);
 
-    console.log(id, req.body);
-
-    if (req.query.type === 'employee') {
-      surveyRecipient = await SurveyRecipientsModel.createAnEmployeeRecipient(id, req.body);
-    } else {
-      surveyRecipient = await SurveyRecipientsModel.createAnExternalRecipient(id, req.body);
-    }
     return res.json(surveyRecipient);
   } catch (err) {
     next(err);
   }
 };
 
-const updateARecipient = async (req: Request, res: Response, next: NextFunction) => {
+const updateAnEmployeeRecipient = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    let surveyRecipient;
-    const id = Number(req.params.id);
+    const survey_id = Number(req.params.id);
     const recipient_id = Number(req.params.recipient_id);
+    const surveyRecipient = await SurveyRecipientsModel.updateAnEmployeeRecipient(survey_id, recipient_id, req.body);
 
-    if (req.query.type === 'employee') {
-      surveyRecipient = await SurveyRecipientsModel.updateAnEmployeeRecipient(id, recipient_id, req.body);
-    } else {
-      surveyRecipient = await SurveyRecipientsModel.updateAnExternalRecipient(id, recipient_id, req.body);
-    }
     return res.json(surveyRecipient);
   } catch (err) {
     next(err);
   }
 };
 
-const deleteARecipient = async (req: Request, res: Response, next: NextFunction) => {
+const deleteAnEmployeeRecipient = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    let surveyRecipient;
-    const id = Number(req.params.id);
+    const survey_id = Number(req.params.id);
     const recipient_id = Number(req.params.recipient_id);
+    const surveyRecipient = await SurveyRecipientsModel.deleteAnEmployeeRecipient(survey_id, recipient_id);
 
-    if (req.query.type === 'employee') {
-      surveyRecipient = await SurveyRecipientsModel.deleteAnEmployeeRecipient(id, recipient_id);
-    } else {
-      surveyRecipient = await SurveyRecipientsModel.deleteAnExternalRecipient(id, recipient_id);
-    }
+    return res.status(204).send(surveyRecipient);
+  } catch (err) {
+    next(err);
+  }
+};
+
+// External Recipients
+
+const getAllExternalRecipients = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const survey_id = Number(req.params.id);
+    const status = req.query.status ? Number(req.query.status) : undefined;
+    const surveyRecipients = await SurveyRecipientsModel.getAllExternalRecipients(survey_id, status);
+
+    return res.json(surveyRecipients);
+  } catch (err) {
+    next(err);
+  }
+};
+
+const createAnExternalRecipient = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const survey_id = Number(req.params.id);
+    const surveyRecipient = await SurveyRecipientsModel.createAnExternalRecipient(survey_id, req.body);
+
+    return res.json(surveyRecipient);
+  } catch (err) {
+    next(err);
+  }
+};
+
+const updateAnExternalRecipient = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const survey_id = Number(req.params.id);
+    const recipient_id = Number(req.params.recipient_id);
+    const surveyRecipient = await SurveyRecipientsModel.updateAnExternalRecipient(survey_id, recipient_id, req.body);
+
+    return res.json(surveyRecipient);
+  } catch (err) {
+    next(err);
+  }
+};
+
+const deleteAnExternalRecipient = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const survey_id = Number(req.params.id);
+    const recipient_id = Number(req.params.recipient_id);
+    const surveyRecipient = await SurveyRecipientsModel.deleteAnExternalRecipient(survey_id, recipient_id);
+
     return res.status(204).send(surveyRecipient);
   } catch (err) {
     next(err);
@@ -73,8 +100,12 @@ const deleteARecipient = async (req: Request, res: Response, next: NextFunction)
 };
 
 export {
-  getAllRecipients,
-  createARecipient,
-  updateARecipient,
-  deleteARecipient,
+  getAllExternalRecipients,
+  getAllEmployeeRecipients,
+  createAnExternalRecipient,
+  createAnEmployeeRecipient,
+  updateAnExternalRecipient,
+  updateAnEmployeeRecipient,
+  deleteAnExternalRecipient,
+  deleteAnEmployeeRecipient,
 };

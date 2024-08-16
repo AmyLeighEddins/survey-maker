@@ -80,11 +80,3 @@ export const deleteAnExternalRecipient = async (id: number, recipient_id: number
     },
   });
 };
-
-// All Recipients
-
-export const getAllRecipients = async (id: number, status?: number) => {
-  const surveyEmployeeRecipients = await getAllEmployeeRecipients(id, status);
-  const surveyExternalRecipients = await getAllExternalRecipients(id, status);
-  return [...surveyEmployeeRecipients, ...surveyExternalRecipients];
-};
