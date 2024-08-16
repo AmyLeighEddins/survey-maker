@@ -44,6 +44,7 @@
     "swagger-ui-express": "^5.0.1",
     "testcontainers": "^10.11.0",
     "ts-jest": "^29.2.4",
+    "ts-node": "^10.9.2",
     "typescript": "^5.5.3"
   },
   "dependencies": {
@@ -51,7 +52,6 @@
     "bcryptjs": "^2.4.3",
     "express": "^4.19.2",
     "jest-when": "^3.6.0",
-    "jsonwebtoken": "^9.0.2",
-    "ts-node": "^10.9.2"
+    "jsonwebtoken": "^9.0.2"
   }
 }

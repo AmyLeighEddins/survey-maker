@@ -1,19 +1,19 @@
 {
   "containers": {
     "app": {
-      "image": "survey-maker.survey-maker-api.2",
+      "image": "",
       "environment": {
         "APP_ENV": "release",
         "NODE_ENV": "production"
       },
       "ports": {
-        "3001": "HTTP"
+        "3000": "HTTP"
       }
     }
   },
   "publicEndpoint": {
     "containerName": "app",
-    "containerPort": 3001,
+    "containerPort": 3000,
     "healthCheck": {
       "healthyThreshold": 2,
       "unhealthyThreshold": 2,
