@@ -13,7 +13,7 @@ const router = Router();
 /**
  * @swagger
  * /auth/signup:
- *   get:
+ *   post:
  *     requestBody:
  *       content:
  *        application/json:
@@ -43,7 +43,7 @@ router.route('/signup').post(authController.postSignUp);
 /**
  * @swagger
  * /auth/signin:
- *   get:
+ *   post:
  *     requestBody:
  *       content:
  *        application/json:

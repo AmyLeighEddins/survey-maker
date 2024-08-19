@@ -1,5 +1,6 @@
 
 import express, { NextFunction, Request, Response } from 'express';
+import cors from 'cors';
 import { surveysRouter, templatesRouter, authRouter, typesRouter, tagsRouter, metadataTypesRouter, questionTypesRouter } from './routers';
 import { verifyTokenMiddleware } from './middleware/auth';
 import { errorHandlerMiddleware } from './middleware/errors';
@@ -10,6 +11,12 @@ const swaggerJsdoc = require('swagger-jsdoc');
 const app = express();
 
 app.use(express.json());
+
+app.use(
+  cors({
+    origin: '*',
+  })
+);
 
 const options = {
   definition: {
