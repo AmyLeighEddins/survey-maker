@@ -1,94 +1,113 @@
 import { NextFunction, Request, Response } from 'express';
-import { SurveyEmployeeResponsesModel, SurveyExternalResponsesModel, SurveyResponseItemsModel } from '../../models';
+import { SurveyEmployeeResponsesModel, SurveyExternalResponsesModel } from '../../models';
 // TODO: figure out why this is causing build errors
 // import { RecipientTypes } from '../../models/models';
 
 const getSurveyResponses = async (req: Request, res: Response, next: NextFunction) => {
   try {
     let surveyResponses;
-    const recipient_id = Number(req.query.recipient_id);
+    const survey_id = Number(req.params.id);
+    const recipient_id = req.query.recipient_id ? Number(req.query.recipient_id) : undefined;
+    const question_id = req.query.question_id ? Number(req.query.question_id) : undefined;
 
     if (req.query.recipient_type === 'employee') {
-      surveyResponses = await SurveyEmployeeResponsesModel.getSurveyEmployeeResponseByRecipientId(recipient_id);
+      surveyResponses = await SurveyEmployeeResponsesModel.getSurveyEmployeeResponses(survey_id, recipient_id, question_id);
     } else {
-      surveyResponses = await SurveyExternalResponsesModel.getSurveyExternalResponseByRecipientId(recipient_id);
+      surveyResponses = await SurveyExternalResponsesModel.getSurveyExternalResponses(survey_id, recipient_id, question_id);
     }
-    // TODO: add call to get survey response items by survey if there is no question id
-    const surveyResponseItems = await SurveyResponseItemsModel.getSurveyResponseItemsByQuestion(Number(req.query.question_id));
-    // TODO: add filter for get all responses to filter by question id
-    // if (surveyResponses && req.query.question_id) {
-    //   surveyResponses = surveyResponses.filter(response => response.survey_response_item_id === Number(req.query.question_id));
-    // }
-    return res.json({ surveyResponses, surveyResponseItems });
+
+    return res.json(surveyResponses);
   } catch (error) {
     next(error);
   }
 };
 
-const createASurveyResponse = async (req: Request, res: Response, next: NextFunction) => {
+const createSurveyExternalResponses = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    let surveyResponse;
-
-    const surveyResponseItemData = {
-      survey_question_id: req.body.survey_question_id,
-      value: req.body.survey_response,
-    }
-    const surveyResponseItem = await SurveyResponseItemsModel.createASurveyResponseItem(surveyResponseItemData);
-
-    if (req.query.survey_external_recipient_id) {
-      const surveyResponseData = {
-        survey_external_recipient_id: req.body.survey_external_recipient_id,
-        survey_response_item_id: surveyResponseItem.id,
-        survey_status_id: req.body.survey_status_id,
-      };
-      surveyResponse = await SurveyExternalResponsesModel.createASurveyExternalResponse(surveyResponseData);
-    } else {
-      const surveyResponseData = {
-        survey_employee_recipient_id: req.body.survey_employee_recipient_id,
-        survey_response_item_id: surveyResponseItem.id,
-        survey_status_id: req.body.survey_status_id,
-      };
-      surveyResponse = await SurveyEmployeeResponsesModel.createASurveyEmployeeResponse(surveyResponseData);
-    }
-
-    return res.json({ surveyResponse, surveyResponseItem });
+    const recipient_id = Number(req.body.survey_external_recipient_id);
+    const surveyResponse = await SurveyExternalResponsesModel.createSurveyExternalResponses(recipient_id, req.body.survey_response_items);
+    return res.json({ surveyResponse });
   } catch (error) {
     next(error);
   }
 };
 
-const updateASurveyResponse = async (req: Request, res: Response, next: NextFunction) => {
+const createSurveyEmployeeResponses = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    let surveyResponse;
-    const id = Number(req.params.id);
-
-    if (req.query.survey_external_recipient_id) {
-      surveyResponse = await SurveyExternalResponsesModel.updateASurveyExternalResponse(id, req.body);
-    } else {
-      surveyResponse = await SurveyEmployeeResponsesModel.updateASurveyEmployeeResponse(id, req.body);
-    }
-    const surveyResponseItem = await SurveyResponseItemsModel.updateASurveyResponseItem(Number(req.body.survey_response_item_id), req.body);
-    return res.json({ surveyResponse, surveyResponseItem });
+    const recipient_id = Number(req.body.survey_external_recipient_id);
+    const surveyResponse = await SurveyEmployeeResponsesModel.createSurveyEmployeeResponses(recipient_id, req.body.survey_response_items);
+    return res.json({ surveyResponse });
   } catch (error) {
     next(error);
   }
 };
 
-const deleteASurveyResponse = async (req: Request, res: Response, next: NextFunction) => {
+const updateSurveyExternalResponses = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    let surveyResponse;
-    const id = Number(req.params.id);
-
-    if (req.query.survey_external_recipient_id) {
-      surveyResponse = await SurveyExternalResponsesModel.deleteASurveyExternalResponse(id);
-    } else {
-      surveyResponse = await SurveyEmployeeResponsesModel.deleteASurveyEmployeeResponse(id);
-    }
-    const surveyResponseItem = await SurveyResponseItemsModel.deleteASurveyResponseItem(Number(req.body.survey_response_item_id));
-    return res.status(204).send({ surveyResponse, surveyResponseItem });
+    const surveyResponseItems = await SurveyExternalResponsesModel.updateSurveyExternalResponses(req.body);
+    return res.json(surveyResponseItems);
   } catch (error) {
     next(error);
   }
 };
 
-export { getSurveyResponses, createASurveyResponse, updateASurveyResponse, deleteASurveyResponse };
+const updateSurveyEmployeeResponses = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const surveyResponseItems = await SurveyEmployeeResponsesModel.updateSurveyEmployeeResponses(req.body);
+    return res.json(surveyResponseItems);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const deleteSurveyExternalResponses = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const recipient_id = Number(req.params.recipient_id);
+    const surveyResponses = await SurveyExternalResponsesModel.deleteSurveyExternalResponses(recipient_id);
+    return res.status(204).json(surveyResponses);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const deleteSurveyEmployeeResponses = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const recipient_id = Number(req.params.recipient_id);
+    const surveyResponses = await SurveyEmployeeResponsesModel.deleteSurveyEmployeeResponses(recipient_id);
+    return res.status(204).json(surveyResponses);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const deleteASurveyExternalResponseItem = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const response_item_id = Number(req.params.response_id);
+    const surveyResponseItem = await SurveyExternalResponsesModel.deleteASurveyExternalResponse(response_item_id);
+    return res.status(204).send(surveyResponseItem);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const deleteASurveyEmployeeResponseItem = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const response_item_id = Number(req.params.response_id);
+    const surveyResponseItem = await SurveyEmployeeResponsesModel.deleteASurveyEmployeeResponse(response_item_id);
+    return res.status(204).send(surveyResponseItem);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export {
+  getSurveyResponses,
+  createSurveyExternalResponses,
+  createSurveyEmployeeResponses,
+  updateSurveyExternalResponses,
+  updateSurveyEmployeeResponses,
+  deleteSurveyExternalResponses,
+  deleteSurveyEmployeeResponses,
+  deleteASurveyExternalResponseItem,
+  deleteASurveyEmployeeResponseItem 
+};
