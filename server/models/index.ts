@@ -13,7 +13,6 @@ export * as SurveyStatusesModel from './surveys/statuses';
 export * as SurveyModel from './surveys/survey';
 export * as SurveyEmployeeResponsesModel from './surveys/responses/employee-responses';
 export * as SurveyExternalResponsesModel from './surveys/responses/external-responses';
-export * as SurveyResponseItemsModel from './surveys/responses/response-items';
 
 export * as TemplatesModel from './templates/templates';
 export * as TemplateAssociatedTagsModel from './templates/associated-tags';

@@ -16,7 +16,6 @@ export const createASurveyStatus = async (newSurveyStatus: SurveyStatus) => {
 };
 
 export const getSurveyStatusById = async (status_id: number) => {
-  console.log('status_id', status_id);
   return await prisma.surveystatuses.findUnique({
     where: {
       id: status_id,
