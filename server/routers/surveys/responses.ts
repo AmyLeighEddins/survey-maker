@@ -180,6 +180,10 @@ router.route('/:id/responses/employee').post(
  *                 items:
  *                   type: object
  *                   properties:
+ *                     id:
+ *                       type: number
+ *                       description: Survey response item id.
+ *                       required: true
  *                     survey_question_id:
  *                       type: number
  *                       description: Survey question id.
@@ -230,6 +234,10 @@ router.route('/:id/responses/external').put(
  *                 items:
  *                   type: object
  *                   properties:
+ *                     id:
+ *                       type: number
+ *                       description: Survey response item id.
+ *                       required: true
  *                     survey_question_id:
  *                       type: number
  *                       description: Survey question id.
@@ -254,7 +262,7 @@ router.route('/:id/responses/employee').put(
 
 /**
  * @swagger
- * /surveys/{id}/reponses/external/{recipient_id}:
+ * /surveys/{id}/responses/external/{recipient_id}:
  *   delete:
  *     parameters:
  *       - in: path
@@ -304,7 +312,7 @@ router.route('/:id/responses/employee/:recipient_id').delete(surveyResponsesCont
 
 /**
  * @swagger
- * /surveys/{id}/response-items/external/{response_id}:
+ * /surveys/{id}/response-items/external/{response_item_id}:
  *   delete:
  *     parameters:
  *       - in: path
@@ -314,22 +322,22 @@ router.route('/:id/responses/employee/:recipient_id').delete(surveyResponsesCont
  *           type: integer
  *         description: The survey ID
  *       - in: path
- *         name: response_id
+ *         name: response_item_id
  *         required: true
  *         schema:
  *           type: integer
- *         description: The response ID
+ *         description: The response item ID
  *     description: Delete a survey response by ID
  *     tags: [Survey Responses]
  *     responses:
  *       204:
  *         description: No content
  */
-router.route('/:id/response-items/external/:response_id').delete(surveyResponsesController.deleteASurveyExternalResponseItem);
+router.route('/:id/response-items/external/:response_item_id').delete(surveyResponsesController.deleteASurveyExternalResponseItem);
 
 /**
  * @swagger
- * /surveys/{id}/response-items/employee/{response_id}:
+ * /surveys/{id}/response-items/employee/{response_item_id}:
  *   delete:
  *     parameters:
  *       - in: path
@@ -339,17 +347,17 @@ router.route('/:id/response-items/external/:response_id').delete(surveyResponses
  *           type: integer
  *         description: The survey ID
  *       - in: path
- *         name: response_id
+ *         name: response_item_id
  *         required: true
  *         schema:
  *           type: integer
- *         description: The response ID
+ *         description: The response item ID
  *     description: Delete a survey response by ID
  *     tags: [Survey Responses]
  *     responses:
  *       204:
  *         description: No content
  */
-router.route('/:id/response-items/employee/:response_id').delete(surveyResponsesController.deleteASurveyEmployeeResponseItem);
+router.route('/:id/response-items/employee/:response_item_id').delete(surveyResponsesController.deleteASurveyEmployeeResponseItem);
 
 export default router;

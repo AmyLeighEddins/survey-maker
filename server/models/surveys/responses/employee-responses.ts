@@ -68,7 +68,7 @@ export const deleteSurveyEmployeeResponses = async (recipient_id: number) => {
         id: surveyRecipientEmployeeResponse.survey_response_item_id,
       },
     });
-    deleteArray.push([surveyEmployeeResponse, surveyResponseItem]);
+    deleteArray.push(surveyEmployeeResponse, surveyResponseItem);
   });
 
   return await prisma.$transaction(deleteArray);

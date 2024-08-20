@@ -34,7 +34,7 @@ const createSurveyExternalResponses = async (req: Request, res: Response, next: 
 
 const createSurveyEmployeeResponses = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const recipient_id = Number(req.body.survey_external_recipient_id);
+    const recipient_id = Number(req.body.survey_employee_recipient_id);
     const surveyResponse = await SurveyEmployeeResponsesModel.createSurveyEmployeeResponses(recipient_id, req.body.survey_response_items);
     return res.json({ surveyResponse });
   } catch (error) {
@@ -44,7 +44,7 @@ const createSurveyEmployeeResponses = async (req: Request, res: Response, next: 
 
 const updateSurveyExternalResponses = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const surveyResponseItems = await SurveyExternalResponsesModel.updateSurveyExternalResponses(req.body);
+    const surveyResponseItems = await SurveyExternalResponsesModel.updateSurveyExternalResponses(req.body.survey_response_items);
     return res.json(surveyResponseItems);
   } catch (error) {
     next(error);
@@ -53,7 +53,7 @@ const updateSurveyExternalResponses = async (req: Request, res: Response, next: 
 
 const updateSurveyEmployeeResponses = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const surveyResponseItems = await SurveyEmployeeResponsesModel.updateSurveyEmployeeResponses(req.body);
+    const surveyResponseItems = await SurveyEmployeeResponsesModel.updateSurveyEmployeeResponses(req.body.survey_response_items);
     return res.json(surveyResponseItems);
   } catch (error) {
     next(error);
@@ -82,7 +82,7 @@ const deleteSurveyEmployeeResponses = async (req: Request, res: Response, next: 
 
 const deleteASurveyExternalResponseItem = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const response_item_id = Number(req.params.response_id);
+    const response_item_id = Number(req.params.response_item_id);
     const surveyResponseItem = await SurveyExternalResponsesModel.deleteASurveyExternalResponse(response_item_id);
     return res.status(204).send(surveyResponseItem);
   } catch (error) {
@@ -92,7 +92,7 @@ const deleteASurveyExternalResponseItem = async (req: Request, res: Response, ne
 
 const deleteASurveyEmployeeResponseItem = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const response_item_id = Number(req.params.response_id);
+    const response_item_id = Number(req.params.response_item_id);
     const surveyResponseItem = await SurveyEmployeeResponsesModel.deleteASurveyEmployeeResponse(response_item_id);
     return res.status(204).send(surveyResponseItem);
   } catch (error) {
