@@ -40,7 +40,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setUser(null);
         return;
       }
-      storage.setToken(token);
       return setUser({ id: decoded.sub });
     } else {
       setUser(null);

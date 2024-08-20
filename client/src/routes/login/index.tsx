@@ -1,5 +1,6 @@
 import Sidebar from "../../components/shared/Sidebar";
 import { useAuth } from "../../context/AuthContext";
+import storage from "../../utils/storage";
 
 const LogIn = () => {
   const { setUserToken } = useAuth();
@@ -41,7 +42,9 @@ const LogIn = () => {
     }
 
     const resData = await res.json();
-    setUserToken(resData.accessToken);
+    const token = resData.accessToken;
+    storage.setToken(token);
+    setUserToken(token);
   };
 
   return (
