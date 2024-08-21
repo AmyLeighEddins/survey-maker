@@ -1,8 +1,8 @@
 import Sidebar from "../../components/shared/Sidebar";
-import { useAuth } from "../../context/AuthContext";
+import { useAuthContext } from "../../context/AuthContext";
 
-const LogOut = () => {
-  const { logout } = useAuth();
+const Logout = () => {
+  const { logout } = useAuthContext();
 
   return (
     <>
@@ -15,4 +15,4 @@ const LogOut = () => {
   )
 }
 
-export default LogOut;
+export default Logout;
