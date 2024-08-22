@@ -21,7 +21,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import Navbar from "../../components/shared/Navbar";
+import Navbar from "@/components/shared/Navbar";
 import usePostSignup from "@/hooks/api/auth/usePostSignup";
 
 const signupFormSchema = z.object({

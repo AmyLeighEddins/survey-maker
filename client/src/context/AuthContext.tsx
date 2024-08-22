@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import storage from "../utils/storage";
+import storage from "@/utils/storage";
 import { jwtDecode } from "jwt-decode";
 
 interface IAuthContext {

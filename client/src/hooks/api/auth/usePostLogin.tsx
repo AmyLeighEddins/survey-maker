@@ -1,9 +1,9 @@
 import { useContext } from "react";
 import { useMutation } from "@tanstack/react-query";
-import axios from "../../../utils/axios";
-import storage from "../../../utils/storage";
-import { AuthContext } from "../../../context/AuthContext";
-import { UserLogin } from "../types";
+import axios from "@/utils/axios";
+import storage from "@/utils/storage";
+import { AuthContext } from "@/context/AuthContext";
+import { UserLogin } from "@/hooks/api/types";
 
 const usePostLogin = () => {
   const authContext = useContext(AuthContext);

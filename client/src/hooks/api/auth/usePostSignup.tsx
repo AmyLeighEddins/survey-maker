@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
-import axios from "../../../utils/axios";
-import { UserSignup } from "../types";
+import axios from "@/utils/axios";
+import { UserSignup } from "@/hooks/api/types";
 
 const useAuth = () => {
   return useMutation({

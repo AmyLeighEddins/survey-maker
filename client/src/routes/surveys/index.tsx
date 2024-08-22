@@ -1,6 +1,6 @@
-import { Survey } from "../../hooks/api/types";
-import useSurveys from "../../hooks/api/useSurveys";
-import Navbar from "../../components/shared/Navbar";
+import { Survey } from "@/hooks/api/types";
+import useSurveys from "@/hooks/api/useSurveys";
+import Navbar from "@/components/shared/Navbar";
 
 const Surveys = () => {
   const { isPending, error, data, isFetching } = useSurveys();
