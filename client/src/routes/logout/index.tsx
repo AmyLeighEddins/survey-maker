@@ -1,5 +1,6 @@
 import Sidebar from "../../components/shared/Sidebar";
 import { useAuthContext } from "../../context/AuthContext";
+import { Button } from "@/components/ui/button";
 
 const Logout = () => {
   const { logout } = useAuthContext();
@@ -9,7 +10,7 @@ const Logout = () => {
       <Sidebar />
       <div>
         <h1>Logout</h1>
-        <button onClick={logout}>Logout</button>
+        <Button onClick={logout}>Logout</Button>
       </div>
     </>
   )

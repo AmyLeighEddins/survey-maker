@@ -1,5 +1,6 @@
 import Sidebar from "../../components/shared/Sidebar";
 import { useAuthContext } from "../../context/AuthContext";
+import { Button } from "@/components/ui/button";
 
 const Login = () => {
   const { signinMutation, signupMutation } = useAuthContext();
@@ -24,8 +25,8 @@ const Login = () => {
       <Sidebar />
       <div>
         <h1>Login</h1>
-        <button onClick={signup}>Signup</button>
-        <button onClick={signin}>Login</button>
+        <Button onClick={signup}>Signup</Button>
+        <Button onClick={signin}>Login</Button>
       </div>
       </>
   )
