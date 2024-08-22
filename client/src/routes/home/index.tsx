@@ -1,13 +1,13 @@
-import Sidebar from "../../components/shared/Sidebar";
+import Navbar from "../../components/shared/Navbar";
 
 const Home = () => {
   return (
-    <>
-      <Sidebar />
+    <div className="h-screen">
+      <Navbar />
       <div>
         <h1>Home</h1>
       </div>
-    </>
+    </div>
   )
 }
 

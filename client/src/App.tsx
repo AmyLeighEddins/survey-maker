@@ -8,6 +8,7 @@ function App() {
   return (
     <AuthProvider>
       <QueryClientProvider client={queryClient}>
+        {/* TODO: add navbar here */}
         <RootRouter />
       </QueryClientProvider>
     </AuthProvider>

@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import storage from "../utils/storage";
 import { jwtDecode } from "jwt-decode";
-import useAuth from "../hooks/api/useAuth";
 
 interface IAuthContext {
   isLoggedIn: boolean;
@@ -60,13 +59,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 }
 
 // eslint-disable-next-line react-refresh/only-export-components
-export const useAuthContext = () => {
+export const useAuth = () => {
   const authContext = useContext(AuthContext);
-  const { signinMutation, signupMutation } = useAuth();
 
   if (!authContext) {
     throw new Error('useAuth has to be used within <AuthContext.Provider>');
   }
 
-  return { ...authContext, signinMutation, signupMutation };
+  return authContext;
 };

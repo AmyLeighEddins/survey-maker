@@ -1,6 +1,6 @@
 import { Survey } from "../../hooks/api/types";
 import useSurveys from "../../hooks/api/useSurveys";
-import Sidebar from "../../components/shared/Sidebar";
+import Navbar from "../../components/shared/Navbar";
 
 const Surveys = () => {
   const { isPending, error, data, isFetching } = useSurveys();
@@ -14,8 +14,8 @@ const Surveys = () => {
   }
 
   return (
-    <>
-      <Sidebar />
+    <div className="h-screen">
+      <Navbar />
       <div>
         {data?.map((survey: Survey) => (
           <div key={survey.id}>
@@ -24,7 +24,7 @@ const Surveys = () => {
           </div>
         ))}
       </div>
-    </>
+    </div>
   )
 }
 
