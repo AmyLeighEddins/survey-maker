@@ -1,8 +1,8 @@
 import axios from 'axios';
-import storage from './storage';
+import { getAuthCookie } from '@/utils/actions';
 
 const instance = axios.create({
-  baseURL: import.meta.env.API_URL ?? 'http://localhost:3001',
+  baseURL: process.env.API_URL ?? 'http://localhost:3001',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -10,7 +10,7 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
   (config) => {
-    const token = storage.getToken();
+    const token = getAuthCookie();
     if (token) {
       config.headers.Authorization = 'Bearer ' + token;
     }
