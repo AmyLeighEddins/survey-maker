@@ -30,7 +30,7 @@ const loginFormSchema = z.object({
 });
 
 const LoginForm = () => {
-  const { mutate: login } = usePostLogin();
+  const { mutateAsync: login, isError } = usePostLogin();
   const router = useRouter();
 
   const loginForm = useForm<z.infer<typeof loginFormSchema>>({
@@ -42,9 +42,10 @@ const LoginForm = () => {
   });
 
   const onSubmitLogin = async (values: z.infer<typeof loginFormSchema>) => {
-    login(values);
-    // TODO: Figure out a better solution
-    setTimeout(() => router.push("/dashboard"), 1000);
+    await login(values);
+    if (!isError) {
+      router.push("/dashboard");
+    }
   };
 
   return (

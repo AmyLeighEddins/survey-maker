@@ -16,9 +16,6 @@ const usePostLogin = () => {
       const token = res.accessToken;
       setAuthCookie(token);
     },
-    onError: () => {
-      throw new Error('Error logging in');
-    },
   });
 };
 

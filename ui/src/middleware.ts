@@ -11,9 +11,7 @@ export function middleware(request: NextRequest) {
   // Get User and Access Token
   const cookies = request.cookies;
   const accessToken = cookies.get('coe-auth')?.value;
-  console.log('accessToken', accessToken);
   const { user } = getUserFromToken(accessToken);
-  console.log('middleware', user, pathname);
 
   // If not logged in and on a /dashboard/* route, then redirect to sign in
   if (protectedRoutes.some((route) => pathname.startsWith(route))) {
