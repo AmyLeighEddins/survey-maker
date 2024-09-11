@@ -11,8 +11,8 @@
     "test:unit": "jest --testPathIgnorePatterns ./routers/ --ci --reporters=default --reporters=jest-junit",
     "test:unit:watch": "jest --watch --testPathIgnorePatterns ./routers/",
     "test:integration": "jest --config ./jest.integration.config.ts --testPathPattern ./routers/ --forceExit",
-    "docker up": "docker-compose --profile be up --force-recreate",
-    "docker down": "docker compose down -v",
+    "docker:compose:up": "docker-compose --profile be up --force-recreate",
+    "docker:compose:down": "docker-compose down -v",
     "prisma": "prisma db pull && prisma generate"
   },
   "jest-junit": {

@@ -1,6 +1,6 @@
-INSERT INTO Users (name, email, password) VALUES ('user1', 'user1@example.com', 'password');
-INSERT INTO Users (name, email, password) VALUES ('user2', 'user2@example.com', 'password');
-INSERT INTO Users (name, email, password) VALUES ('user3', 'user3@example.com', 'password');
+INSERT INTO Users (name, email, password) VALUES ('user1', 'user1@example.com', '$2a$10$24qHn24qsyz2gioa1qP.vuaLF9v3ixxwJ7AMI6S/Jci5MgIZBRF/.');
+INSERT INTO Users (name, email, password) VALUES ('user2', 'user2@example.com', '$2a$10$24qHn24qsyz2gioa1qP.vuaLF9v3ixxwJ7AMI6S/Jci5MgIZBRF/.');
+INSERT INTO Users (name, email, password) VALUES ('user3', 'user3@example.com', '$2a$10$24qHn24qsyz2gioa1qP.vuaLF9v3ixxwJ7AMI6S/Jci5MgIZBRF/.');
 
 INSERT INTO SurveyTypes (description) VALUES ('engagement');
 INSERT INTO SurveyTypes (description) VALUES ('vacation');

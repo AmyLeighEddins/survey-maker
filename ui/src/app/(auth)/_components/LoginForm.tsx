@@ -80,7 +80,7 @@ const LoginForm = () => {
                   <FormItem>
                     <FormLabel>Password</FormLabel>
                     <FormControl>
-                      <Input type="password" placeholder="" {...field} />
+                      <Input type="password" placeholder="" {...field} aria-label="password" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
