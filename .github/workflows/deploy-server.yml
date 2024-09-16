@@ -35,7 +35,7 @@ jobs:
     - name: Build and push image to Lightsail
       id: build-image
       run: |
-        docker build --build-arg API_DB_URL="${{ secrets.API_DB_URL }}" --build-arg SESSION_KEY="${{ secrets.SESSION_KEY }}" -t survey-maker:latest .
+        docker build --build-arg DATABASE_URL="${{ secrets.DATABASE_URL }}" --build-arg SESSION_KEY="${{ secrets.SESSION_KEY }}" -t survey-maker:latest .
         aws lightsail push-container-image --region us-east-1 --service-name survey-maker --label survey-maker-api --image survey-maker:latest
     - name: Deploy Service
       run: |
