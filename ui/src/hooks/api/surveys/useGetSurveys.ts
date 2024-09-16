@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query"
 import axios from "@/utils/axios";
 
-const useSurveys = () => {
+const useGetSurveys = () => {
   const { isPending, error, data, isFetching } = useQuery({ queryKey: ['surveys'], queryFn: async () => {
     const response = await axios('/surveys');
     return response.data;
@@ -10,4 +10,4 @@ const useSurveys = () => {
   return { isPending, error, data, isFetching };
 };
 
-export default useSurveys;
+export default useGetSurveys;

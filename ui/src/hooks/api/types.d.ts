@@ -14,7 +14,7 @@ export type UserLogin = {
   password: string;
 };
 
-export type SurveyTemplate = {
+export type Template = {
   id: number;
   name: string;
   summary: string;
@@ -23,7 +23,7 @@ export type SurveyTemplate = {
   survey_type_id: number;
 };
 
-export type SurveyTemplateQuestion = {
+export type TemplateQuestion = {
   id: number;
   title: string;
   description: string;
@@ -33,7 +33,7 @@ export type SurveyTemplateQuestion = {
   survey_template_id: number;
 };
 
-export type SurveyTemplatesMetadata = {
+export type TemplatesMetadata = {
   id: number;
   value: string;
   user_form_metadata_type_id: number;
@@ -92,7 +92,7 @@ export type SurveyResponseItem = {
   survey_question_id: number;
 }
 
-export type SurveyQuestionType = {
+export type QuestionType = {
   id: number,
   description: string,
 };

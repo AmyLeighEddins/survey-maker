@@ -8,17 +8,17 @@ import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMe
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-import { Survey, SurveyType } from "@/hooks/api/types";
-import useGetSurveys from "@/hooks/api/surveys/useGetSurveys";
+import { SurveyType, Template } from "@/hooks/api/types";
+import useGetTemplates from "@/hooks/api/templates/useGetTemplates";
 import useGetSurveyTypes from "@/hooks/api/types/useGetSurveyTypes";
 
-const Surveys = () => {
-  const surveys = useGetSurveys();
+const Templates = () => {
+  const templates = useGetTemplates();
   const types = useGetSurveyTypes();
 
-  const isPending = surveys.isPending || types.isPending;
-  const isFetching = surveys.isFetching || types.isFetching;
-  const error = surveys.error?.message || types.error?.message;
+  const isPending = templates.isPending || types.isPending;
+  const isFetching = templates.isFetching || types.isFetching;
+  const error = templates.error?.message || types.error?.message;
 
   if (isPending || isFetching) {
     return <div>Loading...</div>;
@@ -66,7 +66,7 @@ const Surveys = () => {
               <Button size="sm" className="h-7 gap-1">
                 <PlusCircle className="h-3.5 w-3.5" />
                 <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                  Create Survey
+                  Create Template
                 </span>
               </Button>
             </div>
@@ -74,18 +74,19 @@ const Surveys = () => {
           <TabsContent value="all">
             <Card x-chunk="dashboard-06-chunk-0">
               <CardHeader>
-                <CardTitle>Surveys</CardTitle>
+                <CardTitle>Templates</CardTitle>
                 <CardDescription>
-                  Manage your surveys and view their performance.
+                  Manage your templates and view their performance.
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <Table>
                   <TableHeader>
                     <TableRow>
+                      <TableHead>Name</TableHead>
                       <TableHead>Summary</TableHead>
                       <TableHead>Created on</TableHead>
-                      <TableHead>Expires on</TableHead>
+                      <TableHead>Updated on</TableHead>
                       <TableHead>Type</TableHead>
                       <TableHead>
                         <span className="sr-only">Actions</span>
@@ -93,16 +94,17 @@ const Surveys = () => {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    { surveys.data?.map((survey: Survey) => (
+                    { templates.data?.map((template: Template) => (
                       <TableRow>
                         <TableCell className="font-medium">
-                          {survey.summary}
+                          {template.name}
                         </TableCell>
-                        <TableCell>{format(new Date(survey.created_date), 'MM/dd/yyyy')}</TableCell>
-                        <TableCell>{format(new Date(survey.expiry_date), 'MM/dd/yyyy')}</TableCell>
+                        <TableCell>{template.summary}</TableCell>
+                        <TableCell>{format(new Date(template.created_date), 'MM/dd/yyyy')}</TableCell>
+                        <TableCell>{format(new Date(template.updated_date), 'MM/dd/yyyy')}</TableCell>
                         <TableCell className="hidden md:table-cell">
                           <Badge className="text-xs" variant="outline">
-                            {types.data?.find((type: SurveyType) => type.id === survey.survey_type_id)?.description}
+                            {types.data?.find((type: SurveyType) => type.id === template.survey_type_id)?.description}
                           </Badge>
                         </TableCell>
                         <TableCell>
@@ -137,4 +139,4 @@ const Surveys = () => {
   )
 }
 
-export default Surveys;
+export default Templates;
