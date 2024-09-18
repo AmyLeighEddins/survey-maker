@@ -1,7 +1,7 @@
 import { NextResponse, NextRequest } from 'next/server';
 import { getUserFromToken } from './utils/user';
 
-const protectedRoutes = ['/dashboard', '/surveys'];
+const protectedRoutes = ['/dashboard', '/surveys', '/templates'];
 const authRoutes = ['/login', '/signup'];
 
 // This function can be marked `async` if using `await` inside

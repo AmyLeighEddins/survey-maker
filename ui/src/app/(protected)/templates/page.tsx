@@ -1,6 +1,8 @@
 'use client';
 import { format } from "date-fns";
+import { useRouter } from "next/navigation";
 import { ListFilter, PlusCircle, MoreHorizontal } from "lucide-react";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -13,6 +15,7 @@ import useGetTemplates from "@/hooks/api/templates/useGetTemplates";
 import useGetSurveyTypes from "@/hooks/api/types/useGetSurveyTypes";
 
 const Templates = () => {
+  const router = useRouter();
   const templates = useGetTemplates();
   const types = useGetSurveyTypes();
 
@@ -27,6 +30,14 @@ const Templates = () => {
   if (error) {
     return <div>Error: {error}</div>;
   }
+
+  const onViewClick = (id: number) => () => {
+    router.push(`/templates/${id}/view`);
+  };
+
+  const onEditClick = (id: number) => () => {
+    router.push(`/templates/${id}/edit`);
+  };
 
   return (
     <div className="h-screen my-5">
@@ -121,7 +132,8 @@ const Templates = () => {
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
                               <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                              <DropdownMenuItem>Edit</DropdownMenuItem>
+                              <DropdownMenuItem onClick={onViewClick(template.id)}>View</DropdownMenuItem>
+                              <DropdownMenuItem onClick={onEditClick(template.id)}>Edit</DropdownMenuItem>
                               <DropdownMenuItem>Delete</DropdownMenuItem>
                             </DropdownMenuContent>
                           </DropdownMenu>

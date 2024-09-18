@@ -1,6 +1,8 @@
 'use client';
 import { format } from "date-fns";
+import { useRouter } from "next/navigation";
 import { ListFilter, PlusCircle, MoreHorizontal } from "lucide-react";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -13,6 +15,7 @@ import useGetSurveys from "@/hooks/api/surveys/useGetSurveys";
 import useGetSurveyTypes from "@/hooks/api/types/useGetSurveyTypes";
 
 const Surveys = () => {
+  const router = useRouter();
   const surveys = useGetSurveys();
   const types = useGetSurveyTypes();
 
@@ -27,6 +30,14 @@ const Surveys = () => {
   if (error) {
     return <div>Error: {error}</div>;
   }
+
+  const onViewClick = (id: number) => () => {
+    router.push(`/surveys/${id}/view`);
+  };
+
+  const onEditClick = (id: number) => () => {
+    router.push(`/surveys/${id}/edit`);
+  };
 
   return (
     <div className="h-screen my-5">
@@ -119,7 +130,8 @@ const Surveys = () => {
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
                               <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                              <DropdownMenuItem>Edit</DropdownMenuItem>
+                              <DropdownMenuItem onClick={onViewClick(survey.id)}>View</DropdownMenuItem>
+                              <DropdownMenuItem onClick={onEditClick(survey.id)}>Edit</DropdownMenuItem>
                               <DropdownMenuItem>Delete</DropdownMenuItem>
                             </DropdownMenuContent>
                           </DropdownMenu>
