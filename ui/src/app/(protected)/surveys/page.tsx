@@ -105,7 +105,7 @@ const Surveys = () => {
                   </TableHeader>
                   <TableBody>
                     { surveys.data?.map((survey: Survey) => (
-                      <TableRow>
+                      <TableRow key={survey.id}>
                         <TableCell className="font-medium">
                           {survey.summary}
                         </TableCell>

@@ -106,7 +106,7 @@ const Templates = () => {
                   </TableHeader>
                   <TableBody>
                     { templates.data?.map((template: Template) => (
-                      <TableRow>
+                      <TableRow key={template.id}>
                         <TableCell className="font-medium">
                           {template.name}
                         </TableCell>

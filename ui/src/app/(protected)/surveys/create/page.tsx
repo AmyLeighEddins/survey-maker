@@ -69,8 +69,8 @@ export default function CreateSurvey() {
           </div>
           <hr className="my-10" />
           <CardTitle className="text-1xl my-5">Questions</CardTitle>
-          { questions.map((question, index) => (
-            <div className="flex flex-row gap-3 mb-4">
+          { questions.map((question) => (
+            <div key={question.id} className="flex flex-row gap-3 mb-4">
               <div className="basis-3/12">
                 <Select>
                   <SelectTrigger>
