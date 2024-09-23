@@ -12,6 +12,7 @@
     "test:unit:watch": "jest --watch --testPathIgnorePatterns ./routers/",
     "test:integration": "jest --config ./jest.integration.config.ts --testPathPattern ./routers/ --forceExit",
     "docker:compose:up": "docker-compose --profile be up --force-recreate",
+    "docker:compose:up:e2e": "docker-compose --profile e2e up --force-recreate",
     "docker:compose:down": "docker-compose down -v",
     "prisma": "prisma db pull && prisma generate"
   },
