@@ -18,6 +18,6 @@ test.describe('Login page', () => {
     await loginPage.login(mockUser.email, mockUser.password);
 
     // Assert
-    await expect(page.getByRole('heading', { name: 'Your Dashboard' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Surveys' })).toBeVisible();
   });
 });

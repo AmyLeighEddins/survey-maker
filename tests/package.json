@@ -20,5 +20,8 @@
   },
   "dependencies": {
     "testcontainers": "^10.9.0"
+  },
+  "engines": {
+    "node": ">=18.20.0"
   }
 }
