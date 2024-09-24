@@ -28,7 +28,11 @@ jobs:
     - name: Install Next.js dependencies
       working-directory: ui
       run: npm i
-      
+
+    - name: Build UI
+      working-directory: ui
+      run: npm run build
+
     - name: Install Playwright Browsers
       working-directory: tests
       run: npx playwright install --with-deps
@@ -36,7 +40,7 @@ jobs:
     - name: Run Playwright tests
       working-directory: tests
       run: npx playwright test
-      
+
     - uses: actions/upload-artifact@v4
       if: always()
       with:

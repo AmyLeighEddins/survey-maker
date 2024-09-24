@@ -8,6 +8,7 @@
     "test:ui": "playwright test --ui",
     "start:server": "cd ../server && npm start",
     "start:client": "cd ../ui && npm run dev",
+    "start:client:prod": "cd ../ui && npm run build && npm run start",
     "dev": "concurrently \"npm run start:server\" \"npm run start:client\""
   },
   "keywords": [],
@@ -15,7 +16,7 @@
   "license": "ISC",
   "devDependencies": {
     "@playwright/test": "^1.44.1",
-    "@types/node": "^20.14.0",
+    "@types/node": "^20.16.6",
     "concurrently": "^9.0.1"
   },
   "dependencies": {
