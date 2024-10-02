@@ -1,7 +1,7 @@
 export enum RecipientTypes {
   EMPLOYEE = 'employee',
   EXTERNAL = 'external',
-};
+}
 
 export type UserSignup = {
   name: string;
@@ -33,6 +33,16 @@ export type TemplateQuestion = {
   survey_template_id: number;
 };
 
+export type TemplateFormQuestion = {
+  id?: number;
+  title: string;
+  description: string;
+  tooltip: string;
+  sequence?: string;
+  survey_question_type_id: string;
+  survey_template_id: string;
+};
+
 export type TemplatesMetadata = {
   id: number;
   value: string;
@@ -41,41 +51,41 @@ export type TemplatesMetadata = {
 };
 
 export type SurveyStatus = {
-  id: number,
-  name: string,
+  id: number;
+  name: string;
 };
 
 export type SurveyType = {
-  id: number,
-  description: string,
+  id: number;
+  description: string;
 };
 
 export type SurveyTag = {
-  id: number,
-  description: string,
+  id: number;
+  description: string;
 };
 
 export type SurveyAssociatedTag = {
-  id: number,
-  survey_tag_id: number,
-  survey_id: number,
+  id: number;
+  survey_tag_id: number;
+  survey_id: number;
 };
 
 export type SurveyMetadataType = {
-  id: number,
-  description: string,
+  id: number;
+  description: string;
 };
 
 export type SurveyEmployeeResponse = {
-  id?: number,
-  survey_employee_recipient_id: number,
-  survey_response_item_id: number,
+  id?: number;
+  survey_employee_recipient_id: number;
+  survey_response_item_id: number;
 };
 
 export type SurveyExternalResponse = {
-  id?: number,
-  survey_external_recipient_id: number,
-  survey_response_item_id: number,
+  id?: number;
+  survey_external_recipient_id: number;
+  survey_response_item_id: number;
 };
 
 export type Survey = {
@@ -90,11 +100,11 @@ export type SurveyResponseItem = {
   id?: number;
   value: string;
   survey_question_id: number;
-}
+};
 
 export type QuestionType = {
-  id: number,
-  description: string,
+  id: number;
+  description: string;
 };
 
 export type SurveyMetadata = {
@@ -114,6 +124,16 @@ export type SurveyQuestion = {
   survey_id: number;
 };
 
+export type SurveyFormQuestion = {
+  id?: number;
+  title: string;
+  description: string;
+  tooltip: string;
+  sequence?: string;
+  survey_question_type_id: string;
+  survey_id: string;
+};
+
 export type SurveyExternalRecipient = {
   id: number;
   email_address: string;
@@ -127,5 +147,3 @@ export type SurveyEmployeeRecipient = {
   survey_status_id: number;
   survey_id: number;
 };
-
-

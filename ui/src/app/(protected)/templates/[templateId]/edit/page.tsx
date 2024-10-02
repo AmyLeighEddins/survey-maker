@@ -1,10 +1,10 @@
 'use client';
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useParams } from "next/navigation";
-import { Check, ChevronsUpDown } from "lucide-react"
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 
-import { cn } from "@/lib/utils";
-import { Label } from "@radix-ui/react-label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,26 +15,49 @@ import {
 } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "@/components/ui/command"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover"
-
+  Form,
+  FormField,
+  FormLabel,
+} from "@/components/ui/form";
+import TagsForm from "@/components/shared/form/TagsForm";
+import QuestionsForm from "@/components/shared/form/QuestionsForm";
 import useGetTemplateById from "@/hooks/api/templates/useGetTemplateById";
 import useGetTemplateQuestions from "@/hooks/api/templates/useGetTemplateQuestions";
 import useGetSurveyQuestionTypes from "@/hooks/api/types/useGetSurveyQuestionTypes";
 import useGetSurveyTypes from "@/hooks/api/types/useGetSurveyTypes";
 import useGetSurveyTags from "@/hooks/api/types/useGetSurveyTags";
 import useGetTemplateAssociatedTags from "@/hooks/api/templates/useGetTemplateAssociatedTags";
-import { QuestionType, SurveyAssociatedTag, SurveyQuestion, SurveyTag, SurveyType } from "@/hooks/api/types";
+import { SurveyAssociatedTag, SurveyTag, SurveyType, TemplateFormQuestion } from "@/hooks/api/types";
+import { getNextSequenceNumber, getRandomId } from "@/utils/helpers";
+
+const templateEditFormSchema = z.object({
+  summary: z.string(),
+  name: z.string(),
+  type: z.string(),
+  tags: z.array(z.object(
+    {
+      id: z.number(),
+      description: z.string(),
+    }
+  )),
+  questions: z.array(z.object({
+    id: z.number(),
+    title: z.string(),
+    description: z.string(),
+    tooltip: z.string(),
+    sequence: z.string(),
+    survey_question_type_id: z.string(),
+    survey_template_id: z.string(),
+  })),
+});
+
+const newQuestion: TemplateFormQuestion = {
+  title: '',
+  description: '',
+  tooltip: '',
+  survey_question_type_id: '',
+  survey_template_id: '',
+};
 
 export default function TemplateEdit() {
   const params = useParams();
@@ -51,170 +74,112 @@ export default function TemplateEdit() {
   const isFetching = template.isFetching || templateQuestions.isFetching || questionTypes.isFetching || types.isFetching || surveyTags.isFetching || associatedTags.isFetching;
   const error = template.error?.message || templateQuestions.error?.message || questionTypes.error?.message || types.error?.message || surveyTags.error?.message || associatedTags.error?.message;
 
-  const newQuestion: SurveyQuestion = {
-    id: 0,
-    title: '',
-    description: '',
-    tooltip: '',
-    sequence: 0,
-    survey_question_type_id: 0,
-    survey_id: 0,
-  };
-
-  const [questions, setQuestions] = useState<SurveyQuestion[]>([newQuestion]);
-  const [openSelectTags, setOpenSelectTags] = useState(false);
-  const [selectedTags, setSelectedTags] = useState<SurveyTag[]>([]);
-
-  useEffect(() => {
-    setQuestions(templateQuestions.data);
-  }, [templateQuestions.data]);
+  const surveyEditForm = useForm<z.infer<typeof templateEditFormSchema>>({
+    resolver: zodResolver(templateEditFormSchema),
+    defaultValues: {
+      summary: '',
+      name: '',
+      type: '',
+      tags: [],
+      questions: [],
+    },
+  });
+  const { handleSubmit, control, setValue, watch } = surveyEditForm;
+  const questions = watch('questions');
 
   useEffect(() => {
+    if (isPending || isFetching) return;
+    setValue('summary', template.data?.summary);
+    setValue('name', template.data?.name);
+    setValue('type', template.data?.survey_type_id.toString());
+    setValue('questions', templateQuestions.data);
+
     if (!associatedTags.data?.length || !surveyTags.data?.length) return;
     const associatedTagIds = associatedTags.data.map((tag: SurveyAssociatedTag) => tag.survey_tag_id);
-    setSelectedTags(surveyTags.data.filter((tag: SurveyTag) => associatedTagIds.includes(tag.id)));
-  }, [associatedTags.data, surveyTags.data]);
-  
+    setValue('tags', surveyTags.data.filter((tag: SurveyTag) => associatedTagIds.includes(tag.id)));
+  }, [isFetching, isPending]);
+
+  const addQuestionRow = () => {
+    setValue('questions', [...questions, { ...newQuestion, id: getRandomId(), sequence: getNextSequenceNumber(questions).toString() }]);
+  };
+
+  const onSubmitEditedTemplate = async (values: z.infer<typeof templateEditFormSchema>) => {
+    console.log(values);
+  };
+
   if (isPending || isFetching) {
     return <div>Loading...</div>;
   }
-  
+
   if (error) {
     return <div>Error: {error}</div>;
   }
-  
-  const addQuestionRow = () => {
-    setQuestions((questions) => [...questions, newQuestion]);
-  };
 
   return (
     <div className="h-screen m-6">
       <CardTitle className="text-2xl mb-5">Edit Template</CardTitle>
-      <Card className="w-full max-w">
-        <CardContent className="mt-5">
-          <CardTitle className="text-1xl mt-6 mb-5">Template Info</CardTitle>
-          <div className="flex flex-row gap-3 mb-3">
-            <div className="basis-1/3">
-              <Label htmlFor="name" className="text-sm">Name</Label>
-              <Input id="name" className="mt-1" placeholder="Enter template name" value={template.data?.name} required />
-            </div>
-            <div className="basis-1/3">
-              <Label htmlFor="summary" className="text-sm">Summary</Label>
-              <Input id="summary" className="mt-1" placeholder="Enter template summary" value={template.data?.summary} required />
-            </div>
-            <div className="basis-1/3">
-              <Label htmlFor="type" className="text-sm">Survey Type</Label>
-              <Select defaultValue={template.data?.survey_type_id.toString()}>
-                <SelectTrigger id="type" className="mt-1" >
-                  <SelectValue placeholder="Survey type" />
-                </SelectTrigger>
-                <SelectContent>
-                  { types.data?.map((type: SurveyType) => (
-                    <SelectItem key={type.id} value={type.id.toString()}>{type.description}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-          <div className="flex flex-row gap-3">
-            <div>
-              <Label htmlFor="tags" className="text-sm">Tags</Label>
-              <div className="mt-1">
-                <Popover open={openSelectTags} onOpenChange={setOpenSelectTags}>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant="outline"
-                      role="combobox"
-                      aria-expanded={openSelectTags}
-                      className="w-[200px] justify-between"
-                    >
-                      {selectedTags.length
-                        ? selectedTags.map((tag: SurveyTag) => tag.description).join(", ")
-                        : "Select tag..."}
-                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-[200px] p-0">
-                    <Command>
-                      <CommandInput placeholder="Search tags..." />
-                      <CommandList>
-                        <CommandEmpty>No tag found.</CommandEmpty>
-                        <CommandGroup>
-                          {surveyTags.data.map((tag: SurveyTag) => (
-                            <CommandItem
-                              key={tag.id}
-                              value={tag.description}
-                              onSelect={(currentTag) => {
-                                const selectedTag = surveyTags.data.find((tag: SurveyTag) => tag.description === currentTag);
-                                if (selectedTag) setSelectedTags(selectedTags.includes(selectedTag) ? selectedTags.filter((tag) => tag.description !== selectedTag.description) : [...selectedTags, selectedTag]);
-                                setOpenSelectTags(false)
-                              }}
-                            >
-                              <Check
-                                className={cn(
-                                  "mr-2 h-4 w-4",
-                                  selectedTags.includes(tag) ? "opacity-100" : "opacity-0"
-                                )}
-                              />
-                              {tag.description}
-                            </CommandItem>
+      <Form {...surveyEditForm}>
+        <form onSubmit={handleSubmit(onSubmitEditedTemplate)}>
+          <Card className="w-full max-w">
+            <CardContent className="mt-5">
+              <CardTitle className="text-1xl mt-6 mb-5">Template Info</CardTitle>
+              <div className="flex flex-row gap-3 mb-3">
+                <div className="basis-1/3">
+                  <FormLabel htmlFor="name" className="text-sm">Name</FormLabel>
+                  <FormField
+                    control={control}
+                    name="name"
+                    render={({ field }) => (
+                      <Input {...field} className="mt-1" id="name" placeholder="Enter template name" required />
+                    )}
+                  />
+                </div>
+                <div className="basis-1/3">
+                  <FormLabel htmlFor="summary" className="text-sm">Summary</FormLabel>
+                  <FormField
+                    control={control}
+                    name="summary"
+                    render={({ field }) => (
+                      <Input {...field} className="mt-1" id="summary" placeholder="Enter template summary" required />
+                    )}
+                  />
+                </div>
+                <div className="basis-1/3">
+                  <FormLabel htmlFor="type" className="text-sm">Template Type</FormLabel>
+                  <FormField
+                    control={control}
+                    name="type"
+                    render={({ field }) => (
+                      <Select onValueChange={field.onChange} value={field.value.toString()}>
+                        <SelectTrigger id="type" className="mt-1">
+                          <SelectValue placeholder="Template type" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {types.data?.map((type: SurveyType) => (
+                            <SelectItem {...field} key={type.id} value={type.id.toString()}>{type.description}</SelectItem>
                           ))}
-                        </CommandGroup>
-                      </CommandList>
-                    </Command>
-                  </PopoverContent>
-                </Popover>
-              </div>
-            </div>
-          </div>
-          <hr className="my-10" />
-          <CardTitle className="text-1xl my-5">Questions</CardTitle>
-          { questions?.sort((a, b) => a.sequence - b.sequence).map((question, index) => (
-            <div key={question.id} className="mb-10">
-              <div className="flex flex-row gap-3 mb-2">
-                <div className="basis-1/12">
-                  <Label htmlFor="sequence" className="text-sm">Sequence</Label>
-                  <Input id="sequence" className="mt-1" placeholder="Enter sequence number" value={question.sequence} required />
-                </div>
-                <div className="basis-3/12">
-                  <Label htmlFor="question-type" className="text-sm">Question Type</Label>
-                  <Select defaultValue={question.survey_question_type_id.toString()}>
-                    <SelectTrigger id="question-type" className="mt-1" >
-                      <SelectValue placeholder="Question type" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      { questionTypes.data?.map((type: QuestionType) => (
-                        <SelectItem key={type.id} value={type.id.toString()}>{type.description}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="basis-8/12">
-                  <Label htmlFor="question-text" className="text-sm">Title</Label>
-                  <Input id="question-text" className="mt-1" placeholder="Enter question text" value={question.title} required />
+                        </SelectContent>
+                      </Select>
+                    )}
+                  />
                 </div>
               </div>
               <div className="flex flex-row gap-3">
-                <div className="basis-1/12 ml-2"></div>
-                <div className="basis-5/12">
-                  <Label htmlFor="description" className="text-sm">Description</Label>
-                  <Input id="description" className="mt-1" placeholder="Enter description" value={question.description} required />
-                </div>
-                <div className="basis-6/12">
-                  <Label htmlFor="tooltip" className="text-sm">Tooltip</Label>
-                  <Input id="tooltip" className="mt-1" placeholder="Enter tooltip" value={question.tooltip} required />
-                </div>
+                <TagsForm control={control} setValue={setValue} surveyTags={surveyTags} />
               </div>
-            </div>
-          ))}
-          <div className="mb-10" onClick={addQuestionRow}>
-            <Button>Add Question</Button>
-          </div>
-        </CardContent>
-        <CardFooter className="justify-end">
-          <Button type="submit">Update Template</Button>
-        </CardFooter>
-      </Card>
+              <hr className="my-10" />
+              <CardTitle className="text-1xl my-5">Questions</CardTitle>
+              <QuestionsForm control={control} questions={questions} questionTypes={questionTypes} />
+              <div className="mb-10" onClick={addQuestionRow}>
+                <Button>Add Question</Button>
+              </div>
+            </CardContent>
+            <CardFooter className="justify-end">
+              <Button type="submit">Update Template</Button>
+            </CardFooter>
+          </Card>
+        </form>
+      </Form>
     </div>
   );
 }
