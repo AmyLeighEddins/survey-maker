@@ -29,7 +29,9 @@ const router = Router();
  *       200:
  *         description: Returns tags for a template.
  */
-router.route('/:id/tags').get(templateAssociatedTagsController.getTemplateAssociatedTags);
+router
+  .route('/:id/tags')
+  .get(templateAssociatedTagsController.getTemplateAssociatedTags);
 
 /**
  * @swagger
@@ -48,24 +50,26 @@ router.route('/:id/tags').get(templateAssociatedTagsController.getTemplateAssoci
  *       content:
  *        application/json:
  *          schema:
- *            type: object
- *            properties:
- *              survey_tag_id:
- *                type: number
- *                required: true
- *                description: The survey tag id.
+ *            type: array
+ *            items:
+ *              type: object
+ *              properties:
+ *                survey_tag_id:
+ *                  type: number
+ *                  required: true
+ *                  description: The survey tag id.
  *     responses:
  *       201:
  *         description: Returns new tag for a template.
  */
 router.route('/:id/tags').post(
   [
-    body('survey_tag_id')
+    body('*.survey_tag_id')
       .isNumeric()
-      .withMessage('The survey tag id does not exist'), // TODO: change the validation to check if the survey_tag_id exists
+      .withMessage('The template tag id does not exist'), // TODO: change the validation to check if the survey_tag_id exists
   ],
   validate,
-  templateAssociatedTagsController.createATemplateAssociatedTag
+  templateAssociatedTagsController.createTemplateAssociatedTags
 );
 
 /**
@@ -91,12 +95,14 @@ router.route('/:id/tags').post(
  *       content:
  *        application/json:
  *          schema:
- *            type: object
- *            properties:
- *              survey_tag_id:
- *                type: number
- *                required: true
- *                description: The survey tag id.
+ *            type: array
+ *            items:
+ *              type: object
+ *              properties:
+ *                survey_tag_id:
+ *                  type: number
+ *                  required: true
+ *                  description: The survey tag id.
  *     responses:
  *       201:
  *         description: Returns updated tag for a template.
@@ -134,6 +140,8 @@ router.route('/:id/tags/:associated_tag_id').put(
  *       204:
  *         description: No content
  */
-router.route('/:id/tags/:associated_tag_id').delete(templateAssociatedTagsController.deleteATemplateAssociatedTag);
+router
+  .route('/:id/tags/:associated_tag_id')
+  .delete(templateAssociatedTagsController.deleteATemplateAssociatedTag);
 
 export default router;

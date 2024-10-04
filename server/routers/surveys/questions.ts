@@ -29,7 +29,9 @@ const router = Router();
  *       200:
  *         description: Returns all questions for a survey.
  */
-router.route('/:id/questions').get(surveyQuestionsController.getSurveyQuestions);
+router
+  .route('/:id/questions')
+  .get(surveyQuestionsController.getSurveyQuestions);
 
 /**
  * @swagger
@@ -48,47 +50,51 @@ router.route('/:id/questions').get(surveyQuestionsController.getSurveyQuestions)
  *       content:
  *        application/json:
  *          schema:
- *            type: object
- *            properties:
- *              title:
- *                type: string
- *                required: false
- *                description: Title of the survey question.
- *              description:
- *                type: string
- *                required: false
- *                description: Info about the survey question.
- *              tooltip:
- *                type: string
- *                required: false
- *                description: Info about the survey question.
- *              sequence:
- *                type: number
- *                required: false
- *                description: Sequence of the question in the survey.
- *              survey_question_type_id:
- *                type: number
- *                required: false
- *                description: The id of the survey question type from the SurveyQuestionTypes table.
+ *            type: array
+ *            items:
+ *              type: object
+ *              properties:
+ *                title:
+ *                  type: string
+ *                  required: true
+ *                  description: Title of the survey question.
+ *                description:
+ *                  type: string
+ *                  required: true
+ *                  description: Info about the survey question.
+ *                tooltip:
+ *                  type: string
+ *                  required: true
+ *                  description: Info about the survey question.
+ *                sequence:
+ *                  type: number
+ *                  required: true
+ *                  description: Sequence of the question in the survey.
+ *                survey_question_type_id:
+ *                  type: number
+ *                  required: true
+ *                  description: The id of the survey question type from the SurveyQuestionTypes table.
  *     responses:
  *       201:
  *         description: Returns the new survey question.
  */
-router.route('/:id/questions').post(
-  [
-    body('title')
-      .isString()
-      .trim()
-      .isLength({ min: 3 })
-      .withMessage('The title of the question must have minimum length of 3'),
-  ],
-  validate,
-  surveyQuestionsController.createASurveyQuestion
-);
+router
+  .route('/:id/questions')
+  .post(
+    [
+      body('*.title')
+        .isString()
+        .trim()
+        .isLength({ min: 3 })
+        .withMessage('The title of the question must have minimum length of 3'),
+    ],
+    validate,
+    surveyQuestionsController.createSurveyQuestions
+  );
 
 /**
  * @swagger
- * /surveys/{id}/questions/{question_id}:
+ * /surveys/{id}/questions:
  *   put:
  *     parameters:
  *      - in: path
@@ -97,55 +103,57 @@ router.route('/:id/questions').post(
  *        schema:
  *          type: integer
  *        description: The survey ID
- *      - in: path
- *        name: question_id
- *        required: true
- *        schema:
- *          type: integer
- *        description: The question ID
- *     description: Update a question for a survey
+ *     description: Update questions for a survey
  *     tags: [Survey Questions]
  *     requestBody:
  *       content:
  *        application/json:
  *          schema:
- *            type: object
- *            properties:
- *              title:
- *                type: string
- *                required: false
- *                description: Title of the survey question.
- *              description:
- *                type: string
- *                required: false
- *                description: Info about the survey question.
- *              tooltip:
- *                type: string
- *                required: false
- *                description: Info about the survey question.
- *              sequence:
- *                type: number
- *                required: false
- *                description: Sequence of the question in the survey.
- *              survey_question_type_id:
- *                type: number
- *                required: false
- *                description: The id of the survey question type from the SurveyQuestionTypes table.
+ *            type: array
+ *            items:
+ *              type: object
+ *              properties:
+ *                id:
+ *                  type: number
+ *                  required: true
+ *                  description: ID of the survey question.
+ *                title:
+ *                  type: string
+ *                  required: true
+ *                  description: Title of the survey question.
+ *                description:
+ *                  type: string
+ *                  required: true
+ *                  description: Info about the survey question.
+ *                tooltip:
+ *                  type: string
+ *                  required: true
+ *                  description: Info about the survey question.
+ *                sequence:
+ *                  type: number
+ *                  required: true
+ *                  description: Sequence of the question in the survey.
+ *                survey_question_type_id:
+ *                  type: number
+ *                  required: true
+ *                  description: The id of the survey question type from the SurveyQuestionTypes table.
  *     responses:
  *       201:
  *         description: Returns the updated survey question.
  */
-router.route('/:id/questions/:question_id').put(
-  [
-    body('title')
-      .isString()
-      .trim()
-      .isLength({ min: 3 })
-      .withMessage('The title of the question must have minimum length of 3'),
-  ],
-  validate,
-  surveyQuestionsController.updateASurveyQuestion
-);
+router
+  .route('/:id/questions')
+  .put(
+    [
+      body('*.title')
+        .isString()
+        .trim()
+        .isLength({ min: 3 })
+        .withMessage('The title of the question must have minimum length of 3'),
+    ],
+    validate,
+    surveyQuestionsController.updateSurveyQuestions
+  );
 
 /**
  * @swagger
@@ -170,6 +178,8 @@ router.route('/:id/questions/:question_id').put(
  *       204:
  *         description: No content
  */
-router.route('/:id/questions/:question_id').delete(surveyQuestionsController.deleteASurveyQuestion);
+router
+  .route('/:id/questions/:question_id')
+  .delete(surveyQuestionsController.deleteASurveyQuestion);
 
 export default router;

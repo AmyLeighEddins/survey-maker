@@ -17,13 +17,12 @@ import {
   FormField,
   FormLabel,
 } from "@/components/ui/form";
-import TagsForm from "@/components/shared/form/TagsForm";
-import QuestionsForm from "@/components/shared/form/QuestionsForm";
+import { TagsForm, QuestionsForm } from "@/components/shared/form";
+
 import { getNextSequenceNumber, getRandomId } from "@/utils/helpers";
-import useGetSurveyTypes from "@/hooks/api/types/useGetSurveyTypes";
-import useGetSurveyQuestionTypes from "@/hooks/api/types/useGetSurveyQuestionTypes";
-import useGetSurveyTags from "@/hooks/api/types/useGetSurveyTags";
 import { SurveyType, TemplateFormQuestion } from "@/hooks/api/types";
+import { useGetSurveyTypes, useGetSurveyQuestionTypes, useGetSurveyTags } from "@/hooks/api/types/index";
+import { usePostTemplate, usePostTemplateAssociatedTags, usePostTemplateQuestions } from "@/hooks/api/templates";
 
 const templateCreateFormSchema = z.object({
   summary: z.string(),
@@ -60,9 +59,13 @@ export default function CreateTemplate() {
   const questionTypes = useGetSurveyQuestionTypes();
   const surveyTags = useGetSurveyTags();
 
+  const { mutateAsync: create, isError: createError } = usePostTemplate();
+  const { mutateAsync: createAssociatedTags, isError: createAssociatedTagsError } = usePostTemplateAssociatedTags();
+  const { mutateAsync: createQuestions, isError: createQuestionsError } = usePostTemplateQuestions();
+
   const isPending = questionTypes.isPending || types.isPending || surveyTags.isPending;
   const isFetching = questionTypes.isFetching || types.isFetching || surveyTags.isFetching;
-  const error = questionTypes.error?.message || types.error?.message || surveyTags.error?.message;
+  const error = questionTypes.error?.message || types.error?.message || surveyTags.error?.message || createError || createAssociatedTagsError || createQuestionsError;
 
   const surveyCreateForm = useForm<z.infer<typeof templateCreateFormSchema>>({
     resolver: zodResolver(templateCreateFormSchema),
@@ -82,7 +85,12 @@ export default function CreateTemplate() {
   };
 
   const onSubmitNewTemplate = async (values: z.infer<typeof templateCreateFormSchema>) => {
-    console.log(values);
+    const template = await create({ summary: values.summary, name: values.name, survey_type_id: Number(values.type) });
+    if (createError) return;
+    await createAssociatedTags({ id: template.id, tags: values.tags });
+    if (createAssociatedTagsError) return;
+    await createQuestions({ id: template.id, questions: values.questions });
+    if (createQuestionsError) return;
   };
 
   if (isPending || isFetching) {

@@ -129,9 +129,9 @@ export type SurveyFormQuestion = {
   title: string;
   description: string;
   tooltip: string;
-  sequence?: string;
+  sequence?: number;
   survey_question_type_id: string;
-  survey_id: string;
+  survey_id?: number;
 };
 
 export type SurveyExternalRecipient = {

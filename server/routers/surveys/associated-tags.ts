@@ -29,7 +29,9 @@ const router = Router();
  *       200:
  *         description: Returns tags for a survey.
  */
-router.route('/:id/tags').get(surveyAssociatedTagsController.getSurveyAssociatedTags);
+router
+  .route('/:id/tags')
+  .get(surveyAssociatedTagsController.getSurveyAssociatedTags);
 
 /**
  * @swagger
@@ -42,35 +44,39 @@ router.route('/:id/tags').get(surveyAssociatedTagsController.getSurveyAssociated
  *        schema:
  *          type: integer
  *        description: The survey ID
- *     description: Create an associated tag for a survey
+ *     description: Create associated tags for a survey
  *     tags: [Survey Associated Tags]
  *     requestBody:
  *       content:
  *        application/json:
  *          schema:
- *            type: object
- *            properties:
- *              survey_tag_id:
- *                type: number
- *                required: true
- *                description: The survey tag id.
+ *            type: array
+ *            items:
+ *              type: object
+ *              properties:
+ *                survey_tag_id:
+ *                  type: number
+ *                  required: true
+ *                  description: The survey tag id.
  *     responses:
  *       201:
  *         description: Returns new tag for a survey.
  */
-router.route('/:id/tags').post(
-  [
-    body('survey_tag_id')
-      .isNumeric()
-      .withMessage('The survey tag id does not exist'), // TODO: change the validation to check if the survey_tag_id exists
-  ],
-  validate,
-  surveyAssociatedTagsController.createASurveyAssociatedTag
-);
+router
+  .route('/:id/tags')
+  .post(
+    [
+      body('*.survey_tag_id')
+        .isNumeric()
+        .withMessage('The survey tag id does not exist'),
+    ],
+    validate,
+    surveyAssociatedTagsController.createSurveyAssociatedTags
+  );
 
 /**
  * @swagger
- * /surveys/{id}/tags/{associated_tag_id}:
+ * /surveys/{id}/tags:
  *   put:
  *     parameters:
  *      - in: path
@@ -79,36 +85,32 @@ router.route('/:id/tags').post(
  *        schema:
  *          type: integer
  *        description: The survey ID
- *      - in: path
- *        name: associated_tag_id
- *        required: true
- *        schema:
- *          type: integer
- *        description: The associated tag ID
- *     description: Update an associated tag for a survey
+ *     description: Update associated tags for a survey
  *     tags: [Survey Associated Tags]
  *     requestBody:
  *       content:
  *        application/json:
  *          schema:
- *            type: object
- *            properties:
- *              survey_tag_id:
- *                type: number
- *                required: true
- *                description: The survey tag id.
+ *            type: array
+ *            items:
+ *              type: object
+ *              properties:
+ *                survey_tag_id:
+ *                  type: number
+ *                  required: true
+ *                  description: The survey tag id.
  *     responses:
- *       200:
+ *       201:
  *         description: Returns updated tag for a survey.
  */
-router.route('/:id/tags/:associated_tag_id').put(
+router.route('/:id/tags').put(
   [
-    body('survey_tag_id')
+    body('*.survey_tag_id')
       .isNumeric()
       .withMessage('The survey tag id does not exist'), // TODO: change the validation to check if the survey_tag_id exists
   ],
   validate,
-  surveyAssociatedTagsController.updateASurveyAssociatedTag
+  surveyAssociatedTagsController.updateSurveyAssociatedTags
 );
 
 /**
@@ -134,6 +136,8 @@ router.route('/:id/tags/:associated_tag_id').put(
  *       204:
  *         description: No content
  */
-router.route('/:id/tags/:associated_tag_id').delete(surveyAssociatedTagsController.deleteASurveyAssociatedTag);
+router
+  .route('/:id/tags/:associated_tag_id')
+  .delete(surveyAssociatedTagsController.deleteASurveyAssociatedTag);
 
 export default router;

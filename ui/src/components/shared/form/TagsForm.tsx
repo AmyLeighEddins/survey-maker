@@ -72,7 +72,7 @@ const TagsForm = ({ control, setValue, surveyTags }: TagsFormProps) => {
                       {surveyTags.data.map((tag: SurveyTag) => (
                         <CommandItem
                           {...field}
-                          key={tag.id}
+                          key={`${tag.id}-item`}
                           value={tag.description}
                           onSelect={(currentTag) => {
                             const selectedTag = surveyTags.data.find((tag: SurveyTag) => tag.description === currentTag);
@@ -83,6 +83,7 @@ const TagsForm = ({ control, setValue, surveyTags }: TagsFormProps) => {
                           }}
                         >
                           <Check
+                            key={`${tag.id}-check`}
                             className={cn(
                               "mr-2 h-4 w-4",
                               field.value.some(({ id }: SurveyTag) => id === tag.id) ? "opacity-100" : "opacity-0"

@@ -19,16 +19,12 @@ import {
   FormField,
   FormLabel,
 } from "@/components/ui/form";
-import TagsForm from "@/components/shared/form/TagsForm";
-import QuestionsForm from "@/components/shared/form/QuestionsForm";
-import useGetSurveyById from "@/hooks/api/surveys/useGetSurveyById";
-import useGetSurveyQuestions from "@/hooks/api/surveys/useGetSurveyQuestions";
-import useGetSurveyQuestionTypes from "@/hooks/api/types/useGetSurveyQuestionTypes";
-import useGetSurveyTypes from "@/hooks/api/types/useGetSurveyTypes";
-import useGetSurveyTags from "@/hooks/api/types/useGetSurveyTags";
-import useGetSurveyAssociatedTags from "@/hooks/api/surveys/useGetSurveyAssociatedTags";
-import { SurveyAssociatedTag, SurveyFormQuestion, SurveyTag, SurveyType } from "@/hooks/api/types";
+import { TagsForm, QuestionsForm } from "@/components/shared/form";
+
 import { getNextSequenceNumber, getRandomId } from "@/utils/helpers";
+import { SurveyAssociatedTag, SurveyFormQuestion, SurveyTag, SurveyType } from "@/hooks/api/types";
+import { useGetSurveyById, useGetSurveyQuestions, useGetSurveyAssociatedTags, usePutSurvey, usePutSurveyAssociatedTags, usePutSurveyQuestions } from "@/hooks/api/surveys";
+import { useGetSurveyQuestionTypes, useGetSurveyTypes, useGetSurveyTags } from "@/hooks/api/types/index";
 
 const surveyEditFormSchema = z.object({
   summary: z.string(),
@@ -44,9 +40,8 @@ const surveyEditFormSchema = z.object({
     title: z.string(),
     description: z.string(),
     tooltip: z.string(),
-    sequence: z.string(),
+    sequence: z.number(),
     survey_question_type_id: z.string(),
-    survey_id: z.string(),
   })),
 });
 
@@ -55,7 +50,6 @@ const newQuestion: SurveyFormQuestion = {
   description: '',
   tooltip: '',
   survey_question_type_id: '',
-  survey_id: '',
 };
 
 export default function SurveyEdit() {
@@ -69,9 +63,13 @@ export default function SurveyEdit() {
   const surveyTags = useGetSurveyTags();
   const associatedTags = useGetSurveyAssociatedTags(surveyId);
 
+  const { mutateAsync: update, isError: updateError } = usePutSurvey();
+  const { mutateAsync: updateAssociatedTags, isError: updateAssociatedTagsError } = usePutSurveyAssociatedTags();
+  const { mutateAsync: updateQuestions, isError: updateQuestionsError } = usePutSurveyQuestions();
+
   const isPending = survey.isPending || surveyQuestions.isPending || questionTypes.isPending || types.isPending || surveyTags.isPending || associatedTags.isPending;
   const isFetching = survey.isFetching || surveyQuestions.isFetching || questionTypes.isFetching || types.isFetching || surveyTags.isFetching || associatedTags.isFetching;
-  const error = survey.error?.message || surveyQuestions.error?.message || questionTypes.error?.message || types.error?.message || surveyTags.error?.message || associatedTags.error?.message;
+  const error = survey.error?.message || surveyQuestions.error?.message || questionTypes.error?.message || types.error?.message || surveyTags.error?.message || associatedTags.error?.message || updateError || updateAssociatedTagsError;
 
   const surveyEditForm = useForm<z.infer<typeof surveyEditFormSchema>>({
     resolver: zodResolver(surveyEditFormSchema),
@@ -82,26 +80,43 @@ export default function SurveyEdit() {
       questions: [],
     },
   });
-  const { handleSubmit, control, setValue, watch } = surveyEditForm;
+  const { handleSubmit, control, setValue, watch, reset, formState: { isDirty, dirtyFields } } = surveyEditForm;
   const questions = watch('questions');
 
   useEffect(() => {
     if (isPending || isFetching) return;
-    setValue('summary', survey.data?.summary);
-    setValue('type', survey.data?.survey_type_id.toString());
-    setValue('questions', surveyQuestions.data);
 
-    if (!associatedTags.data?.length || !surveyTags.data?.length) return;
-    const associatedTagIds = associatedTags.data.map((tag: SurveyAssociatedTag) => tag.survey_tag_id);
-    setValue('tags', surveyTags.data.filter((tag: SurveyTag) => associatedTagIds.includes(tag.id)));
+    const associatedTagIds = associatedTags.data?.map((tag: SurveyAssociatedTag) => tag.survey_tag_id);
+
+    reset({
+      summary: survey.data?.summary,
+      type: survey.data?.survey_type_id.toString(),
+      questions: surveyQuestions.data.map((question: SurveyFormQuestion) => ({
+        ...question,
+        survey_question_type_id: question.survey_question_type_id.toString(),
+      })),
+      tags: surveyTags.data?.filter((tag: SurveyTag) => associatedTagIds.includes(tag.id)) || [],
+    });
   }, [isFetching, isPending]);
 
   const addQuestionRow = () => {
-    setValue('questions', [...questions, { ...newQuestion, id: getRandomId(), sequence: getNextSequenceNumber(questions).toString() }]);
+    setValue('questions', [...questions, { ...newQuestion, id: getRandomId(), sequence: getNextSequenceNumber(questions) }]);
   };
 
   const onSubmitEditedSurvey = async (values: z.infer<typeof surveyEditFormSchema>) => {
-    console.log(values);
+    if (dirtyFields.summary || dirtyFields.type) {
+      await update({ id: survey.data.id, summary: values.summary, survey_type_id: Number(values.type) });
+      if (updateError) return;
+    }
+    // TODO: figure out why dirtyFields.tags is not working
+    // if (dirtyFields.tags) {
+    await updateAssociatedTags({ id: survey.data.id, tags: values.tags });
+    if (updateAssociatedTagsError) return;
+    // }
+    if (dirtyFields.questions) {
+      await updateQuestions({ id: survey.data.id, questions: values.questions });
+      if (updateQuestionsError) return;
+    }
   };
 
   if (isPending || isFetching) {
@@ -137,7 +152,7 @@ export default function SurveyEdit() {
                     control={control}
                     name="type"
                     render={({ field }) => (
-                      <Select onValueChange={field.onChange} value={field.value.toString()}>
+                      <Select onValueChange={field.onChange}>
                         <SelectTrigger id="type" className="mt-1">
                           <SelectValue placeholder="Survey type" />
                         </SelectTrigger>
@@ -162,7 +177,7 @@ export default function SurveyEdit() {
               </div>
             </CardContent>
             <CardFooter className="justify-end">
-              <Button type="submit">Edit Survey</Button>
+              <Button type="submit" disabled={!isDirty}>Update Survey</Button>
             </CardFooter>
           </Card>
         </form>

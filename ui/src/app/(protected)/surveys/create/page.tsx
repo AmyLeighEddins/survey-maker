@@ -17,13 +17,12 @@ import {
   FormField,
   FormLabel,
 } from "@/components/ui/form";
-import QuestionsForm from "@/components/shared/form/QuestionsForm";
+import { TagsForm, QuestionsForm } from "@/components/shared/form";
+
 import { getNextSequenceNumber, getRandomId } from "@/utils/helpers";
-import useGetSurveyTypes from "@/hooks/api/types/useGetSurveyTypes";
-import useGetSurveyQuestionTypes from "@/hooks/api/types/useGetSurveyQuestionTypes";
-import useGetSurveyTags from "@/hooks/api/types/useGetSurveyTags";
 import { SurveyFormQuestion, SurveyType } from "@/hooks/api/types";
-import TagsForm from "@/components/shared/form/TagsForm";
+import { usePostSurvey, usePostSurveyAssociatedTags, usePostSurveyQuestions } from "@/hooks/api/surveys";
+import { useGetSurveyQuestionTypes, useGetSurveyTypes, useGetSurveyTags } from "@/hooks/api/types/index";
 
 const surveyCreateFormSchema = z.object({
   summary: z.string(),
@@ -39,9 +38,8 @@ const surveyCreateFormSchema = z.object({
     title: z.string(),
     description: z.string(),
     tooltip: z.string(),
-    sequence: z.string(),
+    sequence: z.number(),
     survey_question_type_id: z.string(),
-    survey_id: z.string(),
   })),
 });
 
@@ -49,9 +47,8 @@ const newQuestion: SurveyFormQuestion = {
   title: '',
   description: '',
   tooltip: '',
-  sequence: '1',
+  sequence: 1,
   survey_question_type_id: '',
-  survey_id: '',
 };
 
 export default function CreateSurvey() {
@@ -59,9 +56,13 @@ export default function CreateSurvey() {
   const questionTypes = useGetSurveyQuestionTypes();
   const surveyTags = useGetSurveyTags();
 
+  const { mutateAsync: create, isError: createError } = usePostSurvey();
+  const { mutateAsync: createAssociatedTags, isError: createAssociatedTagsError } = usePostSurveyAssociatedTags();
+  const { mutateAsync: createQuestions, isError: createQuestionsError } = usePostSurveyQuestions();
+
   const isPending = questionTypes.isPending || types.isPending || surveyTags.isPending;
   const isFetching = questionTypes.isFetching || types.isFetching || surveyTags.isFetching;
-  const error = questionTypes.error?.message || types.error?.message || surveyTags.error?.message;
+  const error = questionTypes.error?.message || types.error?.message || surveyTags.error?.message || createError || createAssociatedTagsError || createQuestionsError;
 
   const surveyCreateForm = useForm<z.infer<typeof surveyCreateFormSchema>>({
     resolver: zodResolver(surveyCreateFormSchema),
@@ -76,11 +77,16 @@ export default function CreateSurvey() {
   const questions = watch('questions');
 
   const addQuestionRow = () => {
-    setValue('questions', [...questions, { ...newQuestion, id: getRandomId(), sequence: getNextSequenceNumber(questions).toString() }]);
+    setValue('questions', [...questions, { ...newQuestion, id: getRandomId(), sequence: getNextSequenceNumber(questions) }]);
   };
 
   const onSubmitNewSurvey = async (values: z.infer<typeof surveyCreateFormSchema>) => {
-    console.log(values);
+    const survey = await create({ summary: values.summary, survey_type_id: Number(values.type) });
+    if (createError) return;
+    await createAssociatedTags({ id: survey.id, tags: values.tags });
+    if (createAssociatedTagsError) return;
+    await createQuestions({ id: survey.id, questions: values.questions });
+    if (createQuestionsError) return;
   };
 
   if (isPending || isFetching) {

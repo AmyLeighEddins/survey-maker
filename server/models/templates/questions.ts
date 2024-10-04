@@ -12,16 +12,27 @@ export const getTemplateQuestions = async (survey_template_id: number) => {
   });
 };
 
-export const createATemplateQuestion = async (survey_template_id: number, surveyQuestion: SurveyTemplateQuestion) => {
-  return await prisma.surveytemplatequestions.create({
-    data: {
-      ...surveyQuestion,
+export const createTemplateQuestions = async (
+  survey_template_id: number,
+  surveyQuestions: SurveyTemplateQuestion[]
+) => {
+  return await prisma.surveytemplatequestions.createMany({
+    data: surveyQuestions.map((surveyQuestion) => ({
+      title: surveyQuestion.title,
+      description: surveyQuestion.description,
+      tooltip: surveyQuestion.tooltip,
+      sequence: surveyQuestion.sequence,
+      survey_question_type_id: surveyQuestion.survey_question_type_id,
       survey_template_id,
-    },
+    })),
   });
 };
 
-export const updateATemplateQuestion = async (survey_template_id: number, surveyQuestion: SurveyTemplateQuestion, question_id: number) => {
+export const updateATemplateQuestion = async (
+  survey_template_id: number,
+  surveyQuestion: SurveyTemplateQuestion,
+  question_id: number
+) => {
   return await prisma.surveytemplatequestions.update({
     where: {
       id: question_id,
@@ -34,7 +45,10 @@ export const updateATemplateQuestion = async (survey_template_id: number, survey
   });
 };
 
-export const deleteATemplateQuestion = async (survey_template_id: number, question_id: number) => {
+export const deleteATemplateQuestion = async (
+  survey_template_id: number,
+  question_id: number
+) => {
   return await prisma.surveytemplatequestions.delete({
     where: {
       id: question_id,

@@ -19,16 +19,12 @@ import {
   FormField,
   FormLabel,
 } from "@/components/ui/form";
-import TagsForm from "@/components/shared/form/TagsForm";
-import QuestionsForm from "@/components/shared/form/QuestionsForm";
-import useGetTemplateById from "@/hooks/api/templates/useGetTemplateById";
-import useGetTemplateQuestions from "@/hooks/api/templates/useGetTemplateQuestions";
-import useGetSurveyQuestionTypes from "@/hooks/api/types/useGetSurveyQuestionTypes";
-import useGetSurveyTypes from "@/hooks/api/types/useGetSurveyTypes";
-import useGetSurveyTags from "@/hooks/api/types/useGetSurveyTags";
-import useGetTemplateAssociatedTags from "@/hooks/api/templates/useGetTemplateAssociatedTags";
-import { SurveyAssociatedTag, SurveyTag, SurveyType, TemplateFormQuestion } from "@/hooks/api/types";
+import { TagsForm, QuestionsForm } from "@/components/shared/form";
+
 import { getNextSequenceNumber, getRandomId } from "@/utils/helpers";
+import { SurveyAssociatedTag, SurveyTag, SurveyType, TemplateFormQuestion } from "@/hooks/api/types";
+import { useGetTemplateById, useGetTemplateQuestions, useGetTemplateAssociatedTags } from "@/hooks/api/templates";
+import { useGetSurveyQuestionTypes, useGetSurveyTypes, useGetSurveyTags } from "@/hooks/api/types/index";
 
 const templateEditFormSchema = z.object({
   summary: z.string(),
@@ -55,6 +51,7 @@ const newQuestion: TemplateFormQuestion = {
   title: '',
   description: '',
   tooltip: '',
+  sequence: '1',
   survey_question_type_id: '',
   survey_template_id: '',
 };
