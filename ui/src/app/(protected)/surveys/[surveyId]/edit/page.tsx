@@ -21,14 +21,13 @@ import {
 } from "@/components/ui/form";
 import { TagsForm, QuestionsForm } from "@/components/shared/form";
 
-import { getNextSequenceNumber, getRandomId } from "@/utils/helpers";
 import { SurveyAssociatedTag, SurveyFormQuestion, SurveyTag, SurveyType } from "@/hooks/api/types";
 import { useGetSurveyById, useGetSurveyQuestions, useGetSurveyAssociatedTags, usePutSurvey, usePutSurveyAssociatedTags, usePutSurveyQuestions } from "@/hooks/api/surveys";
 import { useGetSurveyQuestionTypes, useGetSurveyTypes, useGetSurveyTags } from "@/hooks/api/types/index";
 
 const surveyEditFormSchema = z.object({
   summary: z.string(),
-  type: z.string(),
+  type: z.string().min(1),
   tags: z.array(z.object(
     {
       id: z.number(),
@@ -44,13 +43,6 @@ const surveyEditFormSchema = z.object({
     survey_question_type_id: z.string(),
   })),
 });
-
-const newQuestion: SurveyFormQuestion = {
-  title: '',
-  description: '',
-  tooltip: '',
-  survey_question_type_id: '',
-};
 
 export default function SurveyEdit() {
   const params = useParams();
@@ -98,10 +90,6 @@ export default function SurveyEdit() {
       tags: surveyTags.data?.filter((tag: SurveyTag) => associatedTagIds.includes(tag.id)) || [],
     });
   }, [isFetching, isPending]);
-
-  const addQuestionRow = () => {
-    setValue('questions', [...questions, { ...newQuestion, id: getRandomId(), sequence: getNextSequenceNumber(questions) }]);
-  };
 
   const onSubmitEditedSurvey = async (values: z.infer<typeof surveyEditFormSchema>) => {
     if (dirtyFields.summary || dirtyFields.type) {
@@ -152,7 +140,7 @@ export default function SurveyEdit() {
                     control={control}
                     name="type"
                     render={({ field }) => (
-                      <Select onValueChange={field.onChange} value={field.value.toString()}>
+                      <Select onValueChange={field.onChange} value={field.value.toString()} required>
                         <SelectTrigger id="type" className="mt-1">
                           <SelectValue placeholder="Survey type" />
                         </SelectTrigger>
@@ -171,10 +159,7 @@ export default function SurveyEdit() {
               </div>
               <hr className="my-10" />
               <CardTitle className="text-1xl my-5">Questions</CardTitle>
-              <QuestionsForm control={control} questions={questions} questionTypes={questionTypes} />
-              <div className="basis-1/12">
-                <Button onClick={addQuestionRow}>Add Question</Button>
-              </div>
+              <QuestionsForm control={control} setValue={setValue} questions={questions} questionTypes={questionTypes} />
             </CardContent>
             <CardFooter className="justify-end">
               <Button type="submit" disabled={!isDirty}>Update Survey</Button>

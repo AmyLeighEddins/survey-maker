@@ -34,11 +34,11 @@ export type TemplateQuestion = {
 };
 
 export type TemplateFormQuestion = {
-  id?: number;
+  id: number;
   title: string;
   description: string;
   tooltip: string;
-  sequence?: number;
+  sequence: number;
   survey_question_type_id: string;
   survey_template_id?: number;
 };
@@ -125,11 +125,11 @@ export type SurveyQuestion = {
 };
 
 export type SurveyFormQuestion = {
-  id?: number;
+  id: number;
   title: string;
   description: string;
   tooltip: string;
-  sequence?: number;
+  sequence: number;
   survey_question_type_id: string;
   survey_id?: number;
 };

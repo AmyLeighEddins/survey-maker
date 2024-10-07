@@ -3,8 +3,10 @@ import {
   FormField,
   FormLabel,
 } from "@/components/ui/form";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { getNextSequenceNumber, getRandomId } from "@/utils/helpers";
 import { SurveyFormQuestion, SurveyQuestion, TemplateFormQuestion, TemplateQuestion } from "@/hooks/api/types";
 
 type FormQuestion = SurveyFormQuestion | TemplateFormQuestion;
@@ -19,11 +21,26 @@ type QuestionTypesReturn = {
 
 type QuestionsFormProps = {
   control: Control<any>;
+  setValue: (name: any, value: FormQuestion[]) => void;
   questions: FormQuestion[];
   questionTypes: QuestionTypesReturn;
 };
 
-const QuestionsForm = ({ control, questions, questionTypes }: QuestionsFormProps) => {
+export const newQuestion: Omit<FormQuestion, 'id' | 'sequence'> = {
+  title: '',
+  description: '',
+  tooltip: '',
+  survey_question_type_id: '',
+};
+
+const QuestionsForm = ({ control, setValue, questions, questionTypes }: QuestionsFormProps) => {
+  const addQuestionRow = () => {
+    setValue('questions', [...questions, { ...newQuestion, id: getRandomId(), sequence: getNextSequenceNumber(questions) }]);
+  };
+
+  const deleteQuestionRow = (id: number | undefined) => {
+    setValue('questions', questions.filter((question) => question.id !== id));
+  };
   return (
     <div>
       {questions?.sort((a: FormQuestion, b: FormQuestion) => Number(a.sequence) - Number(b.sequence)).map((question, index) => (
@@ -56,7 +73,7 @@ const QuestionsForm = ({ control, questions, questionTypes }: QuestionsFormProps
                   </Select>
                 )} />
             </div>
-            <div className="basis-8/12">
+            <div className="basis-7/12">
               <FormLabel htmlFor={`questions.${question.id}.title`} className="text-sm">Title</FormLabel>
               <FormField
                 control={control}
@@ -65,9 +82,12 @@ const QuestionsForm = ({ control, questions, questionTypes }: QuestionsFormProps
                   <Input {...field} id={`questions.${question.id}.title`} className="mt-1" placeholder="Enter question text" required />
                 )} />
             </div>
+            <div className="basis-20 content-end text-end">
+              <Button variant="destructive" onClick={() => deleteQuestionRow(question.id)}>Delete</Button>
+            </div>
           </div>
           <div className="flex flex-row gap-3">
-            <div className="basis-1/12 ml-2"></div>
+            <div className="basis-1/12"></div>
             <div className="basis-5/12">
               <FormLabel htmlFor={`questions.${question.id}.description`} className="text-sm">Description</FormLabel>
               <FormField
@@ -77,7 +97,7 @@ const QuestionsForm = ({ control, questions, questionTypes }: QuestionsFormProps
                   <Input {...field} id={`questions.${question.id}.description`} className="mt-1" placeholder="Enter description" value={question.description} required />
                 )} />
             </div>
-            <div className="basis-6/12">
+            <div className="basis-5/12">
               <FormLabel htmlFor={`questions.${question.id}.tooltip`} className="text-sm">Tooltip</FormLabel>
               <FormField
                 control={control}
@@ -86,9 +106,13 @@ const QuestionsForm = ({ control, questions, questionTypes }: QuestionsFormProps
                   <Input {...field} id={`questions.${question.id}.tooltip`} className="mt-1" placeholder="Enter tooltip" value={question.tooltip} required />
                 )} />
             </div>
+            <div className="basis-20"></div>
           </div>
         </div>
       ))}
+      <div className="mb-10">
+        <Button onClick={addQuestionRow}>Add Question</Button>
+      </div>
     </div>
   );
 };

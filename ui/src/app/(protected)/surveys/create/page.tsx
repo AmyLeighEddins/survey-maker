@@ -19,14 +19,15 @@ import {
 } from "@/components/ui/form";
 import { TagsForm, QuestionsForm } from "@/components/shared/form";
 
-import { getNextSequenceNumber, getRandomId } from "@/utils/helpers";
-import { SurveyFormQuestion, SurveyType } from "@/hooks/api/types";
+import { getRandomId } from "@/utils/helpers";
+import { SurveyType } from "@/hooks/api/types";
 import { usePostSurvey, usePostSurveyAssociatedTags, usePostSurveyQuestions } from "@/hooks/api/surveys";
 import { useGetSurveyQuestionTypes, useGetSurveyTypes, useGetSurveyTags } from "@/hooks/api/types/index";
+import { newQuestion } from "@/components/shared/form/QuestionsForm";
 
 const surveyCreateFormSchema = z.object({
   summary: z.string(),
-  type: z.string(),
+  type: z.string().min(1),
   tags: z.array(z.object(
     {
       id: z.number(),
@@ -42,14 +43,6 @@ const surveyCreateFormSchema = z.object({
     survey_question_type_id: z.string(),
   })),
 });
-
-const newQuestion: SurveyFormQuestion = {
-  title: '',
-  description: '',
-  tooltip: '',
-  sequence: 1,
-  survey_question_type_id: '',
-};
 
 export default function CreateSurvey() {
   const types = useGetSurveyTypes();
@@ -70,15 +63,11 @@ export default function CreateSurvey() {
       summary: '',
       type: '',
       tags: [],
-      questions: [{ ...newQuestion, id: getRandomId() }],
+      questions: [{ ...newQuestion, sequence: 1, id: getRandomId() }],
     },
   });
   const { handleSubmit, control, setValue, watch } = surveyCreateForm;
   const questions = watch('questions');
-
-  const addQuestionRow = () => {
-    setValue('questions', [...questions, { ...newQuestion, id: getRandomId(), sequence: getNextSequenceNumber(questions) }]);
-  };
 
   const onSubmitNewSurvey = async (values: z.infer<typeof surveyCreateFormSchema>) => {
     const survey = await create({ summary: values.summary, survey_type_id: Number(values.type) });
@@ -141,10 +130,7 @@ export default function CreateSurvey() {
               </div>
               <hr className="my-10" />
               <CardTitle className="text-1xl my-5">Questions</CardTitle>
-              <QuestionsForm control={control} questions={questions} questionTypes={questionTypes} />
-              <div className="basis-1/12">
-                <Button onClick={addQuestionRow}>Add Question</Button>
-              </div>
+              <QuestionsForm control={control} setValue={setValue} questions={questions} questionTypes={questionTypes} />
             </CardContent>
             <CardFooter className="justify-end">
               <Button type="submit">Create Survey</Button>

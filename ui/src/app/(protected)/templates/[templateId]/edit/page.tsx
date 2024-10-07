@@ -21,7 +21,6 @@ import {
 } from "@/components/ui/form";
 import { TagsForm, QuestionsForm } from "@/components/shared/form";
 
-import { getNextSequenceNumber, getRandomId } from "@/utils/helpers";
 import { SurveyAssociatedTag, SurveyTag, SurveyType, TemplateFormQuestion } from "@/hooks/api/types";
 import { useGetTemplateById, useGetTemplateQuestions, useGetTemplateAssociatedTags, usePutTemplate, usePutTemplateAssociatedTags, usePutTemplateQuestions } from "@/hooks/api/templates";
 import { useGetSurveyQuestionTypes, useGetSurveyTypes, useGetSurveyTags } from "@/hooks/api/types/index";
@@ -29,7 +28,7 @@ import { useGetSurveyQuestionTypes, useGetSurveyTypes, useGetSurveyTags } from "
 const templateEditFormSchema = z.object({
   summary: z.string(),
   name: z.string(),
-  type: z.string(),
+  type: z.string().min(1),
   tags: z.array(z.object(
     {
       id: z.number(),
@@ -45,13 +44,6 @@ const templateEditFormSchema = z.object({
     survey_question_type_id: z.string(),
   })),
 });
-
-const newQuestion: TemplateFormQuestion = {
-  title: '',
-  description: '',
-  tooltip: '',
-  survey_question_type_id: '',
-};
 
 export default function TemplateEdit() {
   const params = useParams();
@@ -99,10 +91,6 @@ export default function TemplateEdit() {
       tags: surveyTags.data?.filter((tag: SurveyTag) => associatedTagIds.includes(tag.id)) || [],
     });
   }, [isFetching, isPending]);
-
-  const addQuestionRow = () => {
-    setValue('questions', [...questions, { ...newQuestion, id: getRandomId(), sequence: getNextSequenceNumber(questions) }]);
-  };
 
   const onSubmitEditedTemplate = async (values: z.infer<typeof templateEditFormSchema>) => {
     if (dirtyFields.summary || dirtyFields.type) {
@@ -163,7 +151,7 @@ export default function TemplateEdit() {
                     control={control}
                     name="type"
                     render={({ field }) => (
-                      <Select onValueChange={field.onChange} value={field.value.toString()}>
+                      <Select onValueChange={field.onChange} value={field.value.toString()} required>
                         <SelectTrigger id="type" className="mt-1">
                           <SelectValue placeholder="Template type" />
                         </SelectTrigger>
@@ -182,10 +170,7 @@ export default function TemplateEdit() {
               </div>
               <hr className="my-10" />
               <CardTitle className="text-1xl my-5">Questions</CardTitle>
-              <QuestionsForm control={control} questions={questions} questionTypes={questionTypes} />
-              <div className="mb-10" onClick={addQuestionRow}>
-                <Button>Add Question</Button>
-              </div>
+              <QuestionsForm control={control} setValue={setValue} questions={questions} questionTypes={questionTypes} />
             </CardContent>
             <CardFooter className="justify-end">
               <Button type="submit" disabled={!isDirty}>Update Template</Button>

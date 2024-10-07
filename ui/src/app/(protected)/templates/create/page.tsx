@@ -19,15 +19,16 @@ import {
 } from "@/components/ui/form";
 import { TagsForm, QuestionsForm } from "@/components/shared/form";
 
-import { getNextSequenceNumber, getRandomId } from "@/utils/helpers";
-import { SurveyType, TemplateFormQuestion } from "@/hooks/api/types";
+import { getRandomId } from "@/utils/helpers";
+import { SurveyType } from "@/hooks/api/types";
 import { useGetSurveyTypes, useGetSurveyQuestionTypes, useGetSurveyTags } from "@/hooks/api/types/index";
 import { usePostTemplate, usePostTemplateAssociatedTags, usePostTemplateQuestions } from "@/hooks/api/templates";
+import { newQuestion } from "@/components/shared/form/QuestionsForm";
 
 const templateCreateFormSchema = z.object({
   summary: z.string(),
   name: z.string(),
-  type: z.string(),
+  type: z.string().min(1),
   tags: z.array(z.object(
     {
       id: z.number(),
@@ -43,14 +44,6 @@ const templateCreateFormSchema = z.object({
     survey_question_type_id: z.string(),
   })),
 });
-
-const newQuestion: TemplateFormQuestion = {
-  title: '',
-  description: '',
-  tooltip: '',
-  sequence: 1,
-  survey_question_type_id: '',
-};
 
 export default function CreateTemplate() {
   const types = useGetSurveyTypes();
@@ -72,15 +65,11 @@ export default function CreateTemplate() {
       name: '',
       type: '',
       tags: [],
-      questions: [{ ...newQuestion, id: getRandomId() }],
+      questions: [{ ...newQuestion, sequence: 1, id: getRandomId() }],
     },
   });
   const { handleSubmit, control, setValue, watch } = surveyCreateForm;
   const questions = watch('questions');
-
-  const addQuestionRow = () => {
-    setValue('questions', [...questions, { ...newQuestion, id: getRandomId(), sequence: getNextSequenceNumber(questions) }]);
-  };
 
   const onSubmitNewTemplate = async (values: z.infer<typeof templateCreateFormSchema>) => {
     const template = await create({ summary: values.summary, name: values.name, survey_type_id: Number(values.type) });
@@ -153,10 +142,7 @@ export default function CreateTemplate() {
               </div>
               <hr className="my-10" />
               <CardTitle className="text-1xl my-5">Questions</CardTitle>
-              <QuestionsForm control={control} questions={questions} questionTypes={questionTypes} />
-              <div className="basis-1/12" onClick={addQuestionRow}>
-                <Button>Add Question</Button>
-              </div>
+              <QuestionsForm control={control} setValue={setValue} questions={questions} questionTypes={questionTypes} />
             </CardContent>
             <CardFooter className="justify-end">
               <Button type="submit">Create Template</Button>
