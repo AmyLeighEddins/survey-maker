@@ -23,6 +23,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { SurveyTag } from "@/hooks/api/types";
+import usePostSurveyTags from "@/hooks/api/types/usePostSurveyTags";
 
 type SurveyTagsReturn = {
   isPending: boolean;
@@ -35,10 +36,19 @@ type TagsFormProps = {
   control: Control<any>;
   setValue: (name: any, value: any) => void;
   surveyTags: SurveyTagsReturn;
+  refetchTags: () => void;
 };
 
-const TagsForm = ({ control, setValue, surveyTags }: TagsFormProps) => {
+const TagsForm = ({ control, setValue, surveyTags, refetchTags }: TagsFormProps) => {
   const [openSelectTags, setOpenSelectTags] = useState(false);
+  const [searchInput, setSearchInput] = useState('');
+
+  const { mutateAsync: create } = usePostSurveyTags();
+
+  const createNewTag = async () => {
+    await create(searchInput);
+    refetchTags();
+  };
 
   return (
     <div>
@@ -65,9 +75,12 @@ const TagsForm = ({ control, setValue, surveyTags }: TagsFormProps) => {
               </PopoverTrigger>
               <PopoverContent className="w-[200px] p-0">
                 <Command>
-                  <CommandInput placeholder="Search tags..." />
+                  <CommandInput placeholder="Search tags..." value={searchInput} onChangeCapture={(e) => setSearchInput(e.currentTarget.value)} />
                   <CommandList>
-                    <CommandEmpty>No tag found.</CommandEmpty>
+                    <CommandEmpty>
+                      {`No tag found for '${searchInput}'`}
+                      <Button onClick={createNewTag} className="my-2" variant="outline">Create New Tag</Button>
+                    </CommandEmpty>
                     <CommandGroup>
                       {surveyTags.data.map((tag: SurveyTag) => (
                         <CommandItem

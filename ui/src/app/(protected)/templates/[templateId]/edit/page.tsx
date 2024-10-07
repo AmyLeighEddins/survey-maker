@@ -166,7 +166,7 @@ export default function TemplateEdit() {
                 </div>
               </div>
               <div className="flex flex-row gap-3">
-                <TagsForm control={control} setValue={setValue} surveyTags={surveyTags} />
+                <TagsForm control={control} setValue={setValue} surveyTags={surveyTags} refetchTags={surveyTags.refetch} />
               </div>
               <hr className="my-10" />
               <CardTitle className="text-1xl my-5">Questions</CardTitle>
