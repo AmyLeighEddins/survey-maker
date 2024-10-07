@@ -24,21 +24,49 @@ export const createTemplateAssociatedTags = async (
   });
 };
 
-export const updateATemplateAssociatedTag = async (
+export const updateTemplateAssociatedTags = async (
   survey_template_id: number,
-  surveyTag: SurveyAssociatedTag,
-  associated_tag_id: number
+  updatedSurveyTags: SurveyAssociatedTag[]
 ) => {
-  return await prisma.surveytemplateassociatedtags.update({
+  const currentTags = await prisma.surveytemplateassociatedtags.findMany({
     where: {
-      id: associated_tag_id,
-      survey_template_id,
-    },
-    data: {
-      ...surveyTag,
       survey_template_id,
     },
   });
+  const currentTagIds = currentTags.map((tag) => tag.survey_tag_id);
+  const newSurveyTagIds = updatedSurveyTags.map((tag) => tag.survey_tag_id);
+
+  const tagsToDelete = currentTags.filter(
+    (tag) => !newSurveyTagIds.includes(tag.survey_tag_id)
+  );
+  const tagsToAdd = updatedSurveyTags.filter(
+    (tag) => !currentTagIds.includes(tag.survey_tag_id)
+  );
+
+  const deleteArray: any[] = [];
+  const addArray: any[] = [];
+
+  tagsToDelete.map(async (tag) => {
+    const deleteTag = prisma.surveytemplateassociatedtags.delete({
+      where: {
+        id: tag.id,
+        survey_template_id,
+      },
+    });
+    deleteArray.push(deleteTag);
+  });
+
+  tagsToAdd.map(async (tag) => {
+    const addTag = prisma.surveytemplateassociatedtags.create({
+      data: {
+        survey_tag_id: tag.survey_tag_id,
+        survey_template_id,
+      },
+    });
+    addArray.push(addTag);
+  });
+
+  return await prisma.$transaction([...deleteArray, ...addArray]);
 };
 
 export const deleteATemplateAssociatedTag = async (

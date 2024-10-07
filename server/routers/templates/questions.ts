@@ -94,7 +94,7 @@ router
 
 /**
  * @swagger
- * /templates/{id}/questions/{question_id}:
+ * /templates/{id}/questions:
  *   put:
  *     parameters:
  *      - in: path
@@ -103,56 +103,56 @@ router
  *        schema:
  *          type: integer
  *        description: The template ID
- *      - in: path
- *        name: question_id
- *        required: true
- *        schema:
- *          type: integer
- *        description: The question ID
  *     description: Update a question for a template
  *     tags: [Template Questions]
  *     requestBody:
  *       content:
  *        application/json:
  *          schema:
- *            type: object
- *            properties:
- *              title:
- *                type: string
- *                required: false
- *                description: Title of the template question.
- *              description:
- *                type: string
- *                required: false
- *                description: Info about the template question.
- *              tooltip:
- *                type: string
- *                required: false
- *                description: Info about the template question.
- *              sequence:
- *                type: number
- *                required: false
- *                description: Sequence of the question in the template.
- *              survey_question_type_id:
- *                type: number
- *                required: false
- *                description: The id of the survey question type from the SurveyQuestionTypes table.
+ *            type: array
+ *            items:
+ *              type: object
+ *              properties:
+ *                id:
+ *                  type: number
+ *                  required: true
+ *                  description: ID of the template question.
+ *                title:
+ *                  type: string
+ *                  required: true
+ *                  description: Title of the template question.
+ *                description:
+ *                  type: string
+ *                  required: true
+ *                  description: Info about the template question.
+ *                tooltip:
+ *                  type: string
+ *                  required: true
+ *                  description: Info about the template question.
+ *                sequence:
+ *                  type: number
+ *                  required: true
+ *                  description: Sequence of the question in the template.
+ *                survey_question_type_id:
+ *                  type: number
+ *                  required: true
+ *                  description: The id of the survey question type from the SurveyQuestionTypes table.
  *     responses:
  *       201:
  *         description: Returns the updated template question.
  */
 router
-  .route('/:id/questions/:question_id')
+  .route('/:id/questions')
   .put(
     [
-      body('title')
+      body('*.title')
         .isString()
         .trim()
         .isLength({ min: 3 })
         .withMessage('The title of the question must have minimum length of 3'),
     ],
     validate,
-    templateQuestionsController.updateATemplateQuestion
+    templateQuestionsController.updateTemplateQuestions
   );
 
 /**

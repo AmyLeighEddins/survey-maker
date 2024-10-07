@@ -23,7 +23,7 @@ import { TagsForm, QuestionsForm } from "@/components/shared/form";
 
 import { getNextSequenceNumber, getRandomId } from "@/utils/helpers";
 import { SurveyAssociatedTag, SurveyTag, SurveyType, TemplateFormQuestion } from "@/hooks/api/types";
-import { useGetTemplateById, useGetTemplateQuestions, useGetTemplateAssociatedTags } from "@/hooks/api/templates";
+import { useGetTemplateById, useGetTemplateQuestions, useGetTemplateAssociatedTags, usePutTemplate, usePutTemplateAssociatedTags, usePutTemplateQuestions } from "@/hooks/api/templates";
 import { useGetSurveyQuestionTypes, useGetSurveyTypes, useGetSurveyTags } from "@/hooks/api/types/index";
 
 const templateEditFormSchema = z.object({
@@ -41,9 +41,8 @@ const templateEditFormSchema = z.object({
     title: z.string(),
     description: z.string(),
     tooltip: z.string(),
-    sequence: z.string(),
+    sequence: z.number(),
     survey_question_type_id: z.string(),
-    survey_template_id: z.string(),
   })),
 });
 
@@ -51,9 +50,7 @@ const newQuestion: TemplateFormQuestion = {
   title: '',
   description: '',
   tooltip: '',
-  sequence: '1',
   survey_question_type_id: '',
-  survey_template_id: '',
 };
 
 export default function TemplateEdit() {
@@ -67,9 +64,13 @@ export default function TemplateEdit() {
   const surveyTags = useGetSurveyTags();
   const associatedTags = useGetTemplateAssociatedTags(templateId);
 
+  const { mutateAsync: update, isError: updateError } = usePutTemplate();
+  const { mutateAsync: updateAssociatedTags, isError: updateAssociatedTagsError } = usePutTemplateAssociatedTags();
+  const { mutateAsync: updateQuestions, isError: updateQuestionsError } = usePutTemplateQuestions();
+
   const isPending = template.isPending || templateQuestions.isPending || questionTypes.isPending || types.isPending || surveyTags.isPending || associatedTags.isPending;
   const isFetching = template.isFetching || templateQuestions.isFetching || questionTypes.isFetching || types.isFetching || surveyTags.isFetching || associatedTags.isFetching;
-  const error = template.error?.message || templateQuestions.error?.message || questionTypes.error?.message || types.error?.message || surveyTags.error?.message || associatedTags.error?.message;
+  const error = template.error?.message || templateQuestions.error?.message || questionTypes.error?.message || types.error?.message || surveyTags.error?.message || associatedTags.error?.message || updateError || updateAssociatedTagsError || updateQuestionsError;
 
   const surveyEditForm = useForm<z.infer<typeof templateEditFormSchema>>({
     resolver: zodResolver(templateEditFormSchema),
@@ -81,27 +82,42 @@ export default function TemplateEdit() {
       questions: [],
     },
   });
-  const { handleSubmit, control, setValue, watch } = surveyEditForm;
+  const { handleSubmit, control, setValue, watch, reset, formState: { isDirty, dirtyFields } } = surveyEditForm;
   const questions = watch('questions');
 
   useEffect(() => {
     if (isPending || isFetching) return;
-    setValue('summary', template.data?.summary);
-    setValue('name', template.data?.name);
-    setValue('type', template.data?.survey_type_id.toString());
-    setValue('questions', templateQuestions.data);
-
-    if (!associatedTags.data?.length || !surveyTags.data?.length) return;
-    const associatedTagIds = associatedTags.data.map((tag: SurveyAssociatedTag) => tag.survey_tag_id);
-    setValue('tags', surveyTags.data.filter((tag: SurveyTag) => associatedTagIds.includes(tag.id)));
+    const associatedTagIds = associatedTags.data?.map((tag: SurveyAssociatedTag) => tag.survey_tag_id);
+    reset({
+      summary: template.data?.summary,
+      name: template.data?.name,
+      type: template.data?.survey_type_id.toString(),
+      questions: templateQuestions.data.map((question: TemplateFormQuestion) => ({
+        ...question,
+        survey_question_type_id: question.survey_question_type_id.toString(),
+      })),
+      tags: surveyTags.data?.filter((tag: SurveyTag) => associatedTagIds.includes(tag.id)) || [],
+    });
   }, [isFetching, isPending]);
 
   const addQuestionRow = () => {
-    setValue('questions', [...questions, { ...newQuestion, id: getRandomId(), sequence: getNextSequenceNumber(questions).toString() }]);
+    setValue('questions', [...questions, { ...newQuestion, id: getRandomId(), sequence: getNextSequenceNumber(questions) }]);
   };
 
   const onSubmitEditedTemplate = async (values: z.infer<typeof templateEditFormSchema>) => {
-    console.log(values);
+    if (dirtyFields.summary || dirtyFields.type) {
+      await update({ id: template.data.id, name: template.data.name, summary: values.summary, survey_type_id: Number(values.type) });
+      if (updateError) return;
+    }
+    // TODO: figure out why dirtyFields.tags is not working
+    // if (dirtyFields.tags) {
+    await updateAssociatedTags({ id: template.data.id, tags: values.tags });
+    if (updateAssociatedTagsError) return;
+    // }
+    if (dirtyFields.questions) {
+      await updateQuestions({ id: template.data.id, questions: values.questions });
+      if (updateQuestionsError) return;
+    }
   };
 
   if (isPending || isFetching) {
@@ -172,7 +188,7 @@ export default function TemplateEdit() {
               </div>
             </CardContent>
             <CardFooter className="justify-end">
-              <Button type="submit">Update Template</Button>
+              <Button type="submit" disabled={!isDirty}>Update Template</Button>
             </CardFooter>
           </Card>
         </form>

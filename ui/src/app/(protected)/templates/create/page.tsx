@@ -39,9 +39,8 @@ const templateCreateFormSchema = z.object({
     title: z.string(),
     description: z.string(),
     tooltip: z.string(),
-    sequence: z.string(),
+    sequence: z.number(),
     survey_question_type_id: z.string(),
-    survey_template_id: z.string(),
   })),
 });
 
@@ -49,9 +48,8 @@ const newQuestion: TemplateFormQuestion = {
   title: '',
   description: '',
   tooltip: '',
-  sequence: '1',
+  sequence: 1,
   survey_question_type_id: '',
-  survey_template_id: '',
 };
 
 export default function CreateTemplate() {
@@ -81,7 +79,7 @@ export default function CreateTemplate() {
   const questions = watch('questions');
 
   const addQuestionRow = () => {
-    setValue('questions', [...questions, { ...newQuestion, id: getRandomId(), sequence: getNextSequenceNumber(questions).toString() }]);
+    setValue('questions', [...questions, { ...newQuestion, id: getRandomId(), sequence: getNextSequenceNumber(questions) }]);
   };
 
   const onSubmitNewTemplate = async (values: z.infer<typeof templateCreateFormSchema>) => {

@@ -69,7 +69,7 @@ export default function SurveyEdit() {
 
   const isPending = survey.isPending || surveyQuestions.isPending || questionTypes.isPending || types.isPending || surveyTags.isPending || associatedTags.isPending;
   const isFetching = survey.isFetching || surveyQuestions.isFetching || questionTypes.isFetching || types.isFetching || surveyTags.isFetching || associatedTags.isFetching;
-  const error = survey.error?.message || surveyQuestions.error?.message || questionTypes.error?.message || types.error?.message || surveyTags.error?.message || associatedTags.error?.message || updateError || updateAssociatedTagsError;
+  const error = survey.error?.message || surveyQuestions.error?.message || questionTypes.error?.message || types.error?.message || surveyTags.error?.message || associatedTags.error?.message || updateError || updateAssociatedTagsError || updateQuestionsError;
 
   const surveyEditForm = useForm<z.infer<typeof surveyEditFormSchema>>({
     resolver: zodResolver(surveyEditFormSchema),
@@ -152,7 +152,7 @@ export default function SurveyEdit() {
                     control={control}
                     name="type"
                     render={({ field }) => (
-                      <Select onValueChange={field.onChange}>
+                      <Select onValueChange={field.onChange} value={field.value.toString()}>
                         <SelectTrigger id="type" className="mt-1">
                           <SelectValue placeholder="Survey type" />
                         </SelectTrigger>

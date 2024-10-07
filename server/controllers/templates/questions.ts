@@ -33,17 +33,16 @@ const createTemplateQuestions = async (
   }
 };
 
-const updateATemplateQuestion = async (
+const updateTemplateQuestions = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
     const templateQuestion =
-      await TemplateQuestionsModel.updateATemplateQuestion(
+      await TemplateQuestionsModel.updateTemplateQuestions(
         Number(req.params.id),
-        req.body,
-        Number(req.params.question_id)
+        req.body
       );
     return res.json(templateQuestion);
   } catch (err) {
@@ -71,6 +70,6 @@ const deleteATemplateQuestion = async (
 export {
   getTemplateQuestions,
   createTemplateQuestions,
-  updateATemplateQuestion,
+  updateTemplateQuestions,
   deleteATemplateQuestion,
 };

@@ -5,3 +5,6 @@ export { default as useGetTemplates } from './useGetTemplates';
 export { default as usePostTemplate } from './usePostTemplate';
 export { default as usePostTemplateAssociatedTags } from './usePostTemplateAssociatedTags';
 export { default as usePostTemplateQuestions } from './usePostTemplateQuestions';
+export { default as usePutTemplate } from './usePutTemplate';
+export { default as usePutTemplateAssociatedTags } from './usePutTemplateAssociatedTags';
+export { default as usePutTemplateQuestions } from './usePutTemplateQuestions';

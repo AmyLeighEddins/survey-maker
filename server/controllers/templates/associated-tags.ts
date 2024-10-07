@@ -34,17 +34,16 @@ const createTemplateAssociatedTags = async (
   }
 };
 
-const updateATemplateAssociatedTag = async (
+const updateTemplateAssociatedTags = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
     const surveyTags =
-      await TemplateAssociatedTagsModel.updateATemplateAssociatedTag(
+      await TemplateAssociatedTagsModel.updateTemplateAssociatedTags(
         Number(req.params.id),
-        req.body,
-        Number(req.params.associated_tag_id)
+        req.body
       );
     return res.status(201).json(surveyTags);
   } catch (err) {
@@ -72,6 +71,6 @@ const deleteATemplateAssociatedTag = async (
 export {
   getTemplateAssociatedTags,
   createTemplateAssociatedTags,
-  updateATemplateAssociatedTag,
+  updateTemplateAssociatedTags,
   deleteATemplateAssociatedTag,
 };

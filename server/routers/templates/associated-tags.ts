@@ -74,7 +74,7 @@ router.route('/:id/tags').post(
 
 /**
  * @swagger
- * /templates/{id}/tags/{associated_tag_id}:
+ * /templates/{id}/tags:
  *   put:
  *     parameters:
  *      - in: path
@@ -83,12 +83,6 @@ router.route('/:id/tags').post(
  *        schema:
  *          type: integer
  *        description: The template ID
- *      - in: path
- *        name: associated_tag_id
- *        required: true
- *        schema:
- *          type: integer
- *        description: The associated tag ID
  *     description: Update an associated tag for a template
  *     tags: [Template Associated Tags]
  *     requestBody:
@@ -107,14 +101,14 @@ router.route('/:id/tags').post(
  *       201:
  *         description: Returns updated tag for a template.
  */
-router.route('/:id/tags/:associated_tag_id').put(
+router.route('/:id/tags').put(
   [
-    body('survey_tag_id')
+    body('*.survey_tag_id')
       .isNumeric()
       .withMessage('The survey tag id does not exist'), // TODO: change the validation to check if the survey_tag_id exists
   ],
   validate,
-  templateAssociatedTagsController.updateATemplateAssociatedTag
+  templateAssociatedTagsController.updateTemplateAssociatedTags
 );
 
 /**

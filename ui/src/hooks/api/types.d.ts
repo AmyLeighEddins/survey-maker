@@ -38,9 +38,9 @@ export type TemplateFormQuestion = {
   title: string;
   description: string;
   tooltip: string;
-  sequence?: string;
+  sequence?: number;
   survey_question_type_id: string;
-  survey_template_id: string;
+  survey_template_id?: number;
 };
 
 export type TemplatesMetadata = {
