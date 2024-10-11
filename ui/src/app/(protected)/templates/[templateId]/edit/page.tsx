@@ -151,7 +151,8 @@ export default function TemplateEdit() {
                     control={control}
                     name="type"
                     render={({ field }) => (
-                      <Select onValueChange={field.onChange} value={field.value.toString()} required>
+                      // TODO: figure out why I would need to do this for this field to work correctly
+                      <Select onValueChange={(value) => value ? field.onChange(value) : undefined} value={field.value.toString()}>
                         <SelectTrigger id="type" className="mt-1">
                           <SelectValue placeholder="Template type" />
                         </SelectTrigger>
