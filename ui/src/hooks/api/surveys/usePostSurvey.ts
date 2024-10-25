@@ -4,6 +4,7 @@ import axios from '@/utils/axios';
 type SurveyPost = {
   summary: string;
   survey_type_id: number;
+  expiry_date: Date;
 };
 
 const usePostSurvey = () => {

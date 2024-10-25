@@ -5,6 +5,7 @@ type SurveyPut = {
   id: number;
   summary: string;
   survey_type_id: number;
+  expiry_date: Date;
 };
 
 const usePutSurvey = () => {

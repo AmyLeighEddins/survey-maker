@@ -4,6 +4,7 @@ export * as surveyMetadataTypesController from './metadata-types';
 export * as surveyQuestionTypesController from './question-types';
 export * as surveyTagsController from './tags';
 export * as surveyTypesController from './types';
+export * as recipientsController from './recipients';
 
 export * as surveyAssociatedTagsController from './surveys/associated-tags';
 export * as surveyMetadataController from './surveys/metadata';

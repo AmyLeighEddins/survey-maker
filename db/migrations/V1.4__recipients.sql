@@ -1,0 +1,11 @@
+CREATE TABLE IF NOT EXISTS EmployeeRecipients (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  employee_id INTEGER NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS ExternalRecipients (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  email_address VARCHAR(255) NOT NULL
+);

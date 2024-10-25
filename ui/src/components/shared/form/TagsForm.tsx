@@ -65,15 +65,15 @@ const TagsForm = ({ control, setValue, surveyTags, refetchTags }: TagsFormProps)
                   variant="outline"
                   role="combobox"
                   aria-expanded={openSelectTags}
-                  className="w-[200px] justify-between"
+                  className="w-full justify-between"
                 >
                   {field.value.length
                     ? field.value.map((tag: SurveyTag) => tag.description).join(", ")
-                    : "Select tag..."}
+                    : "Select tags..."}
                   <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
               </PopoverTrigger>
-              <PopoverContent className="w-[200px] p-0">
+              <PopoverContent className="w-full p-0">
                 <Command>
                   <CommandInput placeholder="Search tags..." value={searchInput} onChangeCapture={(e) => setSearchInput(e.currentTarget.value)} />
                   <CommandList>

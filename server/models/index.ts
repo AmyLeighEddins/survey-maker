@@ -4,6 +4,7 @@ export * as SurveyMetadataTypesModel from './metadata-types';
 export * as SurveyQuestionTypesModel from './question-types';
 export * as SurveyTagsModel from './tags';
 export * as SurveyTypesModel from './types';
+export * as RecipientsModel from './recipients';
 
 export * as SurveyAssociatedTagsModel from './surveys/associated-tags';
 export * as SurveyMetadataModel from './surveys/metadata';

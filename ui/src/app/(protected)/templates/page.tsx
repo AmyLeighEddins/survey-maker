@@ -56,8 +56,8 @@ const Templates = () => {
   const onClickTypeFilterOption = (checked: boolean, surveyTypeId: number) => {
     const updateTypeFilters = checked ? [...typeFilters, surveyTypeId] : typeFilters.filter((type) => type !== surveyTypeId);
     setTypeFilters(updateTypeFilters);
-    // If not all types are selected, uncheck the "Select All" checkbox
     if (updateTypeFilters.length !== types.data?.length) setShowAllTypes(false);
+    if (updateTypeFilters.length === types.data?.length) setShowAllTypes(true);
   };
 
   const onClickShowAll = (checked: boolean) => {

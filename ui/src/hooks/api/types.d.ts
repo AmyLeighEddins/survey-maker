@@ -147,3 +147,11 @@ export type SurveyEmployeeRecipient = {
   survey_status_id: number;
   survey_id: number;
 };
+
+export type ExternalRecipient = {
+  email_address: string;
+};
+
+export type EmployeeRecipient = {
+  employee_id: number;
+};

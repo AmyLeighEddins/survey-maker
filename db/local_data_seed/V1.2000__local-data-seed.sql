@@ -80,3 +80,11 @@ INSERT INTO SurveyEmployeeResponses (survey_employee_recipient_id, survey_respon
 INSERT INTO SurveyExternalResponses (survey_external_recipient_id, survey_response_item_id) VALUES (1, 4);
 INSERT INTO SurveyExternalResponses (survey_external_recipient_id, survey_response_item_id) VALUES (1, 5);
 INSERT INTO SurveyExternalResponses (survey_external_recipient_id, survey_response_item_id) VALUES (1, 6);
+
+INSERT INTO EmployeeRecipients (employee_id, name) VALUES (1, 'Amy');
+INSERT INTO EmployeeRecipients (employee_id, name) VALUES (2, 'Harry');
+INSERT INTO EmployeeRecipients (employee_id, name) VALUES (3, 'Fred');
+
+INSERT INTO ExternalRecipients (email_address, name) VALUES ('test@example.com', 'Robert');
+INSERT INTO ExternalRecipients (email_address, name) VALUES ('test2@example.com', 'Sarah');
+INSERT INTO ExternalRecipients (email_address, name) VALUES ('test3@example.com', 'Tom');

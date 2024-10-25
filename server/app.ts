@@ -1,7 +1,15 @@
-
 import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
-import { surveysRouter, templatesRouter, authRouter, typesRouter, tagsRouter, metadataTypesRouter, questionTypesRouter } from './routers';
+import {
+  surveysRouter,
+  templatesRouter,
+  authRouter,
+  typesRouter,
+  tagsRouter,
+  metadataTypesRouter,
+  questionTypesRouter,
+  recipientsRouter,
+} from './routers';
 import { verifyTokenMiddleware } from './middleware/auth';
 import { errorHandlerMiddleware } from './middleware/errors';
 
@@ -43,7 +51,12 @@ const options = {
       },
     ],
   },
-  apis: ['./routers/*.ts', `${__dirname}/routers/*.ts`, './routers/*/*.ts', `${__dirname}/routers/*/*.ts`],
+  apis: [
+    './routers/*.ts',
+    `${__dirname}/routers/*.ts`,
+    './routers/*/*.ts',
+    `${__dirname}/routers/*/*.ts`,
+  ],
 };
 
 const openapiSpecification = swaggerJsdoc(options);
@@ -61,6 +74,7 @@ app.use('/types', typesRouter);
 app.use('/tags', tagsRouter);
 app.use('/metadata-types', metadataTypesRouter);
 app.use('/question-types', questionTypesRouter);
+app.use('/recipients', recipientsRouter);
 
 app.use(errorHandlerMiddleware);
 

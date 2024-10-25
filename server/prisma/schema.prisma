@@ -197,3 +197,15 @@ model surveyresponseitems {
   surveyexternalresponses surveyexternalresponses[]
   surveyquestions         surveyquestions           @relation(fields: [survey_question_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
+
+model externalrecipients {
+  id            Int    @id @default(autoincrement())
+  name          String @db.VarChar(255)
+  email_address String @db.VarChar(255)
+}
+
+model employeerecipients {
+  id          Int    @id @default(autoincrement())
+  name        String @db.VarChar(255)
+  employee_id Int
+}

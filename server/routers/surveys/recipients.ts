@@ -35,7 +35,9 @@ const router = Router();
  *       200:
  *         description: Returns all external survey recipients
  */
-router.route('/:id/recipients/external').get(surveyRecipientsController.getAllExternalRecipients);
+router
+  .route('/:id/recipients/external')
+  .get(surveyRecipientsController.getAllExternalRecipients);
 
 /**
  * @swagger
@@ -60,7 +62,9 @@ router.route('/:id/recipients/external').get(surveyRecipientsController.getAllEx
  *       200:
  *         description: Returns all employee survey recipients
  */
-router.route('/:id/recipients/employee').get(surveyRecipientsController.getAllEmployeeRecipients);
+router
+  .route('/:id/recipients/employee')
+  .get(surveyRecipientsController.getAllEmployeeRecipients);
 
 /**
  * @swagger
@@ -79,29 +83,33 @@ router.route('/:id/recipients/employee').get(surveyRecipientsController.getAllEm
  *       content:
  *        application/json:
  *          schema:
- *            type: object
- *            properties:
- *              email_address:
- *                type: string
- *                required: true
- *                description: The recipient email.
- *              survey_status_id:
- *                type: number
- *                required: true
- *                description: Survey status id from the SurveyStatuses table.
+ *            type: array
+ *            items:
+ *              type: object
+ *              properties:
+ *                email_address:
+ *                  type: string
+ *                  required: true
+ *                  description: The recipient email.
+ *                survey_status_id:
+ *                  type: number
+ *                  required: false
+ *                  description: Survey status id from the SurveyStatuses table.
  *     responses:
  *       201:
  *         description: Returns the new external survey recipient.
  */
-router.route('/:id/recipients/external').post(
-  [
-    body('survey_status_id')
-      .isNumeric()
-      .withMessage('The survey id of the survey must be a valid survey status'),
-  ],
-  validate,
-  surveyRecipientsController.createAnExternalRecipient
-);
+router
+  .route('/:id/recipients/external')
+  .post(
+    [
+      body('*.email_address')
+        .isString()
+        .withMessage('The email address must be valid'),
+    ],
+    validate,
+    surveyRecipientsController.createExternalRecipients
+  );
 
 /**
  * @swagger
@@ -120,33 +128,35 @@ router.route('/:id/recipients/external').post(
  *       content:
  *        application/json:
  *          schema:
- *            type: object
- *            properties:
- *              employee_id:
- *                type: number
- *                required: true
- *                description: The recipient employee id.
- *              survey_status_id:
- *                type: number
- *                required: true
- *                description: Survey status id from the SurveyStatuses table.
+ *            type: array
+ *            items:
+ *              type: object
+ *              properties:
+ *                employee_id:
+ *                  type: number
+ *                  required: true
+ *                  description: The recipient employee id.
+ *                survey_status_id:
+ *                  type: number
+ *                  required: false
+ *                  description: Survey status id from the SurveyStatuses table.
  *     responses:
  *       201:
  *         description: Returns the new employee survey recipient.
  */
 router.route('/:id/recipients/employee').post(
-  [
-    body('survey_status_id')
-      .isNumeric()
-      .withMessage('The survey id of the survey must be a valid survey status'),
-  ],
-  validate,
-  surveyRecipientsController.createAnEmployeeRecipient
+  // [
+  //   body('employee_id')
+  //     .isNumeric()
+  //     .withMessage('The employee id must be a valid employee'),
+  // ],
+  // validate,
+  surveyRecipientsController.createEmployeeRecipients
 );
 
 /**
  * @swagger
- * /surveys/{id}/recipients/external/{recipient_id}:
+ * /surveys/{id}/recipients/external:
  *   put:
  *     parameters:
  *       - in: path
@@ -155,45 +165,43 @@ router.route('/:id/recipients/employee').post(
  *         schema:
  *           type: integer
  *         description: The survey ID
- *       - in: path
- *         name: recipient_id
- *         required: true
- *         schema:
- *           type: integer
- *         description: The recipient ID
  *     description: Update an external recipient for a survey
  *     tags: [Survey Recipients]
  *     requestBody:
  *       content:
  *        application/json:
  *          schema:
- *            type: object
- *            properties:
- *              email_address:
- *                type: string
- *                required: true
- *                description: The recipient email.
- *              survey_status_id:
- *                type: number
- *                required: true
- *                description: Survey status id from the SurveyStatuses table.
+ *            type: array
+ *            items:
+ *              type: object
+ *              properties:
+ *                email_address:
+ *                  type: string
+ *                  required: true
+ *                  description: The recipient email.
+ *                survey_status_id:
+ *                  type: number
+ *                  required: true
+ *                  description: Survey status id from the SurveyStatuses table.
  *     responses:
  *       201:
  *         description: Returns the updated external survey recipient.
  */
-router.route('/:id/recipients/external/:recipient_id').put(
-  [
-    body('survey_status_id')
-      .isNumeric()
-      .withMessage('The survey id of the survey must be a valid survey'),
-  ],
-  validate,
-  surveyRecipientsController.updateAnExternalRecipient
-);
+router
+  .route('/:id/recipients/external')
+  .put(
+    // [
+    //   body('survey_status_id')
+    //     .isNumeric()
+    //     .withMessage('The survey id of the survey must be a valid survey'),
+    // ],
+    // validate,
+    surveyRecipientsController.updateExternalRecipients
+  );
 
 /**
  * @swagger
- * /surveys/{id}/recipients/employee/{recipient_id}:
+ * /surveys/{id}/recipients/employee:
  *   put:
  *     parameters:
  *       - in: path
@@ -202,41 +210,39 @@ router.route('/:id/recipients/external/:recipient_id').put(
  *         schema:
  *           type: integer
  *         description: The survey ID
- *       - in: path
- *         name: recipient_id
- *         required: true
- *         schema:
- *           type: integer
- *         description: The recipient ID
  *     description: Update an employee recipient for a survey
  *     tags: [Survey Recipients]
  *     requestBody:
  *       content:
  *        application/json:
  *          schema:
- *            type: object
- *            properties:
- *              employee_id:
- *                type: number
- *                required: false
- *                description: The recipient employee id.
- *              survey_status_id:
- *                type: number
- *                required: true
- *                description: Survey status id from the SurveyStatuses table.
+ *            type: array
+ *            items:
+ *              type: object
+ *              properties:
+ *                employee_id:
+ *                  type: number
+ *                  required: false
+ *                  description: The recipient employee id.
+ *                survey_status_id:
+ *                  type: number
+ *                  required: true 
+ *                  description: Survey status id from the SurveyStatuses table.
  *     responses:
  *       201:
  *         description: Returns the updated survey recipient.
  */
-router.route('/:id/recipients/employee/:recipient_id').put(
-  [
-    body('survey_status_id')
-      .isNumeric()
-      .withMessage('The survey id of the survey must be a valid survey'),
-  ],
-  validate,
-  surveyRecipientsController.updateAnEmployeeRecipient
-);
+router
+  .route('/:id/recipients/employee')
+  .put(
+    // [
+    //   body('survey_status_id')
+    //     .isNumeric()
+    //     .withMessage('The survey id of the survey must be a valid survey'),
+    // ],
+    // validate,
+    surveyRecipientsController.updateEmployeeRecipients
+  );
 
 /**
  * @swagger
@@ -261,7 +267,9 @@ router.route('/:id/recipients/employee/:recipient_id').put(
  *       204:
  *         description: No content
  */
-router.route('/:id/recipients/external/:recipient_id').delete(surveyRecipientsController.deleteAnExternalRecipient);
+router
+  .route('/:id/recipients/external/:recipient_id')
+  .delete(surveyRecipientsController.deleteAnExternalRecipient);
 
 /**
  * @swagger
@@ -286,6 +294,8 @@ router.route('/:id/recipients/external/:recipient_id').delete(surveyRecipientsCo
  *       204:
  *         description: No content
  */
-router.route('/:id/recipients/employee/:recipient_id').delete(surveyRecipientsController.deleteAnEmployeeRecipient);
+router
+  .route('/:id/recipients/employee/:recipient_id')
+  .delete(surveyRecipientsController.deleteAnEmployeeRecipient);
 
 export default router;
